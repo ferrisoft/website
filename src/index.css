@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+    --font-sans: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+    --color-default: rgb(32, 32, 32);
+    /*--color-accent: #E43A25;*/
+    --color-accent: #fb2a1a;
+    --breakpoint-xs: 30rem;
+    --breakpoint-3xl: 112rem;
+}
+
+:root {
+    --l: 0.8;
+    --c: 0.2;
+    --global-min-width: 320px;
+    --content-width: calc(max(100vw, var(--global-min-width)));
+    --content-size-spread: calc(var(--breakpoint-3xl) - var(--global-min-width));
+    --content-size-norm: calc((var(--content-width) - var(--global-min-width)) / var(--content-size-spread));
+
+}
+
+@layer base {
+    body {
+        @apply text-zinc-700 text-sm;
+    }
+
+    body .dark-theme {
+        @apply text-zinc-500;
+    }
+
+    h1 {
+        @apply text-nowrap text-zinc-800 font-semibold tracking-tight
+            text-[32px] md:text-[40px] lg:text-5xl
+            leading-[1.2em];
+    }
+
+    h2 {
+        @apply text-nowrap text-zinc-800 text-3xl font-semibold tracking-tight;
+    }
+
+    .dark-theme h2 {
+        @apply text-zinc-200;
+    }
+
+    .dark-theme h1 {
+        @apply text-zinc-200;
+    }
+
+    h3 {
+        @apply text-zinc-500 mt-2 text-lg/8;
+    }
+
+    .dark-theme h3 {
+        @apply text-zinc-200;
+    }
+
+    h4 {
+        @apply text-zinc-800 text-base/7 font-semibold;
+    }
+
+    .dark-theme h4 {
+        @apply text-zinc-200;
+    }
+
+    code {
+        @apply font-sans;
+        background-color: rgba(0, 0, 0, 0.07);
+        padding: 2px 6px;
+        border-radius: 6px;
+    }
+}
+
+
+@keyframes sss {
+    to {
+        transform: rotate(360deg);
+    }
+}
