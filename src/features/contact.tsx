@@ -72,7 +72,7 @@ const timeline = [
 //         return <div ref={ref}>Hello</div>;
 //     }
 // );
-export const Contact = React.forwardRef((props, ref) => {
+export const Contact = React.forwardRef<HTMLDivElement>((_, ref) => {
     const formRef = useRef<HTMLFormElement>(null)
     const phoneNumberRef = useRef<HTMLInputElement>(null)
     const [regionName, setRegionName, regionNameRef] = ReactExt.useStateRef("")

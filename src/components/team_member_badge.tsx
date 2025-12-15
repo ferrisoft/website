@@ -1,4 +1,6 @@
 
+const basename = import.meta.env.BASE_URL
+
 const nameToRole = {
     'Wojciech Danilo': 'Founder / CEO',
     'Greg Ociepka': 'Founder / COO',
@@ -6,7 +8,7 @@ const nameToRole = {
 
 export function TeamMemberBadge({name, className}: { name: keyof typeof nameToRole, className?: string }) {
     const nameSnake = name.toLowerCase().replace(/ /g, '_')
-    const imageUrl = `/team/${nameSnake}.png`
+    const imageUrl = `${basename}team/${nameSnake}.png`
     const role = nameToRole[name]
     return (
         <div className= {(className ?? "") + " relative flex items-center gap-x-4 justify-self-end"}>

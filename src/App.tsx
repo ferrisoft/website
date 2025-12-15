@@ -1,101 +1,51 @@
 'use client'
 
-import { useState } from 'react'
-import { Dialog, DialogPanel } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import * as React from "react"
-
-import FerrisoftLogo from './assets/logo/ferrisoft.svg?react'
-
-
-import ChevroletLogo from './assets/logo/client/chevrolet.svg?react'
-import DreamWorksLogo from './assets/logo/client/dream_works.svg?react'
-import GeneralMotors from './assets/logo/client/general_motors.svg?react'
-import IntelLogo from './assets/logo/client/intel.svg?react'
-import IntimissimiLogo from './assets/logo/client/intimissimi.svg?react'
-import MtvLogo from './assets/logo/client/mtv.svg?react'
-import NissanLogo from './assets/logo/client/nissan.svg?react'
-import PixarLogo from './assets/logo/client/pixar.svg?react'
-import SalomonLogo from './assets/logo/client/salomon.svg?react'
-import SamsungLogo from './assets/logo/client/samsung.svg?react'
-import SisleyLogo from './assets/logo/client/sisley.svg?react'
-import SonyLogo from './assets/logo/client/sony.svg?react'
-import ToyotaLogo from './assets/logo/client/toyota.svg?react'
-import VeetLogo from './assets/logo/client/veet.svg?react'
+import * as Html from '@/html'
+import { PerformanceSection, ReliableSoftwareSection } from "./features/performance"
+import { Contact } from "./features/contact"
+import { RecentBlogPosts } from "./features/blog"
 
 
+import { Section, SectionBox } from "./layout"
+import { Footer } from "./features/footer"
 
-async function svgElToCanvas(svgEl: SVGSVGElement): Promise<HTMLCanvasElement> {
-    // Serialize SVG element to XML string
-    const svgString = new XMLSerializer().serializeToString(svgEl)
+import { Blog } from './pages/blog'
 
-    // Encode as data URL
-    const encoded = "data:image/svg+xmlbase64," + btoa(svgString)
+import FerrisoftLogo from '@/assets/logo/ferrisoft.svg?react'
+import ChevroletLogo from '@/assets/logo/client/chevrolet.svg?react'
+import DreamWorksLogo from '@/assets/logo/client/dream_works.svg?react'
+import GeneralMotors from '@/assets/logo/client/general_motors.svg?react'
+import IntelLogo from '@/assets/logo/client/intel.svg?react'
+import IntimissimiLogo from '@/assets/logo/client/intimissimi.svg?react'
+import MtvLogo from '@/assets/logo/client/mtv.svg?react'
+import NissanLogo from '@/assets/logo/client/nissan.svg?react'
+import PixarLogo from '@/assets/logo/client/pixar.svg?react'
+import SalomonLogo from '@/assets/logo/client/salomon.svg?react'
+import SamsungLogo from '@/assets/logo/client/samsung.svg?react'
+import SisleyLogo from '@/assets/logo/client/sisley.svg?react'
+import SonyLogo from '@/assets/logo/client/sony.svg?react'
+import ToyotaLogo from '@/assets/logo/client/toyota.svg?react'
+import VeetLogo from '@/assets/logo/client/veet.svg?react'
 
-    // Load into an Image()
-    const img = await new Promise<HTMLImageElement>((resolve) => {
-        const image = new Image()
-        image.src = encoded
-        image.onload = () => resolve(image)
-    })
 
-    // Draw on canvas
-    const canvas = document.createElement("canvas")
-    canvas.width = img.width
-    canvas.height = img.height
-    const ctx = canvas.getContext("2d")!
-    ctx.drawImage(img, 0, 0)
-
-    return canvas
-}
-
-function analyzeBlackPixels(canvas: HTMLCanvasElement) {
-    const ctx = canvas.getContext("2d")!
-    const { width, height } = canvas
-    const imgData = ctx.getImageData(0, 0, width, height).data
-
-    let black = 0
-    let transparent = 0
-    let total = width * height
-
-    for (let i = 0; i < imgData.length; i += 4) {
-        const r = imgData[i]
-        const g = imgData[i + 1]
-        const b = imgData[i + 2]
-        const a = imgData[i + 3]
-
-        if (a === 0) {
-            transparent++
-            continue
-        }
-
-        // treat "almost black" as black (due to antialiasing)
-        if (r < 30 && g < 30 && b < 30) {
-            black++
-        }
-    }
-
-    return {
-        blackPixels: black,
-        transparentPixels: transparent,
-        totalPixels: total,
-        blackPercentage: (black / total) * 100,
-        alphaCoverage: ((total - transparent) / total) * 100
-    }
-}
-
-async function analyzeSvgElement(svgEl: SVGSVGElement) {
-    const canvas = await svgElToCanvas(svgEl)
-    return analyzeBlackPixels(canvas)
-}
 
 function ClientsLogos() {
     const rowRef = React.useRef<HTMLDivElement>(null)
 
     React.useEffect(() => {
-        if (!rowRef.current) return
+        const rowRefCurrent = rowRef.current
+        if (rowRefCurrent == null) return
 
-        const bbox = rowRef.current.getBoundingClientRect()
+
+        let width = 0
+        const resizeObserver = new ResizeObserver((entries) => {
+            width = rowRefCurrent.getBoundingClientRect().width
+            console.log("Size changed", {entries});
+        });
+
+        resizeObserver.observe(rowRefCurrent);
+
         let start_time: null | number = null
         let offset = 0
 
@@ -103,8 +53,8 @@ function ClientsLogos() {
             if (!rowRef.current) return
             if (start_time != null) {
                 offset += (time - start_time) / 10
-                if (offset > bbox.width / 2) {
-                    offset -= bbox.width / 2
+                if (offset > width / 2) {
+                    offset -= width / 2
                 }
                 rowRef.current.style.transform = `translate(${-offset}px, 0)`
             }
@@ -115,20 +65,20 @@ function ClientsLogos() {
     }, [])
 
     const logos = [
-        <MtvLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "155", "--shift": "0px" }} />,
-        <PixarLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "90", "--shift": "0px" }} />,
-        <DreamWorksLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "148", "--shift": "0px" }} />,
-        <IntelLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "118", "--shift": "-7px" }} />,
-        <SamsungLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "91", "--shift": "0px" }} />,
-        <SonyLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "90", "--shift": "0px" }} />,
-        <GeneralMotors className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "190", "--shift": "0px" }} />,
-        <ToyotaLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "117", "--shift": "0px" }} />,
-        <ChevroletLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "167", "--shift": "0px" }} />,
-        <NissanLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "86", "--shift": "0px" }} />,
-        <VeetLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "153", "--shift": "-15px" }} />,
-        <SisleyLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "165", "--shift": "6px" }} />,
-        <IntimissimiLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "102", "--shift": "-4px" }} />,
-        <SalomonLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "85", "--shift": "0px" }} />,
+        <MtvLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "155", "--shift": "0px" } as Html.CSSProperties } />,
+        <PixarLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "90", "--shift": "0px" }  as Html.CSSProperties } />,
+        <DreamWorksLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "148", "--shift": "0px" }  as Html.CSSProperties } />,
+        <IntelLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "118", "--shift": "-7px" }  as Html.CSSProperties } />,
+        <SamsungLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "91", "--shift": "0px" }  as Html.CSSProperties } />,
+        <SonyLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "90", "--shift": "0px" }  as Html.CSSProperties } />,
+        <GeneralMotors className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "190", "--shift": "0px" }  as Html.CSSProperties } />,
+        <ToyotaLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "117", "--shift": "0px" }  as Html.CSSProperties } />,
+        <ChevroletLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "167", "--shift": "0px" }  as Html.CSSProperties } />,
+        <NissanLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "86", "--shift": "0px" }  as Html.CSSProperties } />,
+        <VeetLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "153", "--shift": "-15px" }  as Html.CSSProperties } />,
+        <SisleyLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "165", "--shift": "6px" }  as Html.CSSProperties } />,
+        <IntimissimiLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "102", "--shift": "-4px" }  as Html.CSSProperties } />,
+        <SalomonLogo className="h-8 w-auto shrink-0 grow-0" style={{ height: "calc(24px * var(--scale) / 100)", marginTop:"var(--shift)", "--scale": "85", "--shift": "0px" }  as Html.CSSProperties } />,
     ]
 
     return (
@@ -141,58 +91,9 @@ function ClientsLogos() {
 
 
 
-function HiddenFerris() {
-    const ref = React.useRef<HTMLDivElement>(null)
-
-    let offset = 0
-
-    function onFrame() {
-        if (ref.current != null) {
-            let changed = false
-            if (offset >= 0) {
-                offset -= 1
-                changed = true
-            } else if (offset < 0) {
-                offset = 0
-                changed = true
-            }
-            if (changed) {
-                const clipped_offset = Math.min(offset, 32)
-                ref.current.style.transform = `translate(0, ${clipped_offset}px)`
-            }
-        }
-        window.requestAnimationFrame(onFrame)
-    }
-
-    React.useEffect(() => {
-        window.requestAnimationFrame(onFrame)
-        window.addEventListener("wheel", (v) => {
-            if (window.scrollY == 0 && v.deltaY < 0) {
-                offset -= v.deltaY / 10
-            }
-        })
-    }, [])
-
-    return <div ref={ref} className="absolute w-full flex justify-center" style={{
-            top: "-32px",
-        }}>
-            <img src="animated_ferris.gif" style={{height: "32px"}}/>
-        </div>
-}
 
 
 
-import * as P from "./features/performance"
-import { PerformanceSection, ReliableSoftwareSection } from "./features/performance"
-import { Contact } from "./features/contact"
-import { RecentBlogPosts } from "./features/blog"
-
-
-import { Section, SectionBox, Container } from "./layout"
-import { Footer } from "./features/footer"
-
-import { Blog } from './pages/blog'
-import { ContactUsButton } from "./components/contact_us_button"
 
 export function Home() {
 
@@ -201,6 +102,7 @@ export function Home() {
 
     React.useEffect(() => {
         if (bgRef.current != null) {
+            // @ts-expect-error -- provided by unicornstudio.umd.js
             UnicornStudio.init()
         }
     }, [])
@@ -236,7 +138,7 @@ export function Home() {
                                         "--badge-background": "rgba(0, 0, 0, 0.8)",
                                         "--badge-letter": "white",
                                         "--name-letter": "white",
-                                    }}/>
+                                    } as Html.CSSProperties } />
                                 </SectionBox>
                             </div>
                         </>

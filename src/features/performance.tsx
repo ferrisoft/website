@@ -1,28 +1,31 @@
 import { InboxIcon, TrashIcon, UsersIcon } from '@heroicons/react/24/outline'
 import * as Icons from '@heroicons/react/24/solid'
 import { Section } from "../layout"
+import * as Motion from "motion"
+import * as MotionDom from "motion-dom"
+import * as React from "react";
 
-import HighPerfViz from '../assets/high_perf_viz.svg?react';
-import HeartBeatIcon from '../assets/icon/heart_beat.svg?react';
-import GitHubActionsLogo from '../assets/icon/github_actions.svg?react';
-import LabIcon from '../assets/icon/lab.svg?react';
-import PasskeyIcon from '../assets/icon/passkey.svg?react';
-import BugIcon from '../assets/icon/bug.svg?react';
-import StopwatchIcon from '../assets/icon/stopwatch.svg?react';
-import CoinIcon from '../assets/icon/coin.svg?react';
-import FingerprintIcon from '../assets/icon/fingerprint.svg?react';
-import LocationIcon from '../assets/icon/location.svg?react';
-import RocketIcon from '../assets/icon/rocket.svg?react';
-import SocialIcon from '../assets/icon/social.svg?react';
-import LockIcon from '../assets/icon/lock.svg?react';
-import KeyIcon from '../assets/icon/key.svg?react';
-import IncognitoIcon from '../assets/icon/incognito.svg?react';
-import CloudCheckIcon from '../assets/icon/cloud_check.svg?react';
-import GhostIcon from '../assets/icon/ghost.svg?react';
-import DatabseIcon from '../assets/icon/database.svg?react';
-import ServerIcon from '../assets/icon/server.svg?react';
-import LogSearchIcon from '../assets/icon/log_search.svg?react';
-import ChecklistIcon from '../assets/icon/checklist.svg?react';
+import HighPerfViz from '@/assets/high_perf_viz.svg?react';
+import HeartBeatIcon from '@/assets/icon/heart_beat.svg?react';
+import GitHubActionsLogo from '@/assets/icon/github_actions.svg?react';
+import LabIcon from '@/assets/icon/lab.svg?react';
+import PasskeyIcon from '@/assets/icon/passkey.svg?react';
+import BugIcon from '@/assets/icon/bug.svg?react';
+import StopwatchIcon from '@/assets/icon/stopwatch.svg?react';
+import CoinIcon from '@/assets/icon/coin.svg?react';
+import FingerprintIcon from '@/assets/icon/fingerprint.svg?react';
+import LocationIcon from '@/assets/icon/location.svg?react';
+import RocketIcon from '@/assets/icon/rocket.svg?react';
+import SocialIcon from '@/assets/icon/social.svg?react';
+import LockIcon from '@/assets/icon/lock.svg?react';
+import KeyIcon from '@/assets/icon/key.svg?react';
+import IncognitoIcon from '@/assets/icon/incognito.svg?react';
+import CloudCheckIcon from '@/assets/icon/cloud_check.svg?react';
+import GhostIcon from '@/assets/icon/ghost.svg?react';
+import DatabseIcon from '@/assets/icon/database.svg?react';
+import ServerIcon from '@/assets/icon/server.svg?react';
+import LogSearchIcon from '@/assets/icon/log_search.svg?react';
+import ChecklistIcon from '@/assets/icon/checklist.svg?react';
 
 const icons = [
     HeartBeatIcon,
@@ -51,7 +54,7 @@ const icons = [
 // ]
 
 interface Feature {
-    name: React.JSX.Element
+    name: string | React.JSX.Element
     description: string
     icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
 }
@@ -79,47 +82,50 @@ export const features: Feature[] = [
     },
 ]
 
-import { animate } from "motion"
-import * as React from "react";
-
-
 const DURATION = 1
 const REPEAT_DELAY = 1
 
 const CYCLE = 2 * DURATION + REPEAT_DELAY - 1
 
-function CircleAnimationPart ({ix, rotation, delay}: {ix: number, rotation: number, at:number}) {
-    const refLayer1 = React.useRef(null)
-    const refLayer2 = React.useRef(null)
-    const refLayer3 = React.useRef(null)
-    const refLayer4 = React.useRef(null)
+function CircleAnimationPart ({ix, rotation, delay}: {ix: number, rotation: number, delay:number}) {
+    const refLayer1 = React.useRef<HTMLDivElement>(null)
+    const refLayer2 = React.useRef<HTMLDivElement>(null)
+    const refLayer3 = React.useRef<HTMLDivElement>(null)
+    const refLayer4 = React.useRef<HTMLDivElement>(null)
 
     React.useEffect(() => {
         let iconIndex = ix
-        const animations = []
-        function register(animation) {
+        const animations:  Motion.AnimationPlaybackControlsWithThen[] = []
+        function register(animation:  Motion.AnimationPlaybackControlsWithThen) {
             animation.cancel()
             animations.push(animation)
         }
-        const cfg =  { duration: DURATION, repeat: 1, repeatType: 'reverse', type: 'tween', ease: 'backInOut', repeatDelay: REPEAT_DELAY } //type: spring, stiffness: 100, damping: 10}
-        if (refLayer1.current != null && refLayer2.current != null && refLayer3.current != null && refLayer4.current != null) {
+
+        function animate(target: Element, params: Record<string, number>, options: MotionDom.AnimationOptions) {
+            register(Motion.animate(target, params, options))
+        }
+
+        const opts = { duration: DURATION, repeat: 1, repeatType: 'reverse', type: 'tween', ease: 'backInOut', repeatDelay: REPEAT_DELAY } as const //type: spring, stiffness: 100, damping: 10}
+
+        const layer4 = refLayer4.current
+        if (refLayer1.current != null && refLayer2.current != null && refLayer3.current != null && layer4 != null) {
             // children
-            const target = refLayer4.current.children[0]
-            const count = refLayer4.current.children.length
-            register(animate(target, {"--icon-opacity": 1, x: 238, scale: 150}, cfg))
+            const target = layer4.children[0]
+            const count = layer4.children.length
+            animate(target, {"--icon-opacity": 1, x: 238, scale: 150}, opts)
 
             const child = target.children[0]
-                    const cfg1 = {duration: 15, repeat: Infinity, ease: 'linear'}
-                    animate(child, {rotate: -360}, cfg1)
+            const cfg1 = {duration: 15, repeat: Infinity, ease: 'linear'} as const
+            Motion.animate(child, {rotate: -360}, cfg1)
 
             {
                 const angle = 2 * Math.PI * 1 / 24
                 const x = Math.cos(angle) * 300
                 const y = Math.sin(angle) * 300
-                const t4_t = refLayer4.current.children[1]
-                const t4_b = refLayer4.current.children[count-1]
-                register(animate(t4_t, {x, y, scale: 20}, cfg))
-                register(animate(t4_b, {x, y: -y, scale: 20}, cfg))
+                const t4_t = layer4.children[1]
+                const t4_b = layer4.children[count - 1]
+                animate(t4_t, {x, y, scale: 20}, opts)
+                animate(t4_b, {x, y: -y, scale: 20}, opts)
             }
 
             {
@@ -127,108 +133,81 @@ function CircleAnimationPart ({ix, rotation, delay}: {ix: number, rotation: numb
                     const x = 254
                     const y = 90
                     const t3_t = refLayer3.current.children[0]
-                    const t3_b = refLayer3.current.children[count-1]
+                    const t3_b = refLayer3.current.children[count - 1]
 
-                    register(animate(t3_t, {x, y, scale: 20}, cfg))
-                    register(animate(t3_b, {x, y: -y, scale: 20}, cfg))
+                    animate(t3_t, {x, y, scale: 20}, opts)
+                    animate(t3_b, {x, y: -y, scale: 20}, opts)
                 }
 
                 {
                     const x = 220
                     const y = 88
                     const t3_tt = refLayer3.current.children[1]
-                    const t3_bb = refLayer3.current.children[count-2]
-                    register(animate(t3_tt, {x, y, scale: 14}, cfg))
-                    register(animate(t3_bb, {x, y: -y, scale: 14}, cfg))
+                    const t3_bb = refLayer3.current.children[count - 2]
+                    animate(t3_tt, {x, y, scale: 14}, opts)
+                    animate(t3_bb, {x, y: -y, scale: 14}, opts)
                 }
             }
 
             {
                 const t2_c = refLayer2.current.children[0]
                 const t2_t = refLayer2.current.children[1]
-                const t2_b = refLayer2.current.children[count-1]
-                register(animate(t2_c, {x: 146, scale: 14}, cfg))
+                const t2_b = refLayer2.current.children[count - 1]
+                animate(t2_c, {x: 146, scale: 14}, opts)
                 const x = 190
                 const y = 76
-                register(animate(t2_t, {x, y, scale: 14}, cfg))
-                register(animate(t2_b, {x, y: -y, scale: 14}, cfg))
+                animate(t2_t, {x, y, scale: 14}, opts)
+                animate(t2_b, {x, y: -y, scale: 14}, opts)
             }
 
             {
                 const t1_t = refLayer1.current.children[0]
-                const t1_b = refLayer1.current.children[count-1]
+                const t1_b = refLayer1.current.children[count - 1]
                 const x = 152
                 const y = 34
-                register(animate(t1_t, {x, y, scale: 14}, cfg))
-                register(animate(t1_b, {x, y: -y, scale: 14}, cfg))
+                animate(t1_t, {x, y, scale: 14}, opts)
+                animate(t1_b, {x, y: -y, scale: 14}, opts)
             }
-        }
 
-        window.setTimeout(() => {
-            for (const a of animations) {
-                const target = refLayer4.current.children[0]
-                target.style.setProperty('--icon-index', iconIndex)
-                a.play()
-            }
-            window.setInterval(() => {
+
+            window.setTimeout(() => {
+                for (const a of animations) {
+                    const target = layer4.children[0]
+                    if (target instanceof HTMLElement) {
+                        target.style.setProperty("--icon-index", iconIndex.toString())
+                    }
+                    a.play()
+                }
+                window.setInterval(() => {
                     iconIndex = (iconIndex + 6) % icons.length
-                    const target = refLayer4.current.children[0]
-                target.style.setProperty('--icon-index', iconIndex)
+                    const target = layer4.children[0]
+                    if (target instanceof HTMLElement) {
+                        target.style.setProperty("--icon-index", iconIndex.toString())
+                    }
                     for (const a of animations) {
                         a.play()
                     }
-            }, 6 * CYCLE * 1000)
-        }, delay * 1000)
-
-        function hueWithoutGreen(t) {
-            return t
-
-            const skipStart = 70;
-            const skipEnd = 220;
-            const skipSize = skipEnd - skipStart;
-            const scale = 360 / (360 - skipSize);
-
-            let h = t;// * scale;
-
-            if (h >= skipStart && h <= skipEnd) {
-                h += skipSize;
-                h = h % 360;
-            }
-
-            if (h >= skipStart && h <= skipEnd) {
-                h += skipSize;
-                h = h % 360;
-            }
-
-            if (h >= skipStart && h <= skipEnd) {
-                h += skipSize;
-                h = h % 360;
-            }
-
-            if (h >= skipStart && h <= skipEnd) {
-                h += skipSize;
-                h = h % 360;
-            }
-
-            if (h >= skipStart && h <= skipEnd) {
-                h += skipSize;
-                h = h % 360;
-            }
-
-            // console.log("h", h)
-
-            return h % 360;
+                }, 6 * CYCLE * 1000)
+            }, delay * 1000)
         }
 
-        function onFrame(t) {
+        function onFrame(t: number) {
             if (refLayer1.current != null && refLayer2.current != null && refLayer3.current != null && refLayer4.current != null) {
-                for (const layer of [refLayer1, refLayer2, refLayer3, refLayer4]) {
-                    for (const child of layer.current.children) {
-                        const angle = (180 * child.dataset.angle / Math.PI + t / 20) % 360
-                        child.style.backgroundColor = `oklch(var(--l) var(--c) ${angle})`
+                for (const refLayer of [refLayer1, refLayer2, refLayer3, refLayer4]) {
+                    const layer = refLayer.current
+                    if(layer != null) {
+                        for (const child of layer.children) {
+                            if (child instanceof HTMLElement) {
+                                const angleStr = child.dataset.angle
+                                const angleParsed = angleStr != null ? Number(angleStr) : NaN
+                                const angleInit = Number.isFinite(angleParsed) ? angleParsed : 0
+                                const angle = (180 * angleInit / Math.PI + t / 20) % 360
+                                child.style.backgroundColor = `oklch(var(--l) var(--c) ${angle})`
+                            }
+                        }
                     }
                 }
-            }//oklch(0.7 0.1 177)
+            }
             window.requestAnimationFrame(onFrame)
         }
         window.requestAnimationFrame(onFrame)
@@ -248,7 +227,7 @@ function CircleAnimationPart ({ix, rotation, delay}: {ix: number, rotation: numb
             transform: `translate(${x}px, ${y}px) scale(${radius2})`,
             "--icon-opacity": 0,
             "--icon-index": 0
-        }}>
+        } as Record<string, unknown>}>
             { (icon != null) &&
                 <div className='absolute w-full h-full top-0 left-0 text-white'>
                     <div className='w-full h-full' style={{transform: `rotate(${-rotation}rad) scale(${scale})`, opacity: 'var(--icon-opacity)'}}>

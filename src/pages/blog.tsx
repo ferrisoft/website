@@ -1,9 +1,9 @@
 import { CheckCircleIcon, InformationCircleIcon } from '@heroicons/react/20/solid'
 import { ContactUsButton } from "../components/contact_us_button";
 import {Section, SectionBox} from "../layout.tsx";
-import * as React from "react";
 import FerrisoftLogo from '../assets/logo/ferrisoft.svg?react';
 import { TeamMemberBadge } from "../components/team_member_badge";
+import * as Html from '@/html'
 
 export function Blog() {
     return (
@@ -20,7 +20,7 @@ export function Blog() {
                                         "--badge-background": "rgba(0, 0, 0, 0.8)",
                                         "--badge-letter": "white",
                                         "--name-letter": "rgba(0, 0, 0, 0.8)",
-                                    }}/>
+                                    } as Html.CSSProperties }/>
                                 </SectionBox>
                             </div>
                         </>

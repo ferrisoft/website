@@ -1,6 +1,4 @@
-import { Section } from "../layout"
 import { TeamMemberBadge } from "../components/team_member_badge";
-import * as React from "react";
 import {FeaturesTemplate} from './performance'
 
 const posts = [

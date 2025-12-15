@@ -29,7 +29,7 @@ export function SectionBox({ children, className, direction='xy' }: { children: 
 }
 
 
-export function Section({ children, background, style, className, direction='xy' }: { children: React.ReactNode, background?: React.ReactNode, className?: string, style?: React.CSSProperties, direction?: Direction}) {
+export function Section({ children, background, style, className, direction='xy' }: { children?: React.ReactNode, background?: React.ReactNode, className?: string, style?: React.CSSProperties, direction?: Direction}) {
     return (
         <Container className={className} style={style} direction={direction}>
             <div className="w-full h-full relative">
