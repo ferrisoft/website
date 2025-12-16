@@ -1,12 +1,11 @@
-import {Section} from '../layout'
-import * as React from 'react'
-import * as ReactExt from '../react_ext'
+import * as Class from '@/class'
+import * as Country from '@/country.tsx'
+import * as Fetch from '@/fetch'
 import * as Icon from '@heroicons/react/24/solid'
-import {useRef, useState} from 'react'
-import * as Country from '../country.tsx'
+import * as Layout from '@/layout'
 import * as Phone from 'libphonenumber-js/max'
-import * as Fetch from '../fetch'
-import * as Class from '../class'
+import * as React from 'react'
+import * as ReactExt from '@/react_ext'
 
 // ================
 // === Timeline ===
@@ -141,10 +140,10 @@ function Timeline(props: {formSubmitted: boolean}) {
 // ===================
 
 export function ContactForm({onSubmit}: {onSubmit: () => void}) {
-    const formRef = useRef<HTMLFormElement>(null)
-    const phoneNumberRef = useRef<HTMLInputElement>(null)
+    const formRef = React.useRef<HTMLFormElement>(null)
+    const phoneNumberRef = React.useRef<HTMLInputElement>(null)
     const [regionName, setRegionName, regionNameRef] = ReactExt.useStateRef('')
-    const phoneParser = useRef(new Phone.AsYouType())
+    const phoneParser = React.useRef(new Phone.AsYouType())
 
     const updateCountryFromNumber = React.useCallback(
         (number: string) => {
@@ -254,6 +253,8 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
         return () => form.removeEventListener('submit', go)
     }, [onSubmit])
 
+    const inputClassName =
+        'block w-full rounded-md px-3.5 py-3 outline-1 -outline-offset-1 outline-zinc-700 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-zinc-300'
     return (
         <form
             ref={formRef}
@@ -276,7 +277,7 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
                                 type='text'
                                 required
                                 autoComplete='given-name'
-                                className='block w-full rounded-md px-3.5 py-3 outline-1 -outline-offset-1 outline-zinc-700 backdrop-blur-sm placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-zinc-400'
+                                className={inputClassName}
                             />
                         </div>
                     </div>
@@ -294,7 +295,7 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
                                 type='text'
                                 required
                                 autoComplete='family-name'
-                                className='block w-full rounded-md px-3.5 py-3 outline-1 -outline-offset-1 outline-zinc-700 backdrop-blur-sm placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-zinc-300'
+                                className={inputClassName}
                             />
                         </div>
                     </div>
@@ -313,7 +314,7 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
                             type='email'
                             required
                             autoComplete='email'
-                            className='block w-full rounded-md px-3.5 py-3 outline-1 -outline-offset-1 outline-zinc-700 backdrop-blur-sm placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-zinc-300'
+                            className={inputClassName}
                         />
                     </div>
                 </div>
@@ -332,7 +333,7 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
                         type='tel'
                         required
                         autoComplete='tel-national'
-                        className='mt-2.5 block w-full rounded-md px-3.5 py-3 outline-1 -outline-offset-1 outline-zinc-700 backdrop-blur-sm placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-zinc-300'
+                        className={`mt-2.5 ${inputClassName}`}
                     />
                     <select
                         value={regionName || ''}
@@ -399,16 +400,16 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
 // =================
 
 export const Component = React.forwardRef<HTMLDivElement>((_, ref) => {
-    const [formSubmitted, setFormSubmitted] = useState(false)
+    const [formSubmitted, setFormSubmitted] = React.useState(false)
     return (
         <div ref={ref}>
             <div className='dark-theme min-h-screen relative'>
-                <Section
+                <Layout.SectionCard
                     className='!absolute h-full !max-w-screen-3xl'
                     background={<div className='w-full h-full bg-zinc-900' />}
                 />
 
-                <Section background={<div className='w-full h-full' />}>
+                <Layout.SectionCard>
                     <div className='w-full flex justify-center'>
                         <div className='max-w-md lg:max-w-none w-full'>
                             <div className='lg:items-center lg:text-center lg:mx-auto'>
@@ -439,7 +440,7 @@ export const Component = React.forwardRef<HTMLDivElement>((_, ref) => {
                             </div>
                         </div>
                     </div>
-                </Section>
+                </Layout.SectionCard>
             </div>
         </div>
     )

@@ -41,16 +41,18 @@ function Header() {
                 <ClientsLogos.Component />
             </div>
             <div className='absolute inset-0'>
-                <Layout.SectionBox>
-                    <CompanyLogo.Component
-                        className='h-10 w-auto'
-                        style={{
-                            '--badge-background': 'rgba(0, 0, 0, 0.8)',
-                            '--badge-letter': 'white',
-                            '--name-letter': 'white',
-                        }}
-                    />
-                </Layout.SectionBox>
+                <Layout.ContentPaddingX>
+                    <Layout.ContentPaddingY>
+                        <CompanyLogo.Component
+                            className='h-10 w-auto'
+                            style={{
+                                '--badge-background': 'rgba(0, 0, 0, 0.8)',
+                                '--badge-letter': 'white',
+                                '--name-letter': 'white',
+                            }}
+                        />
+                    </Layout.ContentPaddingY>
+                </Layout.ContentPaddingX>
             </div>
         </>
     )
@@ -62,24 +64,26 @@ function Header() {
                 width: 'calc(max(var(--global-min-width), 100vw))',
             }}
         >
-            <Layout.Section
-                className='w-full h-full !max-w-screen-3xl'
-                background={background}
-            >
-                <div className='w-full h-full flex justify-center items-center'>
-                    <h1
-                        className='font-bold text-white z-30'
-                        style={{
-                            marginBottom: '6%',
-                            fontSize,
-                            lineHeight: '1.3em',
-                        }}
-                    >
-                        We deliver reliable, <br /> high-performance <br className='sm:hidden' />
-                        software.
-                    </h1>
-                </div>
-            </Layout.Section>
+            <Layout.RootPaddingY>
+                <Layout.SectionCard
+                    className='w-full h-full !max-w-screen-3xl'
+                    background={background}
+                >
+                    <div className='w-full h-full flex justify-center items-center'>
+                        <h1
+                            className='font-bold text-white z-30'
+                            style={{
+                                marginBottom: '6%',
+                                fontSize,
+                                lineHeight: '1.3em',
+                            }}
+                        >
+                            We deliver reliable, <br /> high-performance <br className='sm:hidden' />
+                            software.
+                        </h1>
+                    </div>
+                </Layout.SectionCard>
+            </Layout.RootPaddingY>
         </div>
     )
 }

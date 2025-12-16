@@ -1,5 +1,5 @@
 import * as Icons from '@heroicons/react/24/solid'
-import {Section} from '../layout'
+import * as Layout from '../layout'
 import * as Motion from 'motion'
 import * as MotionDom from 'motion-dom'
 import * as React from 'react'
@@ -520,10 +520,7 @@ export function FeaturesTemplate(props: {
     return (
         <div>
             {props.header}
-            <Section
-                direction='x'
-                className='pt-12'
-            >
+            <Layout.Section className='pt-12'>
                 <div className='w-full flex flex-col md:items-center md:text-center md:mx-auto'>
                     <h1> {props.title} </h1>
                     <h3> {props.subtitle} </h3>
@@ -533,7 +530,7 @@ export function FeaturesTemplate(props: {
                         {props.children}
                     </div>
                 </div>
-            </Section>
+            </Layout.Section>
         </div>
     )
 }
