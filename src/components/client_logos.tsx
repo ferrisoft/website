@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 import * as Html from '@/html'
 
 import ChevroletLogo from '@/assets/logo/client/chevrolet.svg?react'
@@ -29,23 +29,23 @@ const HEIGHT = 24
 // ====================
 
 const clientLogos = [
-    { component: MtvLogo, scale: 155, shift: 0 },
-    { component: PixarLogo, scale: 90, shift: 0 },
-    { component: DreamWorksLogo, scale: 148, shift: 0 },
-    { component: IntelLogo, scale: 118, shift: -7 },
-    { component: SamsungLogo, scale: 91, shift: 0 },
-    { component: SonyLogo, scale: 90, shift: 0 },
-    { component: GeneralMotorsLogo, scale: 190, shift: 0 },
-    { component: ToyotaLogo, scale: 117, shift: 0 },
-    { component: ChevroletLogo, scale: 167, shift: 0 },
-    { component: NissanLogo, scale: 86, shift: 0 },
-    { component: VeetLogo, scale: 153, shift: -15 },
-    { component: SisleyLogo, scale: 165, shift: 6 },
-    { component: IntimissimiLogo, scale: 102, shift: -4 },
-    { component: SalomonLogo, scale: 85, shift: 0 }
+    {component: MtvLogo, scale: 155, shift: 0},
+    {component: PixarLogo, scale: 90, shift: 0},
+    {component: DreamWorksLogo, scale: 148, shift: 0},
+    {component: IntelLogo, scale: 118, shift: -7},
+    {component: SamsungLogo, scale: 91, shift: 0},
+    {component: SonyLogo, scale: 90, shift: 0},
+    {component: GeneralMotorsLogo, scale: 190, shift: 0},
+    {component: ToyotaLogo, scale: 117, shift: 0},
+    {component: ChevroletLogo, scale: 167, shift: 0},
+    {component: NissanLogo, scale: 86, shift: 0},
+    {component: VeetLogo, scale: 153, shift: -15},
+    {component: SisleyLogo, scale: 165, shift: 6},
+    {component: IntimissimiLogo, scale: 102, shift: -4},
+    {component: SalomonLogo, scale: 85, shift: 0},
 ]
 
-export type Props = React.ComponentPropsWithoutRef<"div">
+export type Props = React.ComponentPropsWithoutRef<'div'>
 
 export function Component(props: Props) {
     const rowRef = React.useRef<HTMLDivElement>(null)
@@ -54,7 +54,7 @@ export function Component(props: Props) {
         const row = rowRef.current
         if (!row) return
 
-        const resizeObserver = new ResizeObserver(() => width = row.getBoundingClientRect().width)
+        const resizeObserver = new ResizeObserver(() => (width = row.getBoundingClientRect().width))
         resizeObserver.observe(row)
 
         let width = 0
@@ -69,7 +69,7 @@ export function Component(props: Props) {
                 offset += (time - startTime) * SPEED
                 const limit = width / 2
                 if (limit > 0 && offset > limit) {
-                    offset -= limit
+                    offset -= limit + GAP * 2
                 }
                 row.style.transform = `translateX(${-offset}px)`
             }
@@ -84,24 +84,30 @@ export function Component(props: Props) {
         }
     }, [])
 
-    const logos = clientLogos.map((logo, ix) =>
+    const logos = clientLogos.map((logo, ix) => (
         <logo.component
             key={ix}
-            className="h-8 w-auto shrink-0 grow-0"
+            className='h-8 w-auto shrink-0 grow-0'
             style={
                 {
-                    height: `calc(${HEIGHT}px * var(--scale) / 100)`,
-                    marginTop: "calc(var(--shift) * 1px)",
-                    "--scale": logo.scale,
-                    "--shift": logo.shift,
+                    'height': `calc(${HEIGHT}px * var(--scale) / 100)`,
+                    'marginTop': 'calc(var(--shift) * 1px)',
+                    '--scale': logo.scale,
+                    '--shift': logo.shift,
                 } as Html.CSSProperties
             }
         />
-    )
+    ))
 
     return (
-        <div className={props.className} style={props.style}>
-            <div ref={rowRef} className={`flex gap-${GAP} px-${GAP/2} items-center`}>
+        <div
+            className={props.className}
+            style={props.style}
+        >
+            <div
+                ref={rowRef}
+                className={`flex gap-${GAP} px-${GAP / 2} items-center`}
+            >
                 {logos}
                 {logos}
             </div>

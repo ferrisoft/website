@@ -90,12 +90,10 @@ export function Component() {
                                 }}
                             />
                         </div>
-                        <div className='flex max-w-xl grow flex-col justify-between'>
+                        <div className='flex max-w-xl grow flex-col justify-between mt-2'>
                             <div className='group relative grow'>
-                                <h3 className='mt-6 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600'>
-                                    {post.title}
-                                </h3>
-                                <p className='mt-2 text-sm/6 text-gray-60'>{post.description}</p>
+                                <h4>{post.title}</h4>
+                                <p className='mt-2'>{post.description}</p>
                             </div>
                             <TeamMemberBadge
                                 name={post.author.name}

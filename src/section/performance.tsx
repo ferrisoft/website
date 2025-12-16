@@ -1,4 +1,3 @@
-import {InboxIcon, TrashIcon, UsersIcon} from '@heroicons/react/24/outline'
 import * as Icons from '@heroicons/react/24/solid'
 import {Section} from '../layout'
 import * as Motion from 'motion'
@@ -49,48 +48,58 @@ const icons = [
     LogSearchIcon,
     ChecklistIcon,
 ]
-// const icons = [
-//     HeartBeatIcon,
-// ]
 
 interface Feature {
-    name: string | React.JSX.Element
-    description: string
-    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
+    name: React.JSX.Element
+    description: React.JSX.Element
 }
 
-export const features: Feature[] = [
+const features: Feature[] = [
     {
         name: (
             <>
                 100× faster backend <br className='xs:hidden lg:block xl:hidden' /> with Rust and Node.js.
             </>
         ),
-        description:
-            'You get fast, scalable systems built for real-world load. For over two decades we’ve built and optimized high-load backends, from servers and APIs to real-time data pipelines and serverless functions. We use Rust for performance-critical code, achieving up to 100× speed gains and 10× lower memory use in client production systems.',
-
-        icon: InboxIcon,
+        description: (
+            <>
+                You get fast, scalable systems built for real-world load. For over two decades we’ve built and optimized
+                high-load backends, from servers and APIs to real-time data pipelines and serverless functions. We use
+                Rust for performance-critical code, achieving up to 100× speed gains and 10× lower memory use in client
+                production systems.
+            </>
+        ),
     },
+
     {
         name: (
             <>
                 Smooth interface <br className='xs:hidden lg:block xl:hidden' /> with Rust and TypeScript.
             </>
         ),
-        description:
-            'Your users get interfaces that feel instant and intuitive. We build interfaces that stay fast under load, using design systems, predictable rendering, optimized state management and carefully tuned interaction patterns. For demanding interfaces we compile Rust to WebAssembly and deliver Canvas and custom WebGL/GPU-based solutions.',
-
-        icon: UsersIcon,
+        description: (
+            <>
+                Your users get interfaces that feel instant and intuitive. We build interfaces that stay fast under
+                load, using design systems, predictable rendering, optimized state management and carefully tuned
+                interaction patterns. For demanding interfaces we compile Rust to WebAssembly and deliver Canvas and
+                custom WebGL/GPU-based solutions.
+            </>
+        ),
     },
+
     {
         name: (
             <>
                 Profiling and optimizing <br className='xs:hidden lg:block xl:hidden' /> existing projects.
             </>
         ),
-        description:
-            'You get measurable improvements without the cost of a rewrite. We profile your system to uncover slow routes, blocking operations, inefficient queries, memory issues and rendering delays, then fine-tune them for faster responses, smoother interactions, higher reliability and lower infrastructure costs.',
-        icon: TrashIcon,
+        description: (
+            <>
+                You get measurable improvements without the cost of a rewrite. We profile your system to uncover slow
+                routes, blocking operations, inefficient queries, memory issues and rendering delays, then fine-tune
+                them for faster responses, smoother interactions, higher reliability and lower infrastructure costs.
+            </>
+        ),
     },
 ]
 
@@ -513,7 +522,7 @@ export function FeaturesTemplate(props: {
             {props.header}
             <Section
                 direction='x'
-                className='pt-12 !max-w-md md:!max-w-none'
+                className='pt-12'
             >
                 <div className='w-full flex flex-col md:items-center md:text-center md:mx-auto'>
                     <h1> {props.title} </h1>
@@ -531,22 +540,34 @@ export function FeaturesTemplate(props: {
 
 const features2 = [
     {
-        name: 'Predictable architecture and code quality.',
-        description:
-            'You get software that behaves consistently and avoids hidden failures. We design clear, maintainable architectures with strong contracts, type-safe code and defensive patterns that prevent entire classes of bugs from ever reaching production.',
-        icon: InboxIcon,
+        name: <>Predictable architecture and code quality.</>,
+        description: (
+            <>
+                You get software that behaves consistently and avoids hidden failures. We design clear, maintainable
+                architectures with strong contracts, type-safe code and defensive patterns that prevent entire classes
+                of bugs from ever reaching production.
+            </>
+        ),
     },
     {
-        name: 'Automated testing and deep observability.',
-        description:
-            'Your product runs with confidence because issues surface before users ever see them. We build comprehensive test suites and instrument your system with metrics, traces and structured logs, giving you full insight into production behavior.',
-        icon: UsersIcon,
+        name: <>Automated testing and deep observability.</>,
+        description: (
+            <>
+                Your product runs with confidence because issues surface before users ever see them. We build
+                comprehensive test suites and instrument your system with metrics, traces and structured logs, giving
+                you full insight into production behavior.
+            </>
+        ),
     },
     {
-        name: 'Safe deployments and resilient operations.',
-        description:
-            'Your system remains reliable through updates, traffic spikes and scaling. We use zero-downtime deployments, automated rollbacks, health checks and scalable runtime environments to ensure changes are predictable and your application remains responsive under all conditions.',
-        icon: TrashIcon,
+        name: <>Safe deployments and resilient operations.</>,
+        description: (
+            <>
+                Your system remains reliable through updates, traffic spikes and scaling. We use zero-downtime
+                deployments, automated rollbacks, health checks and scalable runtime environments to ensure changes are
+                predictable and your application remains responsive under all conditions.
+            </>
+        ),
     },
 ]
 
