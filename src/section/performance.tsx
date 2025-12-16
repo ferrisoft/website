@@ -103,6 +103,63 @@ const features: Feature[] = [
     },
 ]
 
+type CircleProps = {
+    radius: number
+    key: number
+    x: number
+    y: number
+    angle: number
+    rotation: number
+    icon: null | number
+}
+
+function circle(props: CircleProps) {
+    const scale = 0.6
+    const radius2 = props.radius * 2
+    return (
+        <div
+            key={props.key}
+            data-angle={props.angle}
+            style={
+                {
+                    'position': 'absolute',
+                    'top': `-0.5px`,
+                    'left': `-0.5px`,
+                    'width': `1px`,
+                    'height': `1px`,
+                    'borderRadius': '100%',
+                    'backgroundColor': 'red',
+                    'transform': `translate(${props.x}px, ${props.y}px) scale(${radius2})`,
+                    '--icon-opacity': 0,
+                    '--icon-index': 0,
+                } as Record<string, unknown>
+            }
+        >
+            {props.icon != null && (
+                <div className='absolute w-full h-full top-0 left-0 text-white'>
+                    <div
+                        className='w-full h-full'
+                        style={{
+                            transform: `rotate(${-props.rotation}rad) scale(${scale})`,
+                            opacity: 'var(--icon-opacity)',
+                        }}
+                    >
+                        {icons.map((Icon, ix) => (
+                            <Icon
+                                key={ix}
+                                className='absolute left-0 top-0 w-full h-full'
+                                style={{
+                                    opacity: `calc(   1 - min(1, abs(var(--icon-index) - ${ix}))    )`,
+                                }}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
+        </div>
+    )
+}
+
 const DURATION = 1
 const REPEAT_DELAY = 1
 
@@ -133,21 +190,21 @@ function CircleAnimationPart({ix, rotation, delay}: {ix: number; rotation: numbe
             type: 'tween',
             ease: 'backInOut',
             repeatDelay: REPEAT_DELAY,
-        } as const //type: spring, stiffness: 100, damping: 10}
+        } as const
 
         const layer4 = refLayer4.current
         if (refLayer1.current != null && refLayer2.current != null && refLayer3.current != null && layer4 != null) {
             // children
             const target = layer4.children[0]
             const count = layer4.children.length
-            animate(target, {'--icon-opacity': 1, 'x': 238, 'scale': 150}, opts)
+            animate(target, {'--icon-opacity': 1, 'x': 238, 'y': 0, 'scale': 150}, opts)
 
             const child = target.children[0]
             const cfg1 = {duration: 15, repeat: Infinity, ease: 'linear'} as const
             Motion.animate(child, {rotate: -360}, cfg1)
 
             {
-                const angle = (2 * Math.PI * 1) / 24
+                const angle = (2 * Math.PI) / 24
                 const x = Math.cos(angle) * 300
                 const y = Math.sin(angle) * 300
                 const t4_t = layer4.children[1]
@@ -221,6 +278,8 @@ function CircleAnimationPart({ix, rotation, delay}: {ix: number; rotation: numbe
             }, delay * 1000)
         }
 
+        let rafId: number | null = null
+
         function onFrame(t: number) {
             if (
                 refLayer1.current != null &&
@@ -243,71 +302,17 @@ function CircleAnimationPart({ix, rotation, delay}: {ix: number; rotation: numbe
                     }
                 }
             }
-            window.requestAnimationFrame(onFrame)
+            rafId = window.requestAnimationFrame(onFrame)
         }
-        window.requestAnimationFrame(onFrame)
-    }, [])
+        rafId = window.requestAnimationFrame(onFrame)
 
-    function circle({
-        radius,
-        key,
-        x,
-        y,
-        angle,
-        icon,
-    }: {
-        radius: number
-        key: number
-        x: number
-        y: number
-        angle: number
-        icon: null | number
-    }) {
-        const scale = 0.6
-        const radius2 = radius * 2
-        return (
-            <div
-                key={key}
-                data-angle={angle}
-                style={
-                    {
-                        'position': 'absolute',
-                        'top': `-0.5px`,
-                        'left': `-0.5px`,
-                        'width': `1px`,
-                        'height': `1px`,
-                        'borderRadius': '100%',
-                        'backgroundColor': 'red',
-                        'transform': `translate(${x}px, ${y}px) scale(${radius2})`,
-                        '--icon-opacity': 0,
-                        '--icon-index': 0,
-                    } as Record<string, unknown>
-                }
-            >
-                {icon != null && (
-                    <div className='absolute w-full h-full top-0 left-0 text-white'>
-                        <div
-                            className='w-full h-full'
-                            style={{
-                                transform: `rotate(${-rotation}rad) scale(${scale})`,
-                                opacity: 'var(--icon-opacity)',
-                            }}
-                        >
-                            {icons.map((Icon, ix) => (
-                                <Icon
-                                    key={ix}
-                                    className='absolute left-0 top-0 w-full h-full'
-                                    style={{
-                                        opacity: `calc(   1 - min(1, abs(var(--icon-index) - ${ix}))    )`,
-                                    }}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </div>
-        )
-    }
+        return () => {
+            if (rafId !== null) window.cancelAnimationFrame(rafId)
+            for (const animation of animations) {
+                animation.cancel()
+            }
+        }
+    }, [ix, delay])
 
     const layerShift = 1 / 48
 
@@ -318,7 +323,7 @@ function CircleAnimationPart({ix, rotation, delay}: {ix: number; rotation: numbe
         const angle = 2 * Math.PI * (key / 24 + layerShift)
         const x = Math.cos(angle) * radius
         const y = Math.sin(angle) * radius
-        return circle({key, radius: 8, x, y, angle: angle + rotation, icon: null})
+        return circle({key, radius: 8, x, y, angle: angle + rotation, rotation, icon: null})
     })
 
     const layer2 = rr.map(key => {
@@ -326,7 +331,7 @@ function CircleAnimationPart({ix, rotation, delay}: {ix: number; rotation: numbe
         const angle = (2 * Math.PI * key) / 24
         const x = Math.cos(angle) * radius
         const y = Math.sin(angle) * radius
-        return circle({key, radius: 10, x, y, angle: angle + rotation, icon: null})
+        return circle({key, radius: 10, x, y, angle: angle + rotation, rotation, icon: null})
     })
 
     const layer3 = rr.map(key => {
@@ -334,7 +339,7 @@ function CircleAnimationPart({ix, rotation, delay}: {ix: number; rotation: numbe
         const angle = 2 * Math.PI * (key / 24 + layerShift)
         const x = Math.cos(angle) * radius
         const y = Math.sin(angle) * radius
-        return circle({key, radius: 10, x, y, angle: angle + rotation, icon: null})
+        return circle({key, radius: 10, x, y, angle: angle + rotation, rotation, icon: null})
     })
 
     const layer4 = rr.map(key => {
@@ -342,7 +347,7 @@ function CircleAnimationPart({ix, rotation, delay}: {ix: number; rotation: numbe
         const angle = (2 * Math.PI * key) / 24
         const x = Math.cos(angle) * radius
         const y = Math.sin(angle) * radius
-        return circle({key, radius: 14, x, y, angle: angle + rotation, icon: key == 0 ? 1 : null})
+        return circle({key, radius: 14, x, y, angle: angle + rotation, rotation, icon: key == 0 ? 1 : null})
     })
 
     return (

@@ -94,7 +94,8 @@ function Header() {
 
 export function Home() {
     const contactRef = React.useRef<HTMLDivElement>(null)
-    const spacer = <div className='pt-64' />
+    const paddingTop = `calc(64px + 192px * var(--content-size-norm)`
+    const spacer = <div style={{paddingTop}} />
     return (
         <div
             className='relative'
