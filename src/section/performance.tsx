@@ -182,10 +182,10 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
     const refLayer4 = React.useRef<HTMLDivElement>(null)
 
     React.useEffect(() => {
-        const animations2: ((t: number, s: number) => void)[] = []
+        const animations: ((t: number, s: number) => void)[] = []
 
-        function animate2(target: Element, end: {x: number; y: number; scale: number; iconOpacity?: number}) {
-            animations2.push((_, t) => {
+        function animate(target: Element, end: {x: number; y: number; scale: number; iconOpacity?: number}) {
+            animations.push((_, t) => {
                 const start = {
                     x: Number(target.dataset.x),
                     y: Number(target.dataset.y),
@@ -197,28 +197,22 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
                 target.style.transform = `translate(${x}px, ${y}px) scale(${scale})`
                 if (end.iconOpacity != 0) {
                     const iconOpacity = t * end.iconOpacity
-                    target.style.setProperty('--icon-opacity', iconOpacity)
+                    if (iconOpacity != target.iconOpacity) {
+                        target.iconOpacity = iconOpacity
+                        target.style.setProperty('--icon-opacity', iconOpacity)
+                    }
                 }
             })
         }
-
-        const opts = {
-            duration: DURATION,
-            repeat: 1,
-            repeatType: 'reverse',
-            type: 'tween',
-            ease: 'backInOut',
-            repeatDelay: REPEAT_DELAY,
-        } as const
 
         const layer4 = refLayer4.current
         if (refLayer1.current != null && refLayer2.current != null && refLayer3.current != null && layer4 != null) {
             const target = layer4.children[0]
             const count = layer4.children.length
-            animate2(target, {iconOpacity: 1, x: 238, y: 0, scale: 150})
+            animate(target, {iconOpacity: 1, x: 238, y: 0, scale: 150})
             const child = target.children[0]
             if (child instanceof HTMLElement) {
-                animations2.push(t => {
+                animations.push(t => {
                     const rotation = (2 * Math.PI * t) / (1000 * 15)
                     child.style.transform = `rotate(${-rotation}rad)`
                 })
@@ -230,8 +224,8 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
                 const y = Math.sin(angle) * 300
                 const t4_t = layer4.children[1]
                 const t4_b = layer4.children[count - 1]
-                animate2(t4_t, {x, y, scale: 20})
-                animate2(t4_b, {x, y: -y, scale: 20})
+                animate(t4_t, {x, y, scale: 20})
+                animate(t4_b, {x, y: -y, scale: 20})
             }
 
             {
@@ -241,8 +235,8 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
                     const t3_t = refLayer3.current.children[0]
                     const t3_b = refLayer3.current.children[count - 1]
 
-                    animate2(t3_t, {x, y, scale: 20})
-                    animate2(t3_b, {x, y: -y, scale: 20})
+                    animate(t3_t, {x, y, scale: 20})
+                    animate(t3_b, {x, y: -y, scale: 20})
                 }
 
                 {
@@ -250,8 +244,8 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
                     const y = 88
                     const t3_tt = refLayer3.current.children[1]
                     const t3_bb = refLayer3.current.children[count - 2]
-                    animate2(t3_tt, {x, y, scale: 14})
-                    animate2(t3_bb, {x, y: -y, scale: 14})
+                    animate(t3_tt, {x, y, scale: 14})
+                    animate(t3_bb, {x, y: -y, scale: 14})
                 }
             }
 
@@ -259,11 +253,11 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
                 const t2_c = refLayer2.current.children[0]
                 const t2_t = refLayer2.current.children[1]
                 const t2_b = refLayer2.current.children[count - 1]
-                animate2(t2_c, {x: 146, y: 0, scale: 14})
+                animate(t2_c, {x: 146, y: 0, scale: 14})
                 const x = 190
                 const y = 76
-                animate2(t2_t, {x, y, scale: 14})
-                animate2(t2_b, {x, y: -y, scale: 14})
+                animate(t2_t, {x, y, scale: 14})
+                animate(t2_b, {x, y: -y, scale: 14})
             }
 
             {
@@ -271,15 +265,15 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
                 const t1_b = refLayer1.current.children[count - 1]
                 const x = 152
                 const y = 34
-                animate2(t1_t, {x, y, scale: 14})
-                animate2(t1_b, {x, y: -y, scale: 14})
+                animate(t1_t, {x, y, scale: 14})
+                animate(t1_b, {x, y: -y, scale: 14})
             }
         }
 
         let rafId: number | null = null
 
         function onFrame(t: number) {
-            for (const animation of animations2) {
+            for (const animation of animations) {
                 const showDuration = 1000
                 const holdTime = 1000
                 const hideDuration = 1000
@@ -292,7 +286,10 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
                 const layer4 = refLayer4.current
                 const target = layer4.children[0]
                 if (target instanceof HTMLElement) {
-                    target.style.setProperty('--icon-index', iconIndex.toString())
+                    if (target.iconIndex != iconIndex) {
+                        target.iconIndex = iconIndex
+                        target.style.setProperty('--icon-index', iconIndex.toString())
+                    }
                 }
 
                 const tCycle = (t - delay) % cycle
