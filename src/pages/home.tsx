@@ -25,7 +25,7 @@ function Header() {
         }
     }, [])
 
-    const fontSizeMin = '28px'
+    const fontSizeMin = '34px'
     const fontSizeMax = '60px'
     const fontSizeDiff = `(${fontSizeMax} - ${fontSizeMin})`
     const fontSize = `calc(${fontSizeMin} + ${fontSizeDiff} * var(--content-size-norm)`
@@ -96,7 +96,7 @@ function Header() {
 
 export function Home() {
     const contactRef = React.useRef<HTMLDivElement>(null)
-    const paddingTop = `calc(64px + 192px * var(--content-size-norm)`
+    const paddingTop = `calc(256px + 0px * var(--content-size-norm)`
     const spacer = <div style={{paddingTop}} />
     return (
         <div
