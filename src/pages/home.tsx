@@ -59,7 +59,7 @@ function Header() {
 
     return (
         <div
-            className='_top-panel relative w-screen h-screen'
+            className='_top-panel relative w-screen h-dvh'
             style={{
                 width: 'calc(max(var(--global-min-width), 100vw))',
             }}
@@ -103,13 +103,6 @@ export function Home() {
         >
             <Header />
             <div>
-                <CtaButton.Component
-                    onMouseDown={() => {
-                        if (contactRef.current) {
-                            contactRef.current.scrollIntoView({behavior: 'smooth'})
-                        }
-                    }}
-                />
                 {spacer}
                 <PerformanceSection />
                 {spacer}
@@ -117,7 +110,13 @@ export function Home() {
                 {spacer}
                 <RecentBlogPosts.Component />
                 {spacer}
-
+                <CtaButton.Component
+                    onMouseDown={() => {
+                        if (contactRef.current) {
+                            contactRef.current.scrollIntoView({behavior: 'smooth'})
+                        }
+                    }}
+                />
                 <Contact.Component ref={contactRef} />
                 <Footer.Component />
             </div>
