@@ -69,7 +69,7 @@ export function Component(props: Props) {
                 offset += (time - startTime) * SPEED
                 const limit = width / 2
                 if (limit > 0 && offset > limit) {
-                    offset -= limit + GAP
+                    offset -= limit
                 }
                 row.style.transform = `translateX(${-offset}px)`
             }

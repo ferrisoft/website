@@ -33,7 +33,7 @@ function Header() {
     const background = (
         <>
             <div
-                className='absolute inset-0'
+                className='absolute top-0 left-0 w-full h-screen'
                 ref={bgRef}
                 data-us-project-src='gradient_config.json'
             />
@@ -59,7 +59,7 @@ function Header() {
 
     return (
         <div
-            className='_top-panel relative w-screen h-screen'
+            className='_top-panel relative w-screen h-dvh'
             style={{
                 width: 'calc(max(var(--global-min-width), 100vw))',
             }}
