@@ -161,9 +161,6 @@ function circle(props: CircleProps) {
     )
 }
 
-const DURATION = 1
-const REPEAT_DELAY = 1
-
 export function elasticEasing(x: number, w: number): number {
     // Clamp input for safety
     const t = Math.min(1, Math.max(0, x))
@@ -184,19 +181,29 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
     React.useEffect(() => {
         const animations: ((t: number, s: number) => void)[] = []
 
-        function animate(target: Element, end: {x: number; y: number; scale: number; iconOpacity?: number}) {
+        function animate(target: Element, end: {x?: number; y?: number; scale?: number; iconOpacity?: number}) {
+            if (!(target instanceof HTMLElement)) {
+                console.warn('Attaching animation to non html-element.')
+                return
+            }
             animations.push((_, t) => {
                 const start = {
                     x: Number(target.dataset.x),
                     y: Number(target.dataset.y),
                     scale: Number(target.dataset.scale),
                 }
-                const x = (1 - t) * start.x + t * end.x
-                const y = (1 - t) * start.y + t * end.y
-                const scale = (1 - t) * start.scale + t * end.scale
+                const end2 = {
+                    x: end.x ?? start.x,
+                    y: end.y ?? start.y,
+                    scale: end.scale ?? start.scale,
+                    iconOpacity: end.iconOpacity,
+                }
+                const x = (1 - t) * start.x + t * end2.x
+                const y = (1 - t) * start.y + t * end2.y
+                const scale = (1 - t) * start.scale + t * end2.scale
                 target.style.transform = `translate(${x}px, ${y}px) scale(${scale})`
-                if (end.iconOpacity != 0) {
-                    const iconOpacity = t * end.iconOpacity
+                if (end2.iconOpacity != null) {
+                    const iconOpacity = t * end2.iconOpacity
                     if (iconOpacity != target.iconOpacity) {
                         target.iconOpacity = iconOpacity
                         target.style.setProperty('--icon-opacity', iconOpacity)
@@ -209,7 +216,7 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
         if (refLayer1.current != null && refLayer2.current != null && refLayer3.current != null && layer4 != null) {
             const target = layer4.children[0]
             const count = layer4.children.length
-            animate(target, {iconOpacity: 1, x: 238, y: 0, scale: 150})
+            animate(target, {iconOpacity: 1, scale: 150})
             const child = target.children[0]
             if (child instanceof HTMLElement) {
                 animations.push(t => {
