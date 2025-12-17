@@ -96,7 +96,7 @@ function Header() {
 
 export function Home() {
     const contactRef = React.useRef<HTMLDivElement>(null)
-    const paddingTop = `calc(256px + 0px * var(--content-size-norm)`
+    const paddingTop = `calc(128px + 128px * var(--content-size-norm)`
     const spacer = <div style={{paddingTop}} />
     return (
         <div

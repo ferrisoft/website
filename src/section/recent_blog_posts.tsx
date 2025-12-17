@@ -75,12 +75,12 @@ export function Component() {
                     href={post.href}
                     className='relative group'
                 >
-                    <div className='absolute -inset-4 rounded-3xl transition-all duration-500 group-hover:shadow-xl' />
+                    <div className='absolute -inset-3.5 rounded-3xl transition-all duration-500 group-hover:shadow-xl bg-black/3 md:bg-black/0' />
                     <article
                         key={ix}
                         className='h-full flex flex-col items-start justify-between'
                     >
-                        <div className='relative w-full'>
+                        <div className='relative w-full flex items-center justify-center'>
                             <img
                                 alt=''
                                 src={post.imageUrl}

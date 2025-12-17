@@ -502,7 +502,7 @@ export function PerformanceSection() {
             features={features}
             header={
                 <div>
-                    <div className='w-full flex justify-center overflow-hidden'>
+                    <div className='w-full flex justify-center overflow-hidden pb-12'>
                         <HighPerfViz
                             style={{
                                 transform: 'scale(calc(max(1, 600px/max(100vw, var(--global-min-width)))))',
@@ -551,7 +551,7 @@ export function FeaturesTemplate(props: {
     return (
         <div>
             {props.header}
-            <Layout.Section className='pt-12'>
+            <Layout.Section>
                 <div className='w-full flex flex-col md:items-center md:text-center md:mx-auto'>
                     <h1> {props.title} </h1>
                     <h3> {props.subtitle} </h3>
@@ -610,8 +610,8 @@ export function ReliableSoftwareSection() {
             subtitle={<>Robust architecture, safe deployments and peace of mind in production.</>}
             features={features2}
             header={
-                <div className='w-full relative flex justify-center overflow-hidden'>
-                    <div className='scale-75 translate-y-12 xs:scale-100 xs:translate-0 flex justify-center'>
+                <div className='w-full relative flex justify-center overflow-hidden -mt-16 xs:mt-0 pb-12'>
+                    <div className='scale-85 translate-y-6 xs:scale-100 xs:translate-0 flex justify-center'>
                         <CircleAnimation />
                     </div>
                 </div>
