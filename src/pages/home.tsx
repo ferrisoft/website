@@ -103,13 +103,6 @@ export function Home() {
         >
             <Header />
             <div>
-                {spacer}
-                <PerformanceSection />
-                {spacer}
-                <ReliableSoftwareSection />
-                {spacer}
-                <RecentBlogPosts.Component />
-                {spacer}
                 <CtaButton.Component
                     onMouseDown={() => {
                         if (contactRef.current) {
@@ -117,6 +110,14 @@ export function Home() {
                         }
                     }}
                 />
+                {spacer}
+                <PerformanceSection />
+                {spacer}
+                <ReliableSoftwareSection />
+                {spacer}
+                <RecentBlogPosts.Component />
+                {spacer}
+
                 <Contact.Component ref={contactRef} />
                 <Footer.Component />
             </div>
