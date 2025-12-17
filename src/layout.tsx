@@ -48,7 +48,7 @@ export function ContentPaddingX(props: DivProps) {
     return (
         <div
             {...props}
-            className={Class.names(props.className, '_content_padding_x relative w-full h-full px-4 xs:px-8 md:px-16')}
+            className={Class.names(props.className, '_content_padding_x relative w-full h-full px-8 xs:px-8 md:px-16')}
         >
             {props.children}
         </div>
@@ -59,7 +59,7 @@ export function ContentPaddingY(props: DivProps) {
     return (
         <div
             {...props}
-            className={Class.names(props.className, '_content_padding_y relative w-full h-full py-4 xs:py-8 md:py-16')}
+            className={Class.names(props.className, '_content_padding_y relative w-full h-full py-8 xs:py-8 md:py-16')}
         >
             {props.children}
         </div>

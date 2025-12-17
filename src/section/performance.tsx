@@ -1,5 +1,5 @@
 import * as Icons from '@heroicons/react/24/solid'
-import * as Layout from '../layout'
+import * as Layout from '@/layout'
 import * as React from 'react'
 
 import HighPerfViz from '@/assets/high_perf_viz.svg?react'
@@ -54,11 +54,7 @@ interface Feature {
 
 const features: Feature[] = [
     {
-        name: (
-            <>
-                100× faster backend <br className='xs:hidden lg:block xl:hidden' /> with Rust and Node.js.
-            </>
-        ),
+        name: <>100× faster backend with Rust and Node.js.</>,
         description: (
             <>
                 You get fast, scalable systems built for real-world load. For over two decades we’ve built and optimized
@@ -70,11 +66,7 @@ const features: Feature[] = [
     },
 
     {
-        name: (
-            <>
-                Smooth interface <br className='xs:hidden lg:block xl:hidden' /> with Rust and TypeScript.
-            </>
-        ),
+        name: <>Smooth interface with Rust and TypeScript.</>,
         description: (
             <>
                 Your users get interfaces that feel instant and intuitive. We build interfaces that stay fast under
@@ -86,11 +78,7 @@ const features: Feature[] = [
     },
 
     {
-        name: (
-            <>
-                Profiling and optimizing <br className='xs:hidden lg:block xl:hidden' /> existing projects.
-            </>
-        ),
+        name: <>Profiling and optimizing existing projects.</>,
         description: (
             <>
                 You get measurable improvements without the cost of a rewrite. We profile your system to uncover slow
