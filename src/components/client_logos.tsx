@@ -21,7 +21,6 @@ import VeetLogo from '@/assets/logo/client/veet.svg?react'
 // ==============
 
 const GAP = 16
-const SPEED = 0.1
 const HEIGHT = 24
 
 // ====================
@@ -48,42 +47,6 @@ const clientLogos = [
 export type Props = React.ComponentPropsWithoutRef<'div'>
 
 export function Component(props: Props) {
-    const rowRef = React.useRef<HTMLDivElement>(null)
-
-    React.useEffect(() => {
-        const row = rowRef.current
-        if (!row) return
-
-        const resizeObserver = new ResizeObserver(() => (width = row.getBoundingClientRect().width))
-        resizeObserver.observe(row)
-
-        let width = 0
-        let offset = 0
-        let rafId: number | null = null
-        let startTime: number | null = null
-
-        const onFrame = (time: number) => {
-            const row = rowRef.current
-            if (!row) return
-            if (startTime != null) {
-                offset += (time - startTime) * SPEED
-                const limit = width / 2
-                if (limit > 0 && offset > limit) {
-                    offset -= limit
-                }
-                row.style.transform = `translateX(${-offset}px)`
-            }
-            startTime = time
-            rafId = window.requestAnimationFrame(onFrame)
-        }
-        rafId = window.requestAnimationFrame(onFrame)
-
-        return () => {
-            if (rafId !== null) window.cancelAnimationFrame(rafId)
-            resizeObserver.disconnect()
-        }
-    }, [])
-
     const logos = clientLogos.map((logo, ix) => (
         <logo.component
             key={ix}
@@ -104,10 +67,7 @@ export function Component(props: Props) {
             className={props.className}
             style={props.style}
         >
-            <div
-                ref={rowRef}
-                className={`flex gap-${GAP} px-${GAP / 2} items-center`}
-            >
+            <div className={`carousel flex gap-${GAP} px-${GAP / 2} items-center`}>
                 {logos}
                 {logos}
             </div>

@@ -1,6 +1,7 @@
 import * as Icons from '@heroicons/react/24/solid'
 import * as Layout from '@/layout'
 import * as React from 'react'
+import * as Dom from '@/dom'
 
 import HighPerfViz from '@/assets/high_perf_viz.svg?react'
 import HeartBeatIcon from '@/assets/icon/heart_beat.svg?react'
@@ -101,7 +102,6 @@ type CircleProps = {
 
 function circle(props: CircleProps) {
     const scale = 0.6
-    const radius2 = props.radius * 2
     return (
         <div
             key={props.key}
@@ -149,7 +149,7 @@ function circle(props: CircleProps) {
     )
 }
 
-export function elasticEasing(x: number, w: number): number {
+function elasticEasing(x: number, w: number): number {
     // Clamp input for safety
     const t = Math.min(1, Math.max(0, x))
 
@@ -167,14 +167,15 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
     const refLayer4 = React.useRef<HTMLDivElement>(null)
 
     React.useEffect(() => {
-        const animations: ((t: number, s: number) => void)[] = []
+        const animations: ((s: number) => void)[] = []
+        const animationsOnFrame: ((t: number) => void)[] = []
 
         function animate(target: Element, end: {x?: number; y?: number; scale?: number; iconOpacity?: number}) {
             if (!(target instanceof HTMLElement)) {
                 console.warn('Attaching animation to non html-element.')
                 return
             }
-            animations.push((_, t) => {
+            animations.push(t => {
                 const start = {
                     x: Number(target.dataset.x),
                     y: Number(target.dataset.y),
@@ -192,10 +193,7 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
                 target.style.transform = `translate(${x}px, ${y}px) scale(${scale})`
                 if (end2.iconOpacity != null) {
                     const iconOpacity = t * end2.iconOpacity
-                    if (iconOpacity != target.iconOpacity) {
-                        target.iconOpacity = iconOpacity
-                        target.style.setProperty('--icon-opacity', iconOpacity)
-                    }
+                    target.style.setProperty('--icon-opacity', `${iconOpacity}`)
                 }
             })
         }
@@ -207,7 +205,7 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
             animate(target, {iconOpacity: 1, scale: 150 / 2})
             const child = target.children[0]
             if (child instanceof HTMLElement) {
-                animations.push(t => {
+                animationsOnFrame.push(t => {
                     const rotation = (2 * Math.PI * t) / (1000 * 15)
                     child.style.transform = `rotate(${-rotation}rad)`
                 })
@@ -266,37 +264,46 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
         }
 
         let rafId: number | null = null
+        let lastS = -1
 
         function onFrame(t: number) {
-            for (const animation of animations) {
-                const showDuration = 1000
-                const holdTime = 1000
-                const hideDuration = 1000
-                const activeTime = showDuration + holdTime + hideDuration - 1000
-                const cycle = 6 * activeTime
-                const delay = ix * activeTime
+            const showDuration = 1000
+            const holdTime = 1000
+            const hideDuration = 1000
+            const activeTime = showDuration + holdTime + hideDuration - 1000
+            const cycle = 6 * activeTime
+            const delay = ix * activeTime
 
-                const tNotChangeVisibleIcons = t - ix * hideDuration
-                const iconIndex = (ix + 6 * Math.floor(tNotChangeVisibleIcons / cycle)) % icons.length
-                const layer4 = refLayer4.current
+            const tNotChangeVisibleIcons = t - ix * hideDuration
+            const iconIndex = (ix + 6 * Math.floor(tNotChangeVisibleIcons / cycle)) % icons.length
+            const layer4 = refLayer4.current
+            if (layer4) {
                 const target = layer4.children[0]
                 if (target instanceof HTMLElement) {
-                    if (target.iconIndex != iconIndex) {
-                        target.iconIndex = iconIndex
+                    if (Dom.elementCache(target, {iconIndex})) {
                         target.style.setProperty('--icon-index', iconIndex.toString())
                     }
                 }
+            }
 
-                const tCycle = (t - delay) % cycle
-                let s = 0
-                if (tCycle < showDuration) {
-                    s = elasticEasing(tCycle / showDuration, 7)
-                } else if (tCycle < showDuration + holdTime) {
-                    s = 1
-                } else if (tCycle < showDuration + holdTime + hideDuration) {
-                    s = 1 - elasticEasing((tCycle - showDuration - holdTime) / hideDuration, 5)
+            const tCycle = (t - delay) % cycle
+            let s = 0
+            if (tCycle < showDuration) {
+                s = elasticEasing(tCycle / showDuration, 7)
+            } else if (tCycle < showDuration + holdTime) {
+                s = 1
+            } else if (tCycle < showDuration + holdTime + hideDuration) {
+                s = 1 - elasticEasing((tCycle - showDuration - holdTime) / hideDuration, 5)
+            }
+
+            if (lastS != s) {
+                lastS = s
+                for (const animation of animations) {
+                    animation(s)
                 }
-                animation(t, s)
+            }
+            for (const animation of animationsOnFrame) {
+                animation(t)
             }
 
             if (
@@ -381,7 +388,7 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
 }
 
 function CircleAnimation() {
-    const ref = React.useRef(null)
+    const ref = React.useRef<HTMLDivElement>(null)
 
     React.useEffect(() => {
         let rafId: number | null = null
