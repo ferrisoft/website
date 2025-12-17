@@ -33,6 +33,8 @@ function Header() {
     const background = (
         <>
             <div
+                // We set height to screen here as its parent uses h-dvh to show the required part and we don't want
+                // to rescale the WebGL component.
                 className='absolute top-0 left-0 w-full h-screen'
                 ref={bgRef}
                 data-us-project-src='gradient_config.json'
