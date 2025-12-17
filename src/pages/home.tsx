@@ -59,7 +59,7 @@ function Header() {
 
     return (
         <div
-            className='_top-panel relative w-screen h-dvh'
+            className='_top-panel relative w-screen h-screen'
             style={{
                 width: 'calc(max(var(--global-min-width), 100vw))',
             }}
