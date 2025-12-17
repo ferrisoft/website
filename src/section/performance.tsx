@@ -120,17 +120,17 @@ function circle(props: CircleProps) {
             data-angle={props.angle}
             data-x={props.x}
             data-y={props.y}
-            data-scale={radius2}
+            data-scale={props.radius}
             style={
                 {
                     'position': 'absolute',
-                    'top': `-0.5px`,
-                    'left': `-0.5px`,
-                    'width': `1px`,
-                    'height': `1px`,
+                    'top': `-1px`,
+                    'left': `-1px`,
+                    'width': `2px`,
+                    'height': `2px`,
                     'borderRadius': '100%',
                     'backgroundColor': 'red',
-                    'transform': `translate(${props.x}px, ${props.y}px) scale(${radius2})`,
+                    'transform': `translate(${props.x}px, ${props.y}px) scale(${props.radius})`,
                     '--icon-opacity': 0,
                     '--icon-index': 0,
                 } as Record<string, unknown>
@@ -216,7 +216,7 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
         if (refLayer1.current != null && refLayer2.current != null && refLayer3.current != null && layer4 != null) {
             const target = layer4.children[0]
             const count = layer4.children.length
-            animate(target, {iconOpacity: 1, scale: 150})
+            animate(target, {iconOpacity: 1, scale: 150 / 2})
             const child = target.children[0]
             if (child instanceof HTMLElement) {
                 animations.push(t => {
@@ -231,8 +231,8 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
                 const y = Math.sin(angle) * 300
                 const t4_t = layer4.children[1]
                 const t4_b = layer4.children[count - 1]
-                animate(t4_t, {x, y, scale: 20})
-                animate(t4_b, {x, y: -y, scale: 20})
+                animate(t4_t, {x, y, scale: 20 / 2})
+                animate(t4_b, {x, y: -y, scale: 20 / 2})
             }
 
             {
@@ -242,8 +242,8 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
                     const t3_t = refLayer3.current.children[0]
                     const t3_b = refLayer3.current.children[count - 1]
 
-                    animate(t3_t, {x, y, scale: 20})
-                    animate(t3_b, {x, y: -y, scale: 20})
+                    animate(t3_t, {x, y, scale: 20 / 2})
+                    animate(t3_b, {x, y: -y, scale: 20 / 2})
                 }
 
                 {
@@ -251,8 +251,8 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
                     const y = 88
                     const t3_tt = refLayer3.current.children[1]
                     const t3_bb = refLayer3.current.children[count - 2]
-                    animate(t3_tt, {x, y, scale: 14})
-                    animate(t3_bb, {x, y: -y, scale: 14})
+                    animate(t3_tt, {x, y, scale: 14 / 2})
+                    animate(t3_bb, {x, y: -y, scale: 14 / 2})
                 }
             }
 
@@ -260,11 +260,11 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
                 const t2_c = refLayer2.current.children[0]
                 const t2_t = refLayer2.current.children[1]
                 const t2_b = refLayer2.current.children[count - 1]
-                animate(t2_c, {x: 146, y: 0, scale: 14})
+                animate(t2_c, {x: 146, y: 0, scale: 14 / 2})
                 const x = 190
                 const y = 76
-                animate(t2_t, {x, y, scale: 14})
-                animate(t2_b, {x, y: -y, scale: 14})
+                animate(t2_t, {x, y, scale: 14 / 2})
+                animate(t2_b, {x, y: -y, scale: 14 / 2})
             }
 
             {
@@ -272,8 +272,8 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
                 const t1_b = refLayer1.current.children[count - 1]
                 const x = 152
                 const y = 34
-                animate(t1_t, {x, y, scale: 14})
-                animate(t1_b, {x, y: -y, scale: 14})
+                animate(t1_t, {x, y, scale: 14 / 2})
+                animate(t1_b, {x, y: -y, scale: 14 / 2})
             }
         }
 
