@@ -3,47 +3,85 @@ import * as Layout from '../layout.tsx'
 import FerrisoftLogo from '../assets/logo/ferrisoft.svg?react'
 import {TeamMemberBadge} from '../components/team_member_badge'
 import * as Html from '@/html'
+import * as React from 'react'
+import * as ClientsLogos from '@/components/client_logos.tsx'
+import * as CompanyLogo from '@/components/company_logo.tsx'
+import * as CtaButton from '@/components/cta_button.tsx'
+import * as Contact from '@/section/contact.tsx'
+import * as Footer from '@/section/footer.tsx'
 
-export function Blog() {
+export function Header() {
+    const bgRef = React.useRef<HTMLDivElement>(null)
+
+    React.useEffect(() => {
+        if (bgRef.current != null) {
+            // @ts-expect-error -- provided by unicornstudio.umd.js
+            UnicornStudio.init()
+        }
+    }, [])
+
+    const fontSizeMin = '34px'
+    const fontSizeMax = '60px'
+    const fontSizeDiff = `(${fontSizeMax} - ${fontSizeMin})`
+    const fontSize = `calc(${fontSizeMin} + ${fontSizeDiff} * var(--content-size-norm)`
+
+    const background = (
+        <>
+            <div
+                // We set height to screen here as its parent uses h-dvh to show the required part and we don't want
+                // to rescale the WebGL component.
+                className='absolute top-0 left-0 w-full h-screen'
+                ref={bgRef}
+                data-us-project-src='../gradient_config.json'
+            />
+        </>
+    )
+
     return (
-        <div className='relative'>
-            {/*<ContactUsButton />*/}
-            <div className='absolute w-full'>
+        <div
+            className='_top-panel relative w-screen'
+            style={{
+                width: 'calc(max(var(--global-min-width), 100vw))',
+            }}
+        >
+            <Layout.RootPaddingY>
                 <Layout.SectionCard
                     className='w-full !max-w-screen-3xl'
-                    background={
-                        <>
-                            <div className='absolute top-0 left-0 w-full h-full flex'>
-                                {/*<SectionBoxOld>*/}
-                                <FerrisoftLogo
-                                    className='h-10 w-auto'
-                                    style={
-                                        {
-                                            '--badge-background': 'rgba(0, 0, 0, 0.8)',
-                                            '--badge-letter': 'white',
-                                            '--name-letter': 'rgba(0, 0, 0, 0.8)',
-                                        } as Html.CSSProperties
-                                    }
-                                />
-                                {/*</SectionBoxOld>*/}
-                            </div>
-                        </>
-                    }
-                ></Layout.SectionCard>
-            </div>
+                    background={background}
+                >
+                    <CompanyLogo.Component
+                        className='h-10 w-auto'
+                        style={{
+                            '--badge-background': 'rgba(0, 0, 0, 0.8)',
+                            '--badge-letter': 'white',
+                            '--name-letter': 'white',
+                        }}
+                    />
+                </Layout.SectionCard>
+            </Layout.RootPaddingY>
+        </div>
+    )
+}
+
+export function Blog() {
+    const contactRef = React.useRef<HTMLDivElement>(null)
+
+    return (
+        <div className='relative'>
+            <Header />
 
             <div className='px-6 lg:px-8 py-20'>
-                <div className='mx-auto max-w-2xl flex flex-col'>
+                <div className='mx-auto max-w-3xl flex flex-col'>
                     <TeamMemberBadge name='Wojciech Danilo' />
                     <div className='text-base/7 mt-16'>
-                        <h1>
-                            Introducing <code>borrow</code>, zero-cost partial borrows for Rust.
+                        <h1 className='text-wrap'>
+                            Introducing <code>fixed_num</code>, financial focused decimal for Rust.
                         </h1>
-                        <p className='mt-6 text-xl/8'>
+                        <h3 className='mt-6 text-xl/8'>
                             Aliquet nec orci mattis amet quisque ullamcorper neque, nibh sem. At arcu, sit dui mi, nibh
                             dui, diam eget aliquam. Quisque id at vitae feugiat egestas ac. Diam nulla orci at in
                             viverra scelerisque eget. Eleifend egestas fringilla sapien.
-                        </p>
+                        </h3>
                         <div className='mt-10 max-w-2xl'>
                             <p>
                                 Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris
@@ -157,6 +195,16 @@ export function Blog() {
                     </div>
                 </div>
             </div>
+
+            <CtaButton.Component
+                onMouseDown={() => {
+                    if (contactRef.current) {
+                        contactRef.current.scrollIntoView({behavior: 'smooth'})
+                    }
+                }}
+            />
+            <Contact.Component ref={contactRef} />
+            <Footer.Component />
         </div>
     )
 }

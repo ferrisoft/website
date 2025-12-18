@@ -21,8 +21,8 @@ const events = [
             </>
         ),
         icon: Icon.HomeIcon,
-        iconClass: 'text-zinc-200',
-        iconBackgroundClass: 'bg-zinc-800',
+        iconClass: 'text-white',
+        iconBackgroundClass: 'bg-accent',
     },
     {
         title: <>From idea to a solid plan.</>,
@@ -33,8 +33,8 @@ const events = [
             </>
         ),
         icon: Icon.MapIcon,
-        iconClass: 'text-zinc-200',
-        iconBackgroundClass: 'bg-zinc-800',
+        iconClass: 'text-white',
+        iconBackgroundClass: 'bg-accent',
     },
     {
         title: <>Transparent work and daily communication.</>,
@@ -45,8 +45,8 @@ const events = [
             </>
         ),
         icon: Icon.ChatBubbleOvalLeftEllipsisIcon,
-        iconClass: 'text-zinc-200',
-        iconBackgroundClass: 'bg-zinc-800',
+        iconClass: 'text-white',
+        iconBackgroundClass: 'bg-accent',
     },
     {
         title: <>Fast iteration on a handcrafted core</>,
@@ -57,8 +57,8 @@ const events = [
             </>
         ),
         icon: Icon.WrenchScrewdriverIcon,
-        iconClass: 'text-zinc-200',
-        iconBackgroundClass: 'bg-zinc-800',
+        iconClass: 'text-white',
+        iconBackgroundClass: 'bg-accent',
     },
     {
         title: <>Focus on real user value.</>,
@@ -69,8 +69,8 @@ const events = [
             </>
         ),
         icon: Icon.UserGroupIcon,
-        iconClass: 'text-zinc-200',
-        iconBackgroundClass: 'bg-zinc-800',
+        iconClass: 'text-white',
+        iconBackgroundClass: 'bg-accent',
     },
     {
         title: <>Long-term support and evolution.</>,
@@ -81,8 +81,8 @@ const events = [
             </>
         ),
         icon: Icon.HeartIcon,
-        iconClass: 'text-accent',
-        iconBackgroundClass: 'bg-zinc-800',
+        iconClass: 'text-white',
+        iconBackgroundClass: 'bg-accent',
     },
 ]
 
@@ -103,7 +103,7 @@ function Timeline(props: {formSubmitted: boolean}) {
                             {ix !== events.length - 1 ? (
                                 <div
                                     aria-hidden='true'
-                                    className='absolute top-4 left-4 -ml-px h-full w-0.5 bg-zinc-800'
+                                    className='absolute top-4 left-4 -ml-px h-full w-0.5 bg-accent'
                                 />
                             ) : null}
                             <div className='relative flex space-x-3'>
@@ -120,7 +120,7 @@ function Timeline(props: {formSubmitted: boolean}) {
                                         />
                                     </span>
                                 </div>
-                                <div className='flex min-w-0 flex-1 justify-between space-x-4 pt-1'>
+                                <div className='flex min-w-0 flex-1 justify-between space-x-4 pt-0.5'>
                                     <div>
                                         <h4> {event.title} </h4>
                                         <span className='text-sm'> {event.description} </span>
@@ -254,7 +254,7 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
     }, [onSubmit])
 
     const inputClassName =
-        'block w-full rounded-md px-3.5 py-3 outline-1 -outline-offset-1 outline-zinc-700 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-zinc-300'
+        'block w-full rounded-md px-3.5 py-3 outline-1 -outline-offset-1 outline-zinc-300 placeholder:text-gray-400 focus:outline-zinc-800'
     return (
         <form
             ref={formRef}
@@ -267,7 +267,7 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
                     <div className='grow'>
                         <label
                             htmlFor='firstName'
-                            className='block font-semibold text-zinc-200'
+                            className='block font-semibold'
                         >
                             First name
                         </label>
@@ -285,7 +285,7 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
                     <div className='grow'>
                         <label
                             htmlFor='lastName'
-                            className='block font-semibold text-zinc-200'
+                            className='block font-semibold'
                         >
                             Last name
                         </label>
@@ -303,7 +303,7 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
                 <div>
                     <label
                         htmlFor='email'
-                        className='block font-semibold text-zinc-200'
+                        className='block font-semibold'
                     >
                         Email address
                     </label>
@@ -322,7 +322,7 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
                 <div>
                     <label
                         htmlFor='phoneNumber'
-                        className='block font-semibold text-zinc-200'
+                        className='block font-semibold'
                     >
                         Phone number
                     </label>
@@ -340,7 +340,7 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
                         onChange={e => setRegionName(e.target.value)}
                         name='country'
                         required
-                        className='mt-2.5 w-full rounded-md outline outline-1 outline-zinc-700 focus:outline-2 focus:outline-zinc-300'
+                        className='mt-2.5 w-full rounded-md outline-1 outline-zinc-300 focus:outline-zinc-800'
                         style={{
                             // Padding does not work in Safari
                             height: '44px',
@@ -380,11 +380,11 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
                     Let’s talk
                 </button>
             </div>
-            <p className='mt-4 text-sm/6 text-gray-500'>
+            <p className='mt-4 text-sm/6 text-zinc-500'>
                 By submitting this form, I agree to the{' '}
                 <a
                     href='#'
-                    className='whitespace-nowrap text-zinc-200'
+                    className='whitespace-nowrap text-zinc-900'
                 >
                     privacy policy
                 </a>
@@ -405,15 +405,10 @@ export const Component = React.forwardRef<HTMLDivElement>((_, ref) => {
         <div ref={ref}>
             <div
                 ref={scrollRef}
-                className='dark-theme min-h-screen relative'
+                className='relative pt-4'
             >
                 <Layout.RootPaddingY>
-                    <Layout.SectionCard
-                        className='!absolute h-full !max-w-screen-3xl'
-                        background={<div className='w-full h-full bg-zinc-900' />}
-                    />
-
-                    <Layout.SectionCard>
+                    <Layout.Section>
                         <div className='w-full flex justify-center'>
                             <div className='max-w-md lg:max-w-none w-full'>
                                 <div className='lg:items-center lg:text-center lg:mx-auto'>
@@ -441,8 +436,8 @@ export const Component = React.forwardRef<HTMLDivElement>((_, ref) => {
                                     <div className='pt-16 flex justify-center flex-col lg:flex-row'>
                                         <div
                                             className={Class.names(
-                                                'transition-all duration-300 overflow-hidden',
-                                                formSubmitted ? 'h-0 lg:h-130 lg:w-0' : 'sm:w-112 h-150 sm:h-130',
+                                                'shrink-0 transition-all duration-300 overflow-hidden',
+                                                formSubmitted ? 'h-0 lg:h-130 lg:w-0' : 'sm:w-120 h-150 sm:h-130',
                                             )}
                                         >
                                             <div className='flex flex-col gap-16 sm:gap-y-20 lg:flex-row lg:pr-16 pl-1 pr-1'>
@@ -456,14 +451,12 @@ export const Component = React.forwardRef<HTMLDivElement>((_, ref) => {
                                                 />
                                             </div>
                                         </div>
-                                        <div className='max-w-xl'>
-                                            <Timeline formSubmitted={formSubmitted} />
-                                        </div>
+                                        <Timeline formSubmitted={formSubmitted} />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </Layout.SectionCard>
+                    </Layout.Section>
                 </Layout.RootPaddingY>
             </div>
         </div>

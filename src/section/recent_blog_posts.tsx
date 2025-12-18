@@ -8,7 +8,7 @@ const posts = [
                 Zero-cost partial borrows <br className='hidden md:block xl:hidden' /> for Rust.
             </>
         ),
-        href: '#',
+        href: 'blog/crate_fixed_num',
         description: (
             <>
                 The <code>borrow</code> crate lets you borrow only selected fields of a struct. It addresses a
@@ -19,7 +19,6 @@ const posts = [
         imageUrl: 'blog/borrow.png',
         author: {
             name: 'Wojciech Danilo',
-            href: '#',
         },
     },
     {
@@ -28,7 +27,7 @@ const posts = [
                 Financial-focused decimal <br className='hidden md:block xl:hidden' /> for Rust.
             </>
         ),
-        href: '#',
+        href: 'blog/crate_fixed_num',
         description: (
             <>
                 The <code>fixed_num</code> crate provides a high-precision, high-performance fixed-point decimal type,
@@ -38,7 +37,6 @@ const posts = [
         imageUrl: 'blog/fixed_num.png',
         author: {
             name: 'Wojciech Danilo',
-            href: '#',
         },
     },
     {
@@ -47,7 +45,7 @@ const posts = [
                 A novel way to write <br className='hidden md:block xl:hidden' /> Rust macros.{' '}
             </>
         ),
-        href: '#',
+        href: 'blog/crate_fixed_num',
         description: (
             <>
                 The <code>crabtime</code> crate introduces a new approach to writing Rust macros. It offers more
@@ -58,7 +56,6 @@ const posts = [
         imageUrl: 'blog/crabtime.png',
         author: {
             name: 'Greg Ociepka',
-            href: '#',
         },
     },
 ] as const
@@ -73,9 +70,10 @@ export function Component() {
             {posts.map((post, ix) => (
                 <a
                     href={post.href}
+                    target='_blank'
                     className='relative group mb-8 md:mb-0'
                 >
-                    <div className='absolute -inset-8 md:-inset-4 rounded-3xl transition-all duration-500 group-hover:shadow-xl bg-black/4 md:bg-black/0' />
+                    <div className='absolute -inset-8 md:-inset-6 rounded-3xl transition-all duration-500 group-hover:shadow-xl bg-black/4 md:bg-black/0' />
                     <article
                         key={ix}
                         className='h-full flex flex-col items-start justify-between'

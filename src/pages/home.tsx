@@ -15,7 +15,7 @@ import * as CtaButton from '@/components/cta_button'
 // === Header ===
 // ==============
 
-function Header() {
+export function Header() {
     const bgRef = React.useRef<HTMLDivElement>(null)
 
     React.useEffect(() => {

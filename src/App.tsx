@@ -10,8 +10,14 @@ import * as Pages from '@/pages'
 export function App() {
     return (
         <ReactRouter.Routes>
-            <ReactRouter.Route path="/" element={<Pages.Home/>} />
-            <ReactRouter.Route path="/blog/crate-borrow" element={<Pages.Blog/>} />
+            <ReactRouter.Route
+                path='/'
+                element={<Pages.Home />}
+            />
+            <ReactRouter.Route
+                path='/blog/crate_fixed_num'
+                element={<Pages.Blog />}
+            />
         </ReactRouter.Routes>
     )
 }
