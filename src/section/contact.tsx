@@ -93,7 +93,7 @@ function Timeline(props: {formSubmitted: boolean}) {
                 const active = props.formSubmitted && ix == 0
                 const inactive = props.formSubmitted && ix != 0
                 const iconClass = Class.names(event.iconClass, active ? 'animate-pulse' : '')
-                const liClassName = inactive ? 'opacity-20' : active ? 'animate-pulse' : ''
+                const liClassName = inactive ? 'opacity-50' : active ? 'animate-pulse' : ''
                 return (
                     <li
                         key={ix}
@@ -366,8 +366,7 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
 
                         {Object.values(Country.byName).map(country => (
                             <option value={country.name}>
-                                {country.name} (+
-                                {country.code})
+                                {country.name} (+{country.code})
                             </option>
                         ))}
                     </select>
@@ -401,46 +400,71 @@ export function ContactForm({onSubmit}: {onSubmit: () => void}) {
 
 export const Component = React.forwardRef<HTMLDivElement>((_, ref) => {
     const [formSubmitted, setFormSubmitted] = React.useState(false)
+    const scrollRef = React.useRef<HTMLDivElement>(null)
     return (
         <div ref={ref}>
-            <div className='dark-theme min-h-screen relative'>
-                <Layout.SectionCard
-                    className='!absolute h-full !max-w-screen-3xl'
-                    background={<div className='w-full h-full bg-zinc-900' />}
-                />
+            <div
+                ref={scrollRef}
+                className='dark-theme min-h-screen relative'
+            >
+                <Layout.RootPaddingY>
+                    <Layout.SectionCard
+                        className='!absolute h-full !max-w-screen-3xl'
+                        background={<div className='w-full h-full bg-zinc-900' />}
+                    />
 
-                <Layout.SectionCard>
-                    <div className='w-full flex justify-center'>
-                        <div className='max-w-md lg:max-w-none w-full'>
-                            <div className='lg:items-center lg:text-center lg:mx-auto'>
-                                <h1>
-                                    Let's work <br className='xs:hidden' /> together.
-                                </h1>
-                                <h3>
-                                    From first contact to final delivery, we build your product with clarity and care.
-                                </h3>
-                            </div>
-                            <div className='relative'>
-                                <div className='pt-16 flex justify-center flex-col lg:flex-row'>
-                                    <div className='lg:w-0 grow'>
-                                        <Timeline formSubmitted={formSubmitted} />
-                                    </div>
-
-                                    <div
-                                        className={Class.names(
-                                            'lg:w-0 pt-8 lg:pt-0 transition-all duration-300 overflow-hidden',
-                                            formSubmitted ? '' : 'grow',
+                    <Layout.SectionCard>
+                        <div className='w-full flex justify-center'>
+                            <div className='max-w-md lg:max-w-none w-full'>
+                                <div className='lg:items-center lg:text-center lg:mx-auto'>
+                                    <h1>
+                                        {formSubmitted ? (
+                                            <>Thank you.</>
+                                        ) : (
+                                            <>
+                                                Let's work <br className='xs:hidden' /> together.
+                                            </>
                                         )}
-                                    >
-                                        <div className='flex flex-col gap-16 sm:gap-y-20 lg:flex-row lg:pl-16 pl-1 pr-1'>
-                                            <ContactForm onSubmit={() => setFormSubmitted(true)} />
+                                    </h1>
+                                    <h3>
+                                        {formSubmitted ? (
+                                            <>We will contact you soon.</>
+                                        ) : (
+                                            <>
+                                                From first contact to final delivery, we build your product with clarity
+                                                and care.
+                                            </>
+                                        )}
+                                    </h3>
+                                </div>
+                                <div className='relative'>
+                                    <div className='pt-16 flex justify-center flex-col lg:flex-row'>
+                                        <div
+                                            className={Class.names(
+                                                'transition-all duration-300 overflow-hidden',
+                                                formSubmitted ? 'h-0 lg:h-130 lg:w-0' : 'sm:w-112 h-150 sm:h-130',
+                                            )}
+                                        >
+                                            <div className='flex flex-col gap-16 sm:gap-y-20 lg:flex-row lg:pr-16 pl-1 pr-1'>
+                                                <ContactForm
+                                                    onSubmit={() => {
+                                                        setFormSubmitted(true)
+                                                        if (scrollRef.current) {
+                                                            scrollRef.current.scrollIntoView({behavior: 'smooth'})
+                                                        }
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className='max-w-xl'>
+                                            <Timeline formSubmitted={formSubmitted} />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </Layout.SectionCard>
+                    </Layout.SectionCard>
+                </Layout.RootPaddingY>
             </div>
         </div>
     )

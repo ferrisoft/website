@@ -8,7 +8,7 @@ export type Props = {
 
 export function Component(props: Props) {
     return (
-        <div className='w-full flex justify-center sticky bottom-0 pb-4'>
+        <div className='w-full flex justify-center sticky bottom-4'>
             <div
                 className='
                     select-none cursor-pointer

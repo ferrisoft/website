@@ -73,9 +73,9 @@ export function Component() {
             {posts.map((post, ix) => (
                 <a
                     href={post.href}
-                    className='relative group'
+                    className='relative group mb-8 md:mb-0'
                 >
-                    <div className='absolute -inset-3.5 rounded-3xl transition-all duration-500 group-hover:shadow-xl bg-black/3 md:bg-black/0' />
+                    <div className='absolute -inset-8 md:-inset-4 rounded-3xl transition-all duration-500 group-hover:shadow-xl bg-black/4 md:bg-black/0' />
                     <article
                         key={ix}
                         className='h-full flex flex-col items-start justify-between'
