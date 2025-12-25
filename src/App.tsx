@@ -2,6 +2,7 @@
 
 import * as ReactRouter from 'react-router-dom'
 import * as Pages from '@/pages'
+import * as Blog from '@/pages/blog'
 
 // ===========
 // === App ===
@@ -16,7 +17,11 @@ export function App() {
             />
             <ReactRouter.Route
                 path='/blog/crate_fixed_num'
-                element={<Pages.Blog />}
+                element={<Blog.FixedNum.Component />}
+            />
+            <ReactRouter.Route
+                path='/blog/crate_borrow'
+                element={<Blog.Borrow.Component />}
             />
         </ReactRouter.Routes>
     )
