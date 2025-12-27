@@ -5,8 +5,8 @@ import * as CompanyLogo from '@/components/company_logo.tsx'
 import * as CtaButton from '@/components/cta_button.tsx'
 import * as Contact from '@/section/contact.tsx'
 import * as Footer from '@/section/footer.tsx'
-import * as Prism from 'prism-react-renderer'
-import * as Class from '@/class'
+import * as Code from '@/components/code'
+import * as Link from '@/components/link'
 
 export function Header() {
     const bgRef = React.useRef<HTMLDivElement>(null)
@@ -56,136 +56,15 @@ export function Header() {
     )
 }
 
-function stripMinLeadingSpaces(multiline: string): string {
-    const lines = multiline.replace(/\r\n?/g, '\n').split('\n')
-
-    let minIndent = Infinity
-
-    for (const line of lines) {
-        if (line.trim().length === 0) continue
-        const leadingSpaces = line.match(/^ */)?.[0].length ?? 0
-        if (leadingSpaces < minIndent) minIndent = leadingSpaces
-    }
-
-    if (!isFinite(minIndent) || minIndent === 0) return lines.join('\n')
-
-    return lines.map(line => (line.startsWith(' '.repeat(minIndent)) ? line.slice(minIndent) : line)).join('\n')
-}
-
-function splitLineAttrs(line: Prism.Token[]): [string | null, Prism.Token[]] {
-    let index = 0
-    for (; ; index++) {
-        const token = line[index]
-        if (token == null) return [null, line]
-        if (token.content.trim().length == 0) continue
-        const match = token.content.match(/\/\*@([!a-zA-Z0-9_-]+)\*\//)
-        if (match == null) return [null, line]
-        return [match[1], line.filter((_, i) => i != index)]
-    }
-}
-
-function Code({
-    src,
-    className,
-    roundedBottom = true,
-    lineClassName,
-}: {
-    src: string
-    className?: string
-    roundedBottom?: boolean
-    lineClassName?: string
-}) {
-    const srcClean = stripMinLeadingSpaces(src).trim()
-    const themeBase = Prism.themes.vsLight
-    const theme = {
-        styles: themeBase.styles,
-        plain: {
-            backgroundColor: 'transparent',
-            color: 'rgba(0, 0, 0, 0.8)',
-        },
-    }
-    return (
-        <div className={Class.names('text-[14px] leading-[1.3em]', className)}>
-            <div className='relative'>
-                <div
-                    className={Class.names(
-                        'relative bg-zinc-100 overflow-scroll',
-                        roundedBottom ? 'rounded-2xl' : 'rounded-t-2xl',
-                    )}
-                >
-                    <Prism.Highlight
-                        theme={theme}
-                        code={srcClean}
-                        language='rust'
-                    >
-                        {({style, tokens, getLineProps, getTokenProps}) => (
-                            <pre
-                                className='py-8'
-                                style={style}
-                            >
-                                {(() => {
-                                    return tokens.map((lineAndAttrs, i) => {
-                                        const [attrs, line] = splitLineAttrs(lineAndAttrs)
-                                        return (
-                                            <div className={Class.names('px-8', lineClassName, attrs)}>
-                                                <div
-                                                    key={i}
-                                                    {...getLineProps({line})}
-                                                >
-                                                    {line.map((token, key) => (
-                                                        <span
-                                                            key={key}
-                                                            {...getTokenProps({token})}
-                                                        />
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                })()}
-                            </pre>
-                        )}
-                    </Prism.Highlight>
-                </div>
-            </div>
-        </div>
-    )
-}
-
-function CodeDetails({summary, children}: {summary: string; children: React.ReactNode}) {
-    return (
-        <details className='mt-[1px] mb-6 bg-zinc-100 rounded-b-2xl cursor-pointer'>
-            <summary className='w-full p-4 text-blue-600'>&nbsp;{summary}</summary>
-            {children}
-        </details>
-    )
-}
-
-export function zip<A, B>(a: readonly A[], b: readonly B[]): Array<[A, B]> {
-    const n = Math.min(a.length, b.length)
-    return Array.from({length: n}, (_, i) => [a[i], b[i]] as [A, B])
-}
-
-function Content({children}: {children: React.Node}) {
+function Content({children}: {children: React.ReactNode}) {
     return <div className='mx-auto max-w-3xl'>{children}</div>
 }
 
-function Link({href, children}: {href: string; children: React.ReactNode}) {
-    return (
-        <a
-            href={href}
-            target='_blank'
-            rel='noopener noreferrer'
-            className='underline text-blue-400 cursor-pointer'
-        >
-            {children}
-        </a>
-    )
-}
+// =================
+// === Component ===
+// =================
 
 export function Component() {
-    const contactRef = React.useRef<HTMLDivElement>(null)
-
     return (
         <div
             className='relative'
@@ -205,44 +84,44 @@ export function Component() {
                         <Content>
                             <h1 className='text-wrap'>
                                 Introducing{' '}
-                                <Link href='https://crates.io/crates/borrow'>
+                                <Link.Component href='https://crates.io/crates/borrow'>
                                     <code>borrow</code>
-                                </Link>
-                                , a zero-cost partial borrows in Rust
+                                </Link.Component>
+                                , a zero-cost partial borrows in Rust.
                             </h1>
                             <h3 className='mt-6 text-md'>
                                 This blog post describes how we solved a problem the Rust community has struggled with
                                 for over 10 years:
                                 <ul className='mt-4 text-sm list-disc space-y-2 pl-6'>
                                     <li>
-                                        <Link href='https://hackmd.io/J5aGp1ptT46lqLmPVVOxzg?view#:~:text=It%20is%20by%20far%20my%20biggest%20frustration%20with%20Rust%2C%20one%20that%20constantly%20sucks%20joy%20out%20of%20Rust%20programming%20for%20me'>
+                                        <Link.Component href='https://hackmd.io/J5aGp1ptT46lqLmPVVOxzg?view#:~:text=It%20is%20by%20far%20my%20biggest%20frustration%20with%20Rust%2C%20one%20that%20constantly%20sucks%20joy%20out%20of%20Rust%20programming%20for%20me'>
                                             "It is by far my biggest frustration with Rust, one that constantly sucks
                                             joy out of Rust programming for me."
-                                        </Link>
+                                        </Link.Component>
                                     </li>
                                     <li>
-                                        <Link href='https://www.reddit.com/r/rust/comments/1cdqdsi/comment/l1hd11q/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button'>
+                                        <Link.Component href='https://www.reddit.com/r/rust/comments/1cdqdsi/comment/l1hd11q/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button'>
                                             "I am very close to leave Rust behind as well. Especially the partial
                                             borrowing issues just suck."
-                                        </Link>
+                                        </Link.Component>
                                     </li>
                                     <li>
-                                        <Link href='https://www.reddit.com/r/rust/comments/1hoqc4v/comment/m4bwnbf/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button'>
+                                        <Link.Component href='https://www.reddit.com/r/rust/comments/1hoqc4v/comment/m4bwnbf/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button'>
                                             "The inability to partially borrow self has been a persistent thorn in the
                                             language."
-                                        </Link>
+                                        </Link.Component>
                                     </li>
                                     <li>
-                                        <Link href='https://www.reddit.com/r/rust/comments/1hoqc4v/comment/m4mb8jr/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button'>
+                                        <Link.Component href='https://www.reddit.com/r/rust/comments/1hoqc4v/comment/m4mb8jr/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button'>
                                             "While I totally agree and recognize the pain, and I wish for there to be a
                                             way to partially borrow self… But yeah, this definitely sucks."
-                                        </Link>
+                                        </Link.Component>
                                     </li>
                                     <li>
-                                        <Link href='https://www.reddit.com/r/rust/comments/1hoqc4v/comment/m4d31md/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button'>
+                                        <Link.Component href='https://www.reddit.com/r/rust/comments/1hoqc4v/comment/m4d31md/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button'>
                                             "As someone that's tried Rust a few times and bounced off it, this is one of
                                             the things that I found strangest".
-                                        </Link>
+                                        </Link.Component>
                                     </li>
                                 </ul>
                             </h3>
@@ -254,9 +133,9 @@ export function Component() {
                                 takes a mutable reference to a struct is treated as if it may access the entire struct,
                                 not just one field. This means you often cannot have two methods, or two borrows, active
                                 on one struct even when the operations touch disjoint fields. As a{' '}
-                                <Link href='https://internals.rust-lang.org/t/notes-on-partial-borrows/20020'>
+                                <Link.Component href='https://internals.rust-lang.org/t/notes-on-partial-borrows/20020'>
                                     Rust Internals discussion
-                                </Link>{' '}
+                                </Link.Component>{' '}
                                 notes, the inability to borrow a subset of a struct is “one of the borrow checker’s
                                 major limitations” and a solution “has long been desired”. Many Rustaceans consider this
                                 to be among the biggest shortcomings of Rust’s current type system.
@@ -264,7 +143,7 @@ export function Component() {
                             <p className='mt-6'>
                                 What exactly is the problem? Let’s illustrate it with a practical example. Imagine a
                                 rendering engine. A naive implementation might look like this:
-                                <Code
+                                <Code.Component
                                     className='py-6'
                                     src='
                                         struct Scene {
@@ -294,7 +173,7 @@ export function Component() {
                                 the common solution is to move all shared data into a container and reference it by
                                 indexes in that container:
                                 <div className='py-6 flex gap-2 flex-wrap'>
-                                    <Code
+                                    <Code.Component
                                         className='grow'
                                         src='
                                             type SceneId = usize;
@@ -320,7 +199,7 @@ export function Component() {
                                             }
                                         '
                                     />
-                                    <Code
+                                    <Code.Component
                                         className='grow'
                                         src='
                                             struct Ctx {
@@ -336,7 +215,7 @@ export function Component() {
                                 </div>
                                 This architecture is what you see in practically all game and rendering engines in Rust.
                                 Let's now try writing the rendering functions:
-                                <Code
+                                <Code.Component
                                     className='py-6'
                                     src='
                                         fn render(ctx: &mut Ctx) {
@@ -378,7 +257,7 @@ export function Component() {
                                     '
                                 />
                                 Unfortunately, this code does not compile:
-                                <Code
+                                <Code.Component
                                     roundedBottom={false}
                                     className='pt-6'
                                     src='
@@ -395,8 +274,8 @@ export function Component() {
                                                 ^^^^^^^^^^^^^^^^^ mutable borrow occurs here
                                     '
                                 />
-                                <CodeDetails summary='Similar errors folded for brevity. Click here to expand.'>
-                                    <Code
+                                <Code.Details summary='Similar errors folded for brevity. Click here to expand.'>
+                                    <Code.Component
                                         src='
                                         error[E0502]: cannot borrow `*ctx` as mutable because
                                                       it is also borrowed as immutable
@@ -444,7 +323,7 @@ export function Component() {
                                             immutable borrow occurs here
                                     '
                                     />
-                                </CodeDetails>
+                                </Code.Details>
                                 Logically, this code should compile, because we never try to access the same field of{' '}
                                 <code>Ctx</code> from different parts of the code. The Rust compiler cannot prove that
                                 here, because it examines one function at a time.
@@ -452,9 +331,9 @@ export function Component() {
                                 <br />
                                 Here are a few possible workarounds. They are described in detail by Nicholas Matsakis,
                                 co-lead of the Rust language design team, in his{' '}
-                                <Link href='https://smallcultfollowing.com/babysteps/blog/2018/11/01/after-nll-interprocedural-conflicts'>
+                                <Link.Component href='https://smallcultfollowing.com/babysteps/blog/2018/11/01/after-nll-interprocedural-conflicts'>
                                     After NLL: Interprocedural conflicts blog post
-                                </Link>
+                                </Link.Component>
                                 . All of them have serious drawbacks and cannot be considered solutions:
                                 <ul className='mt-4 list-disc space-y-2 pl-6'>
                                     <li>
@@ -476,7 +355,7 @@ export function Component() {
                                         above is a major simplification. In real codebases, the number of passed
                                         arguments can be much larger. In some rendering engines it is 20 to 30
                                         parameters:
-                                        <Code
+                                        <Code.Component
                                             className='pt-6'
                                             roundedBottom={false}
                                             src='
@@ -546,8 +425,8 @@ export function Component() {
                                                 }
                                             '
                                         />
-                                        <CodeDetails summary='Struct definitions folded for brevity. Click here to expand.'>
-                                            <Code
+                                        <Code.Details summary='Struct definitions folded for brevity. Click here to expand.'>
+                                            <Code.Component
                                                 src='
                                                     type SceneId = usize;
                                                     struct Scene {
@@ -581,15 +460,15 @@ export function Component() {
                                                     }
                                                 '
                                             />
-                                        </CodeDetails>
+                                        </Code.Details>
                                     </li>
                                 </ul>
                             </p>
                             <h2>How do partial borrows resolve this issue?</h2>
                             Partial borrows allow us to express which fields are borrowed from a struct. The{' '}
-                            <Link href='https://internals.rust-lang.org/t/notes-on-partial-borrows/20020'>
+                            <Link.Component href='https://internals.rust-lang.org/t/notes-on-partial-borrows/20020'>
                                 Rust Internals: Notes on Partial Borrow
-                            </Link>{' '}
+                            </Link.Component>{' '}
                             article proposes a syntax similar to type parameterization. Namely, writing{' '}
                             <code>&amp;&lt;f1, mut f2&gt; t</code> means that we are borrowing field <code>f1</code> and
                             mutably borrowing field <code>f2</code> of <code>t</code>. As the Rust compiler does not
@@ -597,7 +476,7 @@ export function Component() {
                             as <code>p</code>, it allows writing the partial borrow with the same syntax as{' '}
                             <code>p!(&amp;&lt;f1, mut f2&gt; t)</code>. Let's see the code above rewritten using the{' '}
                             <code>borrow</code> crate:
-                            <Code
+                            <Code.Component
                                 className='pt-6'
                                 roundedBottom={false}
                                 lineClassName=''
@@ -657,8 +536,8 @@ export function Component() {
                                         }
                                     '
                             />
-                            <CodeDetails summary='Struct definitions folded for brevity. Click here to expand.'>
-                                <Code
+                            <Code.Details summary='Struct definitions folded for brevity. Click here to expand.'>
+                                <Code.Component
                                     src='
                                             type SceneId = usize;
                                             struct Scene {
@@ -683,7 +562,7 @@ export function Component() {
                                             }
                                         '
                                 />
-                            </CodeDetails>
+                            </Code.Details>
                             <p className='mt-6'>
                                 The key point is that the borrow requirements are encoded in the type. The compiler can
                                 then accept disjoint borrows that it could not infer across function boundaries. In
@@ -716,7 +595,7 @@ export function Component() {
                                 The <code>borrow</code> crate is designed to be explicit and inspectable. It generates
                                 plain Rust types that mirror your struct, and it uses the type system to encode which
                                 fields are accessible. For the following type:
-                                <Code
+                                <Code.Component
                                     className='py-6'
                                     src='
                                         #[derive(borrow::Partial)]
@@ -729,7 +608,7 @@ export function Component() {
                                     '
                                 />
                                 A simplified version of the generated reference view looks like:
-                                <Code
+                                <Code.Component
                                     className='py-6'
                                     src='
                                         struct CtxRef<Scenes, Meshes, Geometries, Materials> {
@@ -743,7 +622,7 @@ export function Component() {
                                 A partial borrow is then represented as <code>&amp;mut CtxRef&lt;...&gt;</code>, where
                                 each type parameter is <code>&amp;T</code>, <code>&amp;mut T</code>, or{' '}
                                 <code>borrow::Hidden</code>. For example:
-                                <Code
+                                <Code.Component
                                     className='py-6'
                                     src='
                                         p!(&<scenes, mut meshes> Ctx)
@@ -761,9 +640,9 @@ export function Component() {
                                 In reality, the generated type includes small wrappers to support runtime diagnostics
                                 for unused borrows. In release builds, those wrappers are optimized away. For the full
                                 details, see the{' '}
-                                <Link href='https://docs.rs/borrow/latest/borrow'>
+                                <Link.Component href='https://docs.rs/borrow/latest/borrow'>
                                     <code>borrow</code> crate docs
-                                </Link>
+                                </Link.Component>
                                 .
                             </p>
                             <h2 className='mt-24'>Diagnostics and unused borrows tracking.</h2>
@@ -773,7 +652,7 @@ export function Component() {
                                 <code>Clippy</code> cannot lint this directly. For that reason, the crate includes
                                 runtime tracking and diagnostics that report borrowed-but-unused fields, and fields
                                 borrowed mutably but only used immutably. Consider the following code:
-                                <Code
+                                <Code.Component
                                     className='py-6'
                                     src='
                                         struct Node;
@@ -803,7 +682,7 @@ export function Component() {
                                     '
                                 />
                                 When running it, you’ll see the following output in stderr:
-                                <Code
+                                <Code.Component
                                     className='py-6'
                                     src='
                                         Warning [lib/src/lib.rs:19]:
@@ -820,41 +699,41 @@ export function Component() {
                             <h2 className='mt-24'>Learning more.</h2>
                             <p className='mt-6'>
                                 The primary reference is the{' '}
-                                <Link href='https://docs.rs/borrow/latest/borrow'>
+                                <Link.Component href='https://docs.rs/borrow/latest/borrow'>
                                     <code>borrow</code> crate docs
-                                </Link>
+                                </Link.Component>
                                 . For background, design discussions, and related work, see:
                             </p>
                             <ul className='mt-4 list-disc space-y-2 pl-6'>
                                 <li>
-                                    <Link href='https://internals.rust-lang.org/t/notes-on-partial-borrows/20020'>
+                                    <Link.Component href='https://internals.rust-lang.org/t/notes-on-partial-borrows/20020'>
                                         Rust Internals: Notes on partial borrow
-                                    </Link>
+                                    </Link.Component>
                                 </li>
                                 <li>
-                                    <Link href='https://doc.rust-lang.org/nomicon/borrow-splitting.html'>
+                                    <Link.Component href='https://doc.rust-lang.org/nomicon/borrow-splitting.html'>
                                         The Rustonomicon: Splitting Borrows
-                                    </Link>
+                                    </Link.Component>
                                 </li>
                                 <li>
-                                    <Link href='https://smallcultfollowing.com/babysteps/blog/2018/11/01/after-nll-interprocedural-conflicts'>
+                                    <Link.Component href='https://smallcultfollowing.com/babysteps/blog/2018/11/01/after-nll-interprocedural-conflicts'>
                                         Niko Matsakis: After NLL — Interprocedural conflicts
-                                    </Link>
+                                    </Link.Component>
                                 </li>
                                 <li>
-                                    <Link href='https://oribenshir.github.io/afternoon_rusting/blog/mutable-reference'>
+                                    <Link.Component href='https://oribenshir.github.io/afternoon_rusting/blog/mutable-reference'>
                                         Afternoon Rusting: Multiple Mutable References
-                                    </Link>
+                                    </Link.Component>
                                 </li>
                                 <li>
-                                    <Link href='https://github.com/rust-lang/rfcs/issues/1215#issuecomment-333316998'>
+                                    <Link.Component href='https://github.com/rust-lang/rfcs/issues/1215#issuecomment-333316998'>
                                         Partial borrows RFC discussion
-                                    </Link>
+                                    </Link.Component>
                                 </li>
                                 <li>
-                                    <Link href='https://hackmd.io/J5aGp1ptT46lqLmPVVOxzg?view'>
+                                    <Link.Component href='https://hackmd.io/J5aGp1ptT46lqLmPVVOxzg?view'>
                                         HackMD: My thoughts on (and need for) partial borrows
-                                    </Link>
+                                    </Link.Component>
                                 </li>
                             </ul>
                         </Content>
@@ -862,14 +741,8 @@ export function Component() {
                 </div>
             </div>
 
-            <CtaButton.Component
-                onMouseDown={() => {
-                    if (contactRef.current) {
-                        contactRef.current.scrollIntoView({behavior: 'smooth'})
-                    }
-                }}
-            />
-            <Contact.Component ref={contactRef} />
+            <CtaButton.Component />
+            <Contact.Component />
             <Footer.Component />
         </div>
     )

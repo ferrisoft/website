@@ -5,7 +5,14 @@ import * as CompanyLogo from '@/components/company_logo.tsx'
 import * as CtaButton from '@/components/cta_button.tsx'
 import * as Contact from '@/section/contact.tsx'
 import * as Footer from '@/section/footer.tsx'
-import * as Prism from 'prism-react-renderer'
+import * as Code from '@/components/code'
+import * as ArrayOps from '@/array'
+import * as Html from '@/html'
+import * as Link from '@/components/link'
+
+// ==============
+// === Header ===
+// ==============
 
 export function Header() {
     const bgRef = React.useRef<HTMLDivElement>(null)
@@ -55,45 +62,15 @@ export function Header() {
     )
 }
 
-function Code({src}: {src: string}) {
-    return (
-        <div className='py-12 text-[14px] leading-[1.3em]'>
-            <Prism.Highlight
-                theme={Prism.themes.vsLight}
-                code={src}
-                language='rust'
-            >
-                {({style, tokens, getLineProps, getTokenProps}) => (
-                    <pre style={style}>
-                        {tokens.map((line, i) => (
-                            <div
-                                key={i}
-                                {...getLineProps({line})}
-                            >
-                                {line.map((token, key) => (
-                                    <span
-                                        key={key}
-                                        {...getTokenProps({token})}
-                                    />
-                                ))}
-                            </div>
-                        ))}
-                    </pre>
-                )}
-            </Prism.Highlight>
-        </div>
-    )
-}
-
-export function zip<A, B>(a: readonly A[], b: readonly B[]): Array<[A, B]> {
-    const n = Math.min(a.length, b.length)
-    return Array.from({length: n}, (_, i) => [a[i], b[i]] as [A, B])
-}
+// ======================
+// === BenchmarkTable ===
+// ======================
 
 function BenchmarkTable() {
     function values(...vals: (number | null)[]) {
-        const max = Math.max(...vals.slice(1))
-        const normalized = vals.map(t => Math.min(1, t / max))
+        const valsNonNull = vals.filter(val => val !== null)
+        const max = Math.max(...valsNonNull.slice(1))
+        const normalized = vals.map(t => (t == null ? 0 : Math.min(1, t / max)))
         function fmt(n: number): string {
             if (n >= 100) {
                 return n.toFixed(0)
@@ -105,7 +82,7 @@ function BenchmarkTable() {
         }
         return (
             <>
-                {zip(vals, normalized).map(([v, n], ix) => (
+                {ArrayOps.zip(vals, normalized).map(([v, n], ix) => (
                     <td
                         key={ix}
                         style={{
@@ -121,10 +98,12 @@ function BenchmarkTable() {
     return (
         <table
             className='benchmark-table'
-            style={{
-                '--color-100': '#9edf05',
-                '--color-0': '#ff3d18',
-            }}
+            style={
+                {
+                    '--color-100': '#9edf05',
+                    '--color-0': '#ff3d18',
+                } as Html.CSSProperties
+            }
         >
             <colgroup>
                 {/*<col style={{width: '150px'}} />*/}
@@ -276,13 +255,15 @@ function BenchmarkTable() {
     )
 }
 
-function Content({children}: {children: React.Node}) {
+function Content({children}: {children: React.ReactNode}) {
     return <div className='mx-auto max-w-3xl'>{children}</div>
 }
 
-export function Component() {
-    const contactRef = React.useRef<HTMLDivElement>(null)
+// =================
+// === Component ===
+// =================
 
+export function Component() {
     return (
         <div
             className='relative'
@@ -308,7 +289,7 @@ export function Component() {
                                 thing: precise, fast, deterministic decimal arithmetic for finance and trading.
                             </h3>
 
-                            <h2 className='mt-24'>Introduction.</h2>
+                            <h2>Introduction.</h2>
 
                             <p>
                                 <strong>Before we talk about decimals, let’s talk about numbers.</strong> A surprising
@@ -320,7 +301,7 @@ export function Component() {
                                 systems in Rust.
                             </p>
 
-                            <h2 className='mt-24'>Understanding floating-point numbers.</h2>
+                            <h2>Understanding floating-point numbers.</h2>
 
                             <blockquote className='mt-6 border-l-4 border-neutral-700 pl-4 italic'>
                                 Floating-point arithmetic is considered an esoteric subject by many people.
@@ -330,14 +311,7 @@ export function Component() {
                             <p className='mt-6'>
                                 We’ll start with <code>f32</code> because it’s easy to visualize. Rust’s{' '}
                                 <code>f32</code> implements{' '}
-                                <a
-                                    href='https://en.wikipedia.org/wiki/IEEE_754'
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    className='underline text-blue-400'
-                                >
-                                    IEEE 754
-                                </a>{' '}
+                                <Link.Component href='https://en.wikipedia.org/wiki/IEEE_754'>IEEE 754</Link.Component>{' '}
                                 binary floating-point, which uses{' '}
                                 <span className='rounded-sm py-0.5 px-1.5 text-white bg-[#666666]'>
                                     1 bit for the sign
@@ -362,14 +336,9 @@ export function Component() {
                                 While this is the standard explanation, it doesn’t build intuition for the limitations
                                 that matter in finance. For that, we’ll use a more intuitive mental model proposed by
                                 Fabien Sanglard in his{' '}
-                                <a
-                                    href='https://fabiensanglard.net/floating_point_visually_explained/'
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    className='underline text-blue-400'
-                                >
+                                <Link.Component href='https://fabiensanglard.net/floating_point_visually_explained'>
                                     Floating Point Visually Explained
-                                </a>{' '}
+                                </Link.Component>{' '}
                                 post. Think of the exponent as selecting a{' '}
                                 <span className=' rounded-sm py-0.5 px-1.5 text-white bg-[#F59822]'>
                                     window between two consecutive powers of two
@@ -431,7 +400,7 @@ export function Component() {
                                 </li>
                             </ul>
 
-                            <h2 className='mt-24'>Are arbitrary-precision numbers the solution?</h2>
+                            <h2>Are arbitrary-precision numbers the solution?</h2>
 
                             <p>
                                 Arbitrary-precision numbers represent values using a dynamically sized representation
@@ -457,42 +426,46 @@ export function Component() {
                                 small-value optimization for naturals.
                             </p>
 
-                            <div className='grid grid-cols-1 sm:grid-cols-2 gap-1'>
-                                <Code
-                                    src={`// BigDecimal implementation.
+                            <div className='grid grid-cols-1 sm:grid-cols-2 gap-1 py-8'>
+                                <Code.Component
+                                    src='
+                                        // BigDecimal implementation.
 
-struct BigDecimal {
-    int_val: BigInt,
-    scale: i64,
-}
-
-struct BigInt {
-    sign: Sign,
-    data: BigUint,
-}
-
-struct BigUint {
-    data: Vec<BigDigit>,
-}
-
-type BigDigit = u32;`}
+                                        struct BigDecimal {
+                                            int_val: BigInt,
+                                            scale: i64,
+                                        }
+                                        
+                                        struct BigInt {
+                                            sign: Sign,
+                                            data: BigUint,
+                                        }
+                                        
+                                        struct BigUint {
+                                            data: Vec<BigDigit>,
+                                        }
+                                        
+                                        type BigDigit = u32;
+                                    '
                                 />
 
-                                <Code
-                                    src={`// Malachite implementation.
+                                <Code.Component
+                                    src='
+                                        // Malachite implementation.
 
-struct Rational {
-    sign: bool,
-    numerator: Natural,
-    denominator: Natural,
-}
-
-enum Natural {
-    Small(Limb),
-    Large(Vec<Limb>),
-}
-
-type Limb = u64;`}
+                                        struct Rational {
+                                            sign: bool,
+                                            numerator: Natural,
+                                            denominator: Natural,
+                                        }
+                                        
+                                        enum Natural {
+                                            Small(Limb),
+                                            Large(Vec<Limb>),
+                                        }
+                                        
+                                        type Limb = u64;
+                                    '
                                 />
                             </div>
 
@@ -530,7 +503,7 @@ type Limb = u64;`}
                                 representation allocation-free and deterministic.
                             </p>
 
-                            <h2 className='mt-24'>
+                            <h2>
                                 The correct solution, <code>fixed_num</code>.
                             </h2>
 
@@ -552,14 +525,9 @@ type Limb = u64;`}
                             <p className='mt-6'>
                                 This is aligned with how financial systems and blockchain protocols specify amounts. For
                                 example, Ethereum defines Ether in wei and{' '}
-                                <a
-                                    href='https://docs.soliditylang.org/en/latest/units-and-global-variables.html#ether-units'
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    className='underline text-blue-400'
-                                >
+                                <Link.Component href='https://docs.soliditylang.org/en/latest/units-and-global-variables.html#ether-units'>
                                     specifies that one ether equals 10<sup>18</sup> wei
-                                </a>
+                                </Link.Component>
                                 . A fixed-point decimal type can represent these smallest units exactly and carry them
                                 through arithmetic without introducing representation artifacts.
                             </p>
@@ -572,13 +540,16 @@ type Limb = u64;`}
                                 <code>saturating_*</code> variants so that overflow behavior is explicit and testable.
                             </p>
 
-                            <Code
-                                src='// fixed_num implementation
+                            <Code.Component
+                                className='py-8'
+                                src='
+                                    // fixed_num implementation
 
-#[repr(transparent)]
-struct Dec19x19 {
-    repr: i128,
-}'
+                                    #[repr(transparent)]
+                                    struct Dec19x19 {
+                                        repr: i128,
+                                    }
+                                '
                             />
                             <h4>
                                 Compared to <code>fixed_num</code>, binary floating-point violates decimal invariants.
@@ -613,7 +584,7 @@ struct Dec19x19 {
                                 remains the production representation.
                             </p>
 
-                            <h2 className='mt-24'>Comparison to other Rust decimal libraries.</h2>
+                            <h2>Comparison to other Rust decimal libraries.</h2>
 
                             <p>
                                 To understand how <code>fixed_num</code> differs from other numeric libraries in Rust,
@@ -779,7 +750,7 @@ struct Dec19x19 {
                         </div>
 
                         <Content>
-                            <h2 className='mt-24'>Benchmarks.</h2>
+                            <h2>Benchmarks.</h2>
 
                             <p>
                                 The benchmarks below measure normalized throughput for a set of operations that appear
@@ -834,14 +805,8 @@ struct Dec19x19 {
                 </div>
             </div>
 
-            <CtaButton.Component
-                onMouseDown={() => {
-                    if (contactRef.current) {
-                        contactRef.current.scrollIntoView({behavior: 'smooth'})
-                    }
-                }}
-            />
-            <Contact.Component ref={contactRef} />
+            <CtaButton.Component />
+            <Contact.Component />
             <Footer.Component />
         </div>
     )

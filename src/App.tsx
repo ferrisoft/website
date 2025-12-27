@@ -23,6 +23,10 @@ export function App() {
                 path='/blog/crate_borrow'
                 element={<Blog.Borrow.Component />}
             />
+            <ReactRouter.Route
+                path='/blog/crate_crabtime'
+                element={<Blog.Crabtime.Component />}
+            />
         </ReactRouter.Routes>
     )
 }

@@ -1,16 +1,17 @@
+import * as React from 'react'
+
 // =================
 // === Component ===
 // =================
 
-export type Props = {
-    onMouseDown?: () => void
-}
-
-export function Component(props: Props) {
+export function Component() {
+    const ref = React.useRef<HTMLDivElement>(null)
     return (
-        <div className='w-full flex justify-center sticky bottom-4'>
-            <div
-                className='
+        <>
+            <div ref={ref} />
+            <div className='w-full flex justify-center sticky bottom-4 pt-8'>
+                <div
+                    className='
                     select-none cursor-pointer
                     h-10 px-4 rounded-full
                     inline-flex items-center justify-center
@@ -18,10 +19,13 @@ export function Component(props: Props) {
                     bg-black/80 backdrop-blur-lg
                     ring-4 ring-white
                 '
-                onMouseDown={props.onMouseDown}
-            >
-                Contact Us
+                    onMouseDown={() => {
+                        if (ref.current) ref.current.scrollIntoView({behavior: 'smooth'})
+                    }}
+                >
+                    Contact Us
+                </div>
             </div>
-        </div>
+        </>
     )
 }

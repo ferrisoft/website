@@ -95,7 +95,6 @@ export function Header() {
 // ============
 
 export function Home() {
-    const contactRef = React.useRef<HTMLDivElement>(null)
     const paddingTop = `calc(128px + 128px * var(--content-size-norm)`
     const spacer = <div style={{paddingTop}} />
     return (
@@ -112,14 +111,8 @@ export function Home() {
                 {spacer}
                 <RecentBlogPosts.Component />
                 {spacer}
-                <CtaButton.Component
-                    onMouseDown={() => {
-                        if (contactRef.current) {
-                            contactRef.current.scrollIntoView({behavior: 'smooth'})
-                        }
-                    }}
-                />
-                <Contact.Component ref={contactRef} />
+                <CtaButton.Component />
+                <Contact.Component />
                 <Footer.Component />
             </div>
         </div>
