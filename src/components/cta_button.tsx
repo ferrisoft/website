@@ -23,7 +23,8 @@ export function Component() {
                         if (ref.current) ref.current.scrollIntoView({behavior: 'smooth'})
                     }}
                 >
-                    Contact Us
+                    {/*Contact Us*/}
+                    Book a consultation
                 </div>
             </div>
         </>

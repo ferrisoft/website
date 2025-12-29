@@ -36,7 +36,7 @@
 
 @layer base {
     body {
-        @apply text-zinc-700 text-sm;
+        @apply text-black/75 text-sm/6;
     }
 
     body .dark-theme {
@@ -72,7 +72,7 @@
     }
 
     h4 {
-        @apply text-zinc-800 text-base/7 font-semibold tracking-tight;
+        @apply text-zinc-800 text-[20px]/7 font-semibold tracking-tight mb-4;
     }
 
     .dark-theme h4 {

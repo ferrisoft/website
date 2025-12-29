@@ -160,7 +160,15 @@ function elasticEasing(x: number, w: number): number {
     return Math.pow(1 - inv * inv * ((2 * sin) / w + cos), 0.5)
 }
 
-function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
+function CircleAnimationPart({
+    ix,
+    rotation,
+    isVisible,
+}: {
+    ix: number
+    rotation: number
+    isVisible: React.RefObject<boolean>
+}) {
     const refLayer1 = React.useRef<HTMLDivElement>(null)
     const refLayer2 = React.useRef<HTMLDivElement>(null)
     const refLayer3 = React.useRef<HTMLDivElement>(null)
@@ -267,61 +275,63 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
         let lastS = -1
 
         function onFrame(t: number) {
-            const showDuration = 1000
-            const holdTime = 1000
-            const hideDuration = 1000
-            const activeTime = showDuration + holdTime + hideDuration - 1000
-            const cycle = 6 * activeTime
-            const delay = ix * activeTime
+            if (isVisible.current) {
+                const showDuration = 1000
+                const holdTime = 1000
+                const hideDuration = 1000
+                const activeTime = showDuration + holdTime + hideDuration - 1000
+                const cycle = 6 * activeTime
+                const delay = ix * activeTime
 
-            const tNotChangeVisibleIcons = t - ix * hideDuration
-            const iconIndex = (ix + 6 * Math.floor(tNotChangeVisibleIcons / cycle)) % icons.length
-            const layer4 = refLayer4.current
-            if (layer4) {
-                const target = layer4.children[0]
-                if (target instanceof HTMLElement) {
-                    if (Dom.elementCache(target, {iconIndex})) {
-                        target.style.setProperty('--icon-index', iconIndex.toString())
+                const tNotChangeVisibleIcons = t - ix * hideDuration
+                const iconIndex = (ix + 6 * Math.floor(tNotChangeVisibleIcons / cycle)) % icons.length
+                const layer4 = refLayer4.current
+                if (layer4) {
+                    const target = layer4.children[0]
+                    if (target instanceof HTMLElement) {
+                        if (Dom.elementCache(target, {iconIndex})) {
+                            target.style.setProperty('--icon-index', iconIndex.toString())
+                        }
                     }
                 }
-            }
 
-            const tCycle = (t - delay) % cycle
-            let s = 0
-            if (tCycle < showDuration) {
-                s = elasticEasing(tCycle / showDuration, 7)
-            } else if (tCycle < showDuration + holdTime) {
-                s = 1
-            } else if (tCycle < showDuration + holdTime + hideDuration) {
-                s = 1 - elasticEasing((tCycle - showDuration - holdTime) / hideDuration, 5)
-            }
-
-            if (lastS != s) {
-                lastS = s
-                for (const animation of animations) {
-                    animation(s)
+                const tCycle = (t - delay) % cycle
+                let s = 0
+                if (tCycle < showDuration) {
+                    s = elasticEasing(tCycle / showDuration, 7)
+                } else if (tCycle < showDuration + holdTime) {
+                    s = 1
+                } else if (tCycle < showDuration + holdTime + hideDuration) {
+                    s = 1 - elasticEasing((tCycle - showDuration - holdTime) / hideDuration, 5)
                 }
-            }
-            for (const animation of animationsOnFrame) {
-                animation(t)
-            }
 
-            if (
-                refLayer1.current != null &&
-                refLayer2.current != null &&
-                refLayer3.current != null &&
-                refLayer4.current != null
-            ) {
-                for (const refLayer of [refLayer1, refLayer2, refLayer3, refLayer4]) {
-                    const layer = refLayer.current
-                    if (layer != null) {
-                        for (const child of layer.children) {
-                            if (child instanceof HTMLElement) {
-                                const angleStr = child.dataset.angle
-                                const angleParsed = angleStr != null ? Number(angleStr) : NaN
-                                const angleInit = Number.isFinite(angleParsed) ? angleParsed : 0
-                                const angle = ((180 * angleInit) / Math.PI + t / 20) % 360
-                                child.style.backgroundColor = `oklch(var(--l) var(--c) ${angle})`
+                if (lastS != s) {
+                    lastS = s
+                    for (const animation of animations) {
+                        animation(s)
+                    }
+                }
+                for (const animation of animationsOnFrame) {
+                    animation(t)
+                }
+
+                if (
+                    refLayer1.current != null &&
+                    refLayer2.current != null &&
+                    refLayer3.current != null &&
+                    refLayer4.current != null
+                ) {
+                    for (const refLayer of [refLayer1, refLayer2, refLayer3, refLayer4]) {
+                        const layer = refLayer.current
+                        if (layer != null) {
+                            for (const child of layer.children) {
+                                if (child instanceof HTMLElement) {
+                                    const angleStr = child.dataset.angle
+                                    const angleParsed = angleStr != null ? Number(angleStr) : NaN
+                                    const angleInit = Number.isFinite(angleParsed) ? angleParsed : 0
+                                    const angle = ((180 * angleInit) / Math.PI + t / 20) % 360
+                                    child.style.backgroundColor = `oklch(var(--l) var(--c) ${angle})`
+                                }
                             }
                         }
                     }
@@ -389,12 +399,14 @@ function CircleAnimationPart({ix, rotation}: {ix: number; rotation: number}) {
 
 function CircleAnimation() {
     const ref = React.useRef<HTMLDivElement>(null)
+    const isVisible = React.useRef(false)
 
     React.useEffect(() => {
+        if (!ref.current) return
         let rafId: number | null = null
 
         function onFrame(t: number) {
-            if (ref.current) {
+            if (isVisible.current && ref.current) {
                 const rotation = (2 * Math.PI * t) / (1000 * 15)
                 ref.current.style.transform = `rotate(${rotation}rad)`
             }
@@ -402,8 +414,16 @@ function CircleAnimation() {
         }
         rafId = window.requestAnimationFrame(onFrame)
 
+        const observer = new IntersectionObserver(e => {
+            console.log(e[0].isIntersecting)
+            isVisible.current = e[0].isIntersecting
+        }, {})
+
+        observer.observe(ref.current)
+
         return () => {
             if (rafId !== null) window.cancelAnimationFrame(rafId)
+            observer.disconnect()
         }
     }, [])
 
@@ -434,16 +454,11 @@ function CircleAnimation() {
                             left: `-${centerIconWithPadding / 2}px`,
                         }}
                     >
-                        {/*<div className="absolute inline-flex h-full w-full animate-[ping_3s_linear_infinite] rounded-full bg-zinc-800 opacity-5"></div>*/}
-
                         <div
                             className='relative bg-zinc-800 z-10'
                             style={{
                                 padding: `${padding}px`,
                                 borderRadius: '100%',
-                                // width:'0',
-                                // height:'0',
-                                // padding: '16px',
                             }}
                         >
                             <Icons.ShieldCheckIcon
@@ -461,26 +476,32 @@ function CircleAnimation() {
                             <CircleAnimationPart
                                 ix={0}
                                 rotation={0}
+                                isVisible={isVisible}
                             />
                             <CircleAnimationPart
                                 ix={1}
                                 rotation={(Math.PI * 1) / 3}
+                                isVisible={isVisible}
                             />
                             <CircleAnimationPart
                                 ix={2}
                                 rotation={(Math.PI * 2) / 3}
+                                isVisible={isVisible}
                             />
                             <CircleAnimationPart
                                 ix={3}
                                 rotation={(Math.PI * 3) / 3}
+                                isVisible={isVisible}
                             />
                             <CircleAnimationPart
                                 ix={4}
                                 rotation={(Math.PI * 4) / 3}
+                                isVisible={isVisible}
                             />
                             <CircleAnimationPart
                                 ix={5}
                                 rotation={(Math.PI * 5) / 3}
+                                isVisible={isVisible}
                             />
                         </div>
                     </div>
@@ -495,7 +516,7 @@ export function PerformanceSection() {
         <FeaturesSection
             title={
                 <>
-                    High-performance <br /> frontend and <br className='xs:hidden' /> backend.
+                    High-performance. <br /> Frontend and <br className='xs:hidden' /> backend.
                 </>
             }
             subtitle={<>Faster load times, smoother interfaces and lower infrastructure costs.</>}
@@ -533,7 +554,7 @@ export function FeaturesSection(props: {
                     className='flex flex-col'
                 >
                     <h4> {feature.name} </h4>
-                    <dd className='mt-1 flex flex-auto font-normal text-sm flex-col text-base/7 opacity-80'>
+                    <dd className='flex flex-auto font-normal text-sm flex-col text-base/7 opacity-80'>
                         <p className='flex-auto'>{feature.description}</p>
                     </dd>
                 </div>
@@ -579,6 +600,22 @@ export function SectionTemplate(props: {
             </div>
             {props.children}
         </Layout.Section>
+    )
+}
+
+export function SectionTemplate2(props: {
+    title: React.JSX.Element
+    subtitle: React.JSX.Element
+    children: React.ReactNode
+}) {
+    return (
+        <>
+            <div className='w-full flex flex-col md:items-center md:text-center md:mx-auto'>
+                <h1> {props.title} </h1>
+                <h3> {props.subtitle} </h3>
+            </div>
+            {props.children}
+        </>
     )
 }
 

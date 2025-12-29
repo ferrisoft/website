@@ -122,7 +122,7 @@ function Timeline(props: {formSubmitted: boolean}) {
                                 </div>
                                 <div className='flex min-w-0 flex-1 justify-between space-x-4 pt-0.5'>
                                     <div>
-                                        <h4> {event.title} </h4>
+                                        <h4 className='mb-2 text-[16px]'> {event.title} </h4>
                                         <span className='text-sm'> {event.description} </span>
                                     </div>
                                 </div>
@@ -405,7 +405,7 @@ export const Component = React.forwardRef<HTMLDivElement>((_, ref) => {
         <div ref={ref}>
             <div
                 ref={scrollRef}
-                className='relative pt-4'
+                className='relative'
             >
                 <Layout.RootPaddingY>
                     <Layout.Section>
