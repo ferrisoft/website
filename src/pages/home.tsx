@@ -10,6 +10,7 @@ import * as Footer from '@/section/footer'
 import * as ClientsLogos from '@/components/client_logos'
 import * as CompanyLogo from '@/components/company_logo'
 import * as CtaButton from '@/components/cta_button'
+import * as OurServices from '@/section/our_services'
 
 // ==============
 // === Header ===
@@ -104,6 +105,8 @@ export function Home() {
         >
             <Header />
             <div>
+                {spacer}
+                <OurServices.Component />
                 {spacer}
                 <PerformanceSection />
                 {spacer}

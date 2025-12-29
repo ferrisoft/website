@@ -9,7 +9,7 @@ export function Component() {
     return (
         <>
             <div ref={ref} />
-            <div className='w-full flex justify-center sticky bottom-4 pt-8'>
+            <div className='w-full flex justify-center sticky bottom-4 pt-8 z-100'>
                 <div
                     className='
                     select-none cursor-pointer

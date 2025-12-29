@@ -566,6 +566,22 @@ export function FeaturesTemplate(props: {
     )
 }
 
+export function SectionTemplate(props: {
+    title: React.JSX.Element
+    subtitle: React.JSX.Element
+    children: React.ReactNode
+}) {
+    return (
+        <Layout.Section>
+            <div className='w-full flex flex-col md:items-center md:text-center md:mx-auto'>
+                <h1> {props.title} </h1>
+                <h3> {props.subtitle} </h3>
+            </div>
+            {props.children}
+        </Layout.Section>
+    )
+}
+
 const features2 = [
     {
         name: <>Predictable architecture and code quality.</>,
