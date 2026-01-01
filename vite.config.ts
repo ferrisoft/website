@@ -2,7 +2,8 @@ import {defineConfig} from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import svgr from 'vite-plugin-svgr'
-import path from 'path'
+import Path from 'path'
+import {viteStaticCopy} from 'vite-plugin-static-copy'
 
 export default defineConfig({
     plugins: [
@@ -13,10 +14,19 @@ export default defineConfig({
                 plugins: [['babel-plugin-react-compiler']],
             },
         }),
+        viteStaticCopy({
+            targets: [
+                {
+                    src: 'dist/index.html',
+                    dest: '',
+                    rename: '404.html',
+                },
+            ],
+        }),
     ],
     resolve: {
         alias: {
-            '@': path.resolve(__dirname, 'src'),
+            '@': Path.resolve(__dirname, 'src'),
         },
     },
 })
