@@ -329,7 +329,7 @@ export function Component() {
 
                             <img
                                 className='py-12'
-                                src='/website/blog/fixed_num/float_repr_1.svg'
+                                src='/blog/fixed_num/float_repr_1.svg'
                             />
 
                             <p>
@@ -354,7 +354,7 @@ export function Component() {
                                 discrete buckets.
                                 <img
                                     className='py-12'
-                                    src='/website/blog/fixed_num/float_repr_2.svg'
+                                    src='/blog/fixed_num/float_repr_2.svg'
                                 />
                             </p>
 

@@ -414,10 +414,14 @@ function CircleAnimation() {
         }
         rafId = window.requestAnimationFrame(onFrame)
 
+        const options = {
+            rootMargin: '200px',
+        }
+
         const observer = new IntersectionObserver(e => {
             console.log(e[0].isIntersecting)
             isVisible.current = e[0].isIntersecting
-        }, {})
+        }, options)
 
         observer.observe(ref.current)
 
@@ -511,7 +515,78 @@ function CircleAnimation() {
     )
 }
 
+const featuresNew: Feature[] = [
+    {
+        icon: (
+            <img
+                alt=''
+                src='/measure.png'
+                className='object-cover object-top w-[155px] h-[155px]'
+            />
+        ),
+        name: <>Measure first.</>,
+        description: (
+            <>
+                We start by defining what “fast” means for your product: p95/p99 latency, throughput, Web Vitals, memory
+                ceilings, and frame-time targets. Then we establish baselines and a performance budget so improvements
+                are clear and regressions are obvious.
+            </>
+        ),
+    },
+
+    {
+        icon: (
+            <img
+                alt=''
+                src='/pipeline.png'
+                className='object-cover object-top w-[155px] h-[155px]'
+            />
+        ),
+        name: <>Fast data paths.</>,
+        description: (
+            <>
+                Most slowness is wasted work: extra roundtrips, heavy serialization, inefficient queries, chatty APIs,
+                lock contention, or GC pressure. We streamline critical paths with the right caching strategy, batching,
+                async I/O, queueing where it helps, and data shapes designed for real traffic patterns.
+            </>
+        ),
+    },
+
+    {
+        icon: (
+            <img
+                alt=''
+                src='/safe_deployments.png'
+                className='object-cover object-top w-[155px] h-[155px]'
+            />
+        ),
+        name: <>Keep it fast as it grows.</>,
+        description: (
+            <>
+                Optimizations that disappear after the next release aren’t real wins. We add lightweight benchmarks and
+                performance checks where they matter most, so speed survives new features, higher traffic, and team
+                growth.
+            </>
+        ),
+    },
+]
+
 export function PerformanceSection() {
+    return (
+        <FeaturesSection
+            title={
+                <>
+                    Performance. <br /> Engineered, not hoped for.
+                </>
+            }
+            subtitle={<>Speed is a feature. We make it measurable, budgeted, and protected over time.</>}
+            features={featuresNew}
+            header={<></>}
+        />
+    )
+}
+
+export function PerformanceSection2() {
     return (
         <FeaturesSection
             title={
@@ -553,7 +628,8 @@ export function FeaturesSection(props: {
                     key={ix}
                     className='flex flex-col'
                 >
-                    <h4> {feature.name} </h4>
+                    {feature.icon ? <div className='w-full flex justify-center mb-4'>{feature.icon}</div> : null}
+                    <h4 className='text-center'> {feature.name} </h4>
                     <dd className='flex flex-auto font-normal text-sm flex-col text-base/7 opacity-80'>
                         <p className='flex-auto'>{feature.description}</p>
                     </dd>
@@ -618,35 +694,89 @@ export function SectionTemplate2(props: {
         </>
     )
 }
+//
+// const features2 = [
+//     {
+//         name: <>Predictable architecture and code quality.</>,
+//         description: (
+//             <>
+//                 You get software that behaves consistently and avoids hidden failures. We design clear, maintainable
+//                 architectures with strong contracts, type-safe code and defensive patterns that prevent entire classes
+//                 of bugs from ever reaching production.
+//             </>
+//         ),
+//     },
+//     {
+//         name: <>Automated testing and deep observability.</>,
+//         description: (
+//             <>
+//                 Your product runs with confidence because issues surface before users ever see them. We build
+//                 comprehensive test suites and instrument your system with metrics, traces and structured logs, giving
+//                 you full insight into production behavior.
+//             </>
+//         ),
+//     },
+//     {
+//         name: <>Safe deployments and resilient operations.</>,
+//         description: (
+//             <>
+//                 Your system remains reliable through updates, traffic spikes and scaling. We use zero-downtime
+//                 deployments, automated rollbacks, health checks and scalable runtime environments to ensure changes are
+//                 predictable and your application remains responsive under all conditions.
+//             </>
+//         ),
+//     },
+// ]
 
 const features2 = [
     {
-        name: <>Predictable architecture and code quality.</>,
+        icon: (
+            <img
+                alt=''
+                src='/component_design.png'
+                className='object-cover object-top w-[155px] h-[155px]'
+            />
+        ),
+        name: <>Clear boundaries.</>,
         description: (
             <>
-                You get software that behaves consistently and avoids hidden failures. We design clear, maintainable
-                architectures with strong contracts, type-safe code and defensive patterns that prevent entire classes
-                of bugs from ever reaching production.
+                We design components with explicit responsibilities, strong contracts, and well-defined failure
+                behavior. That means timeouts, retries (only when safe), idempotency, backpressure, and graceful
+                degradation—so one slow dependency doesn’t take down everything.
             </>
         ),
     },
     {
-        name: <>Automated testing and deep observability.</>,
+        icon: (
+            <img
+                alt=''
+                src='/compass.png'
+                className='object-cover object-top w-[155px] h-[155px]'
+            />
+        ),
+        name: <>Production readiness.</>,
         description: (
             <>
-                Your product runs with confidence because issues surface before users ever see them. We build
-                comprehensive test suites and instrument your system with metrics, traces and structured logs, giving
-                you full insight into production behavior.
+                “Monitoring” isn’t reliability. We define service-level objectives (SLOs), wire alerts to user impact,
+                and document how to respond. When something breaks, you get fast triage, clear dashboards, and steps
+                that work.
             </>
         ),
     },
     {
-        name: <>Safe deployments and resilient operations.</>,
+        icon: (
+            <img
+                alt=''
+                src='/delivery.png'
+                className='object-cover object-top w-[155px] h-[155px]'
+            />
+        ),
+        name: <>Safe change management.</>,
         description: (
             <>
-                Your system remains reliable through updates, traffic spikes and scaling. We use zero-downtime
-                deployments, automated rollbacks, health checks and scalable runtime environments to ensure changes are
-                predictable and your application remains responsive under all conditions.
+                Reliability lives or dies during deployments and migrations. We use progressive rollouts, feature flags
+                where appropriate, reversible changes, and rollback-ready releases—so you can iterate without gambling
+                on uptime.
             </>
         ),
     },
@@ -660,7 +790,9 @@ export function ReliableSoftwareSection() {
                     Reliable software <br /> you can trust in <br className='md:hidden' /> production.
                 </>
             }
-            subtitle={<>Robust architecture, safe deployments and peace of mind in production.</>}
+            subtitle={
+                <>Systems fail. Reliable systems fail predictably, recover quickly, and don’t surprise you at 2 AM.</>
+            }
             features={features2}
             header={
                 <div className='w-full relative flex justify-center overflow-hidden -mt-16 xs:mt-0 pb-12'>

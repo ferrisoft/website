@@ -137,7 +137,7 @@ export function Component() {
                                 <div className='pt-12 grow relative flex flex-wrap justify-center content-center'>
                                     <img
                                         alt=''
-                                        src='/website/high_perf_web_apps.png'
+                                        src='/high_perf_web_apps.png'
                                         className='object-cover object-top h-[196px]'
                                     />
                                 </div>
@@ -158,7 +158,7 @@ export function Component() {
                                 <div className='pt-12 grow relative flex flex-wrap justify-center content-center'>
                                     <img
                                         alt=''
-                                        src='/website/high_perf_backends.png'
+                                        src='/high_perf_backends.png'
                                         className='object-cover object-top h-[196px]'
                                     />
                                 </div>
@@ -198,7 +198,7 @@ export function Component() {
                                 <div className='pt-12 grow relative flex flex-wrap justify-center'>
                                     <img
                                         alt=''
-                                        src='/website/website_conversion.svg'
+                                        src='/website_conversion.svg'
                                         className='object-cover object-top h-[175px]'
                                     />
                                 </div>
@@ -223,7 +223,7 @@ export function Component() {
                                 <div className='h-0 mt-8 grow flex flex-wrap justify-center content-center'>
                                     <img
                                         alt=''
-                                        src='/website/ci_cd.svg'
+                                        src='/ci_cd.svg'
                                         className='w-[346px] h-[346px]'
                                     />
                                 </div>
@@ -252,7 +252,7 @@ export function Component() {
                                 <div className='absolute inset-0 flex flex-wrap justify-center content-center'>
                                     <img
                                         alt=''
-                                        src='/website/design.png'
+                                        src='/design.png'
                                         className='w-[162px] h-[162px] z-20'
                                     />
                                 </div>
