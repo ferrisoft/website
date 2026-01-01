@@ -8,7 +8,7 @@ const posts = [
                 Zero-cost partial borrows <br className='hidden md:block xl:hidden' /> for Rust.
             </>
         ),
-        href: 'blog/crate_fixed_num',
+        href: 'blog/crate_borrow',
         description: (
             <>
                 The <code>borrow</code> crate lets you borrow only selected fields of a struct. It addresses a
@@ -45,7 +45,7 @@ const posts = [
                 A novel way to write <br className='hidden md:block xl:hidden' /> Rust macros.{' '}
             </>
         ),
-        href: 'blog/crate_fixed_num',
+        href: 'blog/crate_crabtime',
         description: (
             <>
                 The <code>crabtime</code> crate introduces a new approach to writing Rust macros. It offers more

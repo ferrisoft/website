@@ -27,6 +27,15 @@ export function App() {
                 path='/blog/crate_crabtime'
                 element={<Blog.Crabtime.Component />}
             />
+            <ReactRouter.Route
+                path='*'
+                element={
+                    <ReactRouter.Navigate
+                        to='/'
+                        replace
+                    />
+                }
+            />
         </ReactRouter.Routes>
     )
 }
