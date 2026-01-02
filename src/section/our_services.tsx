@@ -114,9 +114,10 @@ export function Component() {
         >
             <Layout.Container>
                 <Layout.RootPaddingX>
-                    <div className='mt-10 grid gap-4 sm:mt-16 grid-cols-1 lg:grid-cols-6 overflow-hidden text-black/65'>
-                        <div className='relative lg:col-span-3 rounded-3xl bg-black/3'>
+                    <div className='mt-10 grid gap-4 sm:mt-16 grid-cols-1 md:grid-cols-6 overflow-hidden text-black/65'>
+                        <div className='relative md:col-span-3 rounded-3xl bg-black/3'>
                             <Card
+                                className='justify-between'
                                 title={<>High-performance web apps.</>}
                                 description={
                                     <>
@@ -128,7 +129,7 @@ export function Component() {
                                     </>
                                 }
                             >
-                                <div className='pt-12 grow relative flex flex-wrap justify-center content-center'>
+                                <div className='pt-12 relative flex flex-wrap justify-center content-center'>
                                     <img
                                         alt=''
                                         src='/img/high_perf_web_apps.svg'
@@ -137,8 +138,9 @@ export function Component() {
                                 </div>
                             </Card>
                         </div>
-                        <div className='relative lg:col-span-3 rounded-3xl bg-black/3'>
+                        <div className='relative md:col-span-3 rounded-3xl bg-black/3'>
                             <Card
+                                className='justify-between'
                                 title={<>High-throughput backends and APIs.</>}
                                 description={
                                     <>
@@ -149,7 +151,7 @@ export function Component() {
                                     </>
                                 }
                             >
-                                <div className='pt-12 grow relative flex flex-wrap justify-center content-center'>
+                                <div className='pt-12 relative flex flex-wrap justify-center content-center'>
                                     <img
                                         alt=''
                                         src='/img/high_perf_backends.svg'
@@ -158,8 +160,8 @@ export function Component() {
                                 </div>
                             </Card>
                         </div>
-                        <div className='relative lg:col-span-6 flex flex-col lg:flex-row gap-4'>
-                            <div className='relative dark-theme rounded-3xl bg-black/89'>
+                        <div className='relative md:col-span-6 flex flex-col md:flex-row gap-4'>
+                            <div className='relative dark-theme rounded-3xl bg-black/89 shrink'>
                                 <Card
                                     title={<>Audit and performance fine tuning for existing apps.</>}
                                     description={
@@ -180,7 +182,7 @@ export function Component() {
                                     </div>
                                 </Card>
                             </div>
-                            <div className='relative rounded-3xl bg-black/3 lg:w-[400px] shrink-0'>
+                            <div className='relative rounded-3xl bg-black/3 shrink'>
                                 <Card
                                     className='justify-between'
                                     title={<>Websites that convert.</>}
@@ -193,18 +195,47 @@ export function Component() {
                                         </>
                                     }
                                 >
-                                    <div className='pt-12 relative flex flex-wrap justify-center'>
-                                        <img
-                                            alt=''
-                                            src='/website_conversion.svg'
-                                            className='object-cover object-top lg:h-[175px]'
-                                        />
+                                    <div className='relative pt-12'>
+                                        <div className='relative w-full flex flex-wrap justify-center'>
+                                            <img
+                                                src='/img/website_conversion_left.svg'
+                                                className='absolute top-0 left-0 h-[175px]'
+                                            />
+                                            <img
+                                                src='/img/website_conversion_right.svg'
+                                                className='absolute top-0 right-0 h-[175px]'
+                                            />
+                                            <img
+                                                src='/img/website_conversion_lines.svg'
+                                                className='w-full h-[175px]'
+                                            />
+                                        </div>
                                     </div>
                                 </Card>
+                                {/*<Card*/}
+                                {/*    className='justify-between'*/}
+                                {/*    title={<>Websites that convert.</>}*/}
+                                {/*    description={*/}
+                                {/*        <>*/}
+                                {/*            We build premium marketing websites and landing pages designed for*/}
+                                {/*            conversion and fast iteration. Work includes strong visuals, clear*/}
+                                {/*            messaging, SEO foundations, analytics instrumentation, and lightweight*/}
+                                {/*            content workflows.*/}
+                                {/*        </>*/}
+                                {/*    }*/}
+                                {/*>*/}
+                                {/*    <div className='pt-12 relative flex flex-wrap justify-center'>*/}
+                                {/*        <img*/}
+                                {/*            alt=''*/}
+                                {/*            src='/website_conversion.svg'*/}
+                                {/*            className='object-cover object-top md:h-[175px]'*/}
+                                {/*        />*/}
+                                {/*    </div>*/}
+                                {/*</Card>*/}
                             </div>
                         </div>
-                        <div className='relative lg:col-span-6 flex flex-col lg:flex-row gap-4'>
-                            <div className='relative lg:col-span-2 rounded-3xl bg-black/3 flex flex-col min-h-[480px] lg:w-[400px] shrink-0'>
+                        <div className='relative md:col-span-6 flex flex-col md:flex-row gap-4'>
+                            <div className='relative md:col-span-2 rounded-3xl bg-black/3 flex flex-col min-h-[480px] shrink'>
                                 <div className='relative'>
                                     <Card
                                         contentPaddingYProps={{className: '!pb-0'}}
@@ -229,7 +260,7 @@ export function Component() {
                                     </div>
                                 </div>
                             </div>
-                            <div className='relative lg:col-span-4 rounded-3xl bg-accent2 overflow-hidden dark-theme'>
+                            <div className='relative md:col-span-4 rounded-3xl bg-accent2 overflow-hidden dark-theme shrink'>
                                 <div className='relative'>
                                     <Card
                                         contentPaddingYProps={{className: '!pb-0'}}

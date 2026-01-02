@@ -412,15 +412,7 @@ export const Component = React.forwardRef<HTMLDivElement>((_, ref) => {
                         <div className='w-full flex justify-center'>
                             <div className='max-w-md lg:max-w-none w-full'>
                                 <div className='lg:items-center lg:text-center lg:mx-auto'>
-                                    <h1>
-                                        {formSubmitted ? (
-                                            <>Thank you.</>
-                                        ) : (
-                                            <>
-                                                Let's work <br className='xs:hidden' /> together.
-                                            </>
-                                        )}
-                                    </h1>
+                                    <h1>{formSubmitted ? <>Thank you.</> : <>Let's work together.</>}</h1>
                                     <h3>
                                         {formSubmitted ? (
                                             <>We will contact you soon.</>
