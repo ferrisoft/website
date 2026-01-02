@@ -708,10 +708,12 @@ export function SectionTemplate2(props: {
 }) {
     return (
         <>
-            <div className='w-full flex flex-col md:items-center md:text-center md:mx-auto'>
-                <h1> {props.title} </h1>
-                <h3> {props.subtitle} </h3>
-            </div>
+            <Layout.Section>
+                <div className='w-full flex flex-col md:items-center md:text-center md:mx-auto'>
+                    <h1> {props.title} </h1>
+                    <h3> {props.subtitle} </h3>
+                </div>
+            </Layout.Section>
             {props.children}
         </>
     )

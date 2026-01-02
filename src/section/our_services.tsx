@@ -72,16 +72,18 @@ function Card({
     description,
     children,
     contentPaddingYProps,
+    className,
 }: {
     title: React.ReactNode
     description: React.ReactNode
     children?: React.ReactNode
     contentPaddingYProps?: Layout.DivProps
+    className?: string
 }) {
     return (
         <Layout.ContentPaddingY {...contentPaddingYProps}>
             <Layout.ContentPaddingX>
-                <div className='relative flex h-full flex-col overflow-hidden'>
+                <div className={Class.names(className, 'relative flex h-full flex-col overflow-hidden')}>
                     <div>
                         <h4>{title}</h4>
                         <p>{description}</p>
@@ -112,18 +114,10 @@ export function Component() {
         >
             <Layout.Container>
                 <Layout.RootPaddingX>
-                    <div className='mt-10 grid gap-4 sm:mt-16 lg:grid-cols-6 overflow-hidden text-black/65'>
-                        <div className='relative col-span-3 rounded-3xl bg-black/3'>
+                    <div className='mt-10 grid gap-4 sm:mt-16 grid-cols-1 lg:grid-cols-6 overflow-hidden text-black/65'>
+                        <div className='relative lg:col-span-3 rounded-3xl bg-black/3'>
                             <Card
                                 title={<>High-performance web apps.</>}
-                                // description={
-                                //     <>
-                                //         We build scalable web apps in TypeScript and Rust that stay smooth under
-                                //         real-world load. We use optimized state management and predictable rendering for
-                                //         instant UX. Projects include trading platforms, data-heavy dashboards, customer
-                                //         portals, and internal tools.
-                                //     </>
-                                // }
                                 description={
                                     <>
                                         We build scalable apps that stay fast under load, using design systems,
@@ -138,12 +132,12 @@ export function Component() {
                                     <img
                                         alt=''
                                         src='/img/high_perf_web_apps.svg'
-                                        className='object-cover object-top h-[196px]'
+                                        className='object-cover object-top'
                                     />
                                 </div>
                             </Card>
                         </div>
-                        <div className='relative col-span-3 rounded-3xl bg-black/3'>
+                        <div className='relative lg:col-span-3 rounded-3xl bg-black/3'>
                             <Card
                                 title={<>High-throughput backends and APIs.</>}
                                 description={
@@ -159,128 +153,135 @@ export function Component() {
                                     <img
                                         alt=''
                                         src='/img/high_perf_backends.svg'
-                                        className='object-cover object-top h-[196px]'
+                                        className='object-cover object-top'
                                     />
                                 </div>
                             </Card>
                         </div>
-                        <div className='relative lg:row-span-1 col-span-4 dark-theme rounded-3xl bg-black/89'>
-                            <Card
-                                title={<>Audit and performance fine tuning for existing apps.</>}
-                                description={
-                                    <>
-                                        We optimize apps without the cost of a rewrite. We audit your system to uncover
-                                        memory issues, slow routes, blocking operations, inefficient queries, and
-                                        rendering delays, then fine-tune it for faster responses, smoother interactions,
-                                        higher reliability and lower infrastructure costs. <br />
-                                        <br />
-                                        We use Rust for performance-critical code, achieving up to 100× speed gains and
-                                        10× lower memory use in client production systems.
-                                    </>
-                                }
-                            >
-                                <div className='pt-12 grow relative text-white/70'>
-                                    <Benchmarks />
-                                </div>
-                            </Card>
-                        </div>
-                        <div className='relative row-span-1 col-span-2 rounded-3xl bg-black/3'>
-                            <Card
-                                title={<>Websites that convert.</>}
-                                description={
-                                    <>
-                                        We build premium marketing websites and landing pages designed for conversion
-                                        and fast iteration. Work includes strong visuals, clear messaging, SEO
-                                        foundations, analytics instrumentation, and lightweight content workflows.
-                                    </>
-                                }
-                            >
-                                <div className='pt-12 grow relative flex flex-wrap justify-center'>
-                                    <img
-                                        alt=''
-                                        src='/website_conversion.svg'
-                                        className='object-cover object-top h-[175px]'
-                                    />
-                                </div>
-                            </Card>
-                        </div>
-                        <div className='relative max-lg:row-start-4 lg:row-start-3 col-span-2 rounded-3xl bg-black/3 flex flex-col'>
-                            <div className='relative'>
+                        <div className='relative lg:col-span-6 flex flex-col lg:flex-row gap-4'>
+                            <div className='relative dark-theme rounded-3xl bg-black/89'>
                                 <Card
-                                    contentPaddingYProps={{className: '!pb-0'}}
-                                    title={<>CI/CD and observability.</>}
+                                    title={<>Audit and performance fine tuning for existing apps.</>}
                                     description={
                                         <>
-                                            We build reliable delivery pipelines and production visibility. CI/CD,
-                                            health checks, zero-downtime deploys, metrics, traces, rollbacks, and
-                                            structured logs.
+                                            We optimize apps without the cost of a rewrite. We audit your system to
+                                            uncover memory issues, slow routes, blocking operations, inefficient
+                                            queries, and rendering delays, then fine-tune it for faster responses,
+                                            smoother interactions, higher reliability and lower infrastructure costs.{' '}
+                                            <br />
+                                            <br />
+                                            We use Rust for performance-critical code, achieving up to 100× speed gains
+                                            and 10× lower memory use in client production systems.
                                         </>
                                     }
-                                ></Card>
+                                >
+                                    <div className='pt-12 grow relative text-white/70'>
+                                        <Benchmarks />
+                                    </div>
+                                </Card>
                             </div>
-                            <div className='relative grow overflow-hidden flex flex-col'>
-                                <div className='absolute w-full h-24 bg-gradient-to-b from-[#F7F7F7] to-transparent' />
-                                <div className='h-0 mt-8 grow flex flex-wrap justify-center content-center'>
-                                    <img
-                                        alt=''
-                                        src='/ci_cd.svg'
-                                        className='w-[346px] h-[346px]'
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className='relative lg:row-span-1 col-span-4 rounded-3xl bg-accent2 overflow-hidden dark-theme'>
-                            <div className='relative'>
+                            <div className='relative rounded-3xl bg-black/3 lg:w-[400px] shrink-0'>
                                 <Card
-                                    contentPaddingYProps={{className: '!pb-0'}}
-                                    title={<>Product design and UX engineering.</>}
+                                    className='justify-between'
+                                    title={<>Websites that convert.</>}
                                     description={
                                         <>
-                                            We design and build interfaces that feel instant and intuitive, from UX
-                                            flows to polished UI. Work includes design systems, component libraries,
-                                            accessibility foundations, and interaction patterns that keep complex
-                                            products consistent and easy to evolve.
+                                            We build premium marketing websites and landing pages designed for
+                                            conversion and fast iteration. Work includes strong visuals, clear
+                                            messaging, SEO foundations, analytics instrumentation, and lightweight
+                                            content workflows.
                                         </>
                                     }
-                                ></Card>
-                            </div>
-                            <div className='relative grow w-full'>
-                                <div className='absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-accent2 to-transparent z-10' />
-                                <div className='absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-accent2 z-10' />
-                                <div className='absolute top-0 left-0 h-full w-24 bg-gradient-to-r from-accent2 to-transparent z-10' />
-                                <div className='absolute top-0 right-0 h-full w-24 bg-gradient-to-r from-transparent to-accent2 z-10' />
-                                <div className='absolute inset-0 flex flex-wrap justify-center content-center'>
-                                    <img
-                                        alt=''
-                                        src='/img/blueprint_design.svg'
-                                        className='w-[162px] h-[162px] z-20'
-                                    />
-                                </div>
-                                <div className='w-full h-full overflow-hidden flex flex-wrap justify-center content-center'>
-                                    <svg
-                                        className='relative text-white/30 shrink-0'
-                                        style={{width, height}}
-                                    >
-                                        <defs>
-                                            <pattern
-                                                id='dots'
-                                                width={gap + dotSize}
-                                                height={gap + dotSize}
-                                                patternUnits='userSpaceOnUse'
-                                            >
-                                                <rect
-                                                    width={dotSize}
-                                                    height={dotSize}
-                                                    fill='currentColor'
-                                                />
-                                            </pattern>
-                                        </defs>
-                                        <rect
-                                            width='100%'
-                                            height='100%'
-                                            fill='url(#dots)'
+                                >
+                                    <div className='pt-12 relative flex flex-wrap justify-center'>
+                                        <img
+                                            alt=''
+                                            src='/website_conversion.svg'
+                                            className='object-cover object-top lg:h-[175px]'
                                         />
-                                    </svg>
+                                    </div>
+                                </Card>
+                            </div>
+                        </div>
+                        <div className='relative lg:col-span-6 flex flex-col lg:flex-row gap-4'>
+                            <div className='relative lg:col-span-2 rounded-3xl bg-black/3 flex flex-col min-h-[480px] lg:w-[400px] shrink-0'>
+                                <div className='relative'>
+                                    <Card
+                                        contentPaddingYProps={{className: '!pb-0'}}
+                                        title={<>CI/CD and observability.</>}
+                                        description={
+                                            <>
+                                                We build reliable delivery pipelines and production visibility. CI/CD,
+                                                health checks, zero-downtime deploys, metrics, traces, rollbacks, and
+                                                structured logs.
+                                            </>
+                                        }
+                                    ></Card>
+                                </div>
+                                <div className='relative grow overflow-hidden flex flex-col'>
+                                    <div className='absolute w-full h-24 bg-gradient-to-b from-[#F7F7F7] to-transparent' />
+                                    <div className='h-0 mt-8 grow flex flex-wrap justify-center content-center'>
+                                        <img
+                                            alt=''
+                                            src='/ci_cd.svg'
+                                            className='w-[346px] h-[346px]'
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='relative lg:col-span-4 rounded-3xl bg-accent2 overflow-hidden dark-theme'>
+                                <div className='relative'>
+                                    <Card
+                                        contentPaddingYProps={{className: '!pb-0'}}
+                                        title={<>Product design and UX engineering.</>}
+                                        description={
+                                            <>
+                                                We design and build interfaces that feel instant and intuitive, from UX
+                                                flows to polished UI. Work includes design systems, component libraries,
+                                                accessibility foundations, and interaction patterns that keep complex
+                                                products consistent and easy to evolve.
+                                            </>
+                                        }
+                                    ></Card>
+                                </div>
+                                <div className='relative grow w-full'>
+                                    <div className='absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-accent2 to-transparent z-10' />
+                                    <div className='absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-accent2 z-10' />
+                                    <div className='absolute top-0 left-0 h-full w-24 bg-gradient-to-r from-accent2 to-transparent z-10' />
+                                    <div className='absolute top-0 right-0 h-full w-24 bg-gradient-to-r from-transparent to-accent2 z-10' />
+                                    <div className='absolute inset-0 flex flex-wrap justify-center content-center'>
+                                        <img
+                                            alt=''
+                                            src='/img/blueprint_design.svg'
+                                            className='w-[162px] h-[162px] z-20'
+                                        />
+                                    </div>
+                                    <div className='w-full h-full overflow-hidden flex flex-wrap justify-center content-center'>
+                                        <svg
+                                            className='relative text-white/30 shrink-0'
+                                            style={{width, height}}
+                                        >
+                                            <defs>
+                                                <pattern
+                                                    id='dots'
+                                                    width={gap + dotSize}
+                                                    height={gap + dotSize}
+                                                    patternUnits='userSpaceOnUse'
+                                                >
+                                                    <rect
+                                                        width={dotSize}
+                                                        height={dotSize}
+                                                        fill='currentColor'
+                                                    />
+                                                </pattern>
+                                            </defs>
+                                            <rect
+                                                width='100%'
+                                                height='100%'
+                                                fill='url(#dots)'
+                                            />
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
                         </div>

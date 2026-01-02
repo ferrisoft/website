@@ -44,7 +44,7 @@
     }
 
     h1 {
-        @apply text-nowrap text-zinc-800 font-semibold tracking-tight
+        @apply text-zinc-800 font-semibold tracking-tight
             text-[32px] md:text-[40px] lg:text-5xl
             leading-[1.2em];
     }
