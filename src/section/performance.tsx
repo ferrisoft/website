@@ -810,7 +810,7 @@ export function ReliableSoftwareSection() {
         <FeaturesSection
             title={
                 <>
-                    Reliable software <br /> you can trust in <br className='md:hidden' /> production.
+                    Reliable software <br /> you can trust in production.
                 </>
             }
             subtitle={

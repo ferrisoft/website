@@ -161,7 +161,7 @@ export function Component() {
                             </Card>
                         </div>
                         <div className='relative md:col-span-6 flex flex-col md:flex-row gap-4'>
-                            <div className='relative dark-theme rounded-3xl bg-black/89 shrink'>
+                            <div className='relative dark-theme rounded-3xl bg-black/89 md:w-[805px] shrink-3'>
                                 <Card
                                     title={<>Audit and performance fine tuning for existing apps.</>}
                                     description={
@@ -182,7 +182,7 @@ export function Component() {
                                     </div>
                                 </Card>
                             </div>
-                            <div className='relative rounded-3xl bg-black/3 shrink'>
+                            <div className='relative rounded-3xl bg-black/3 md:w-[395px] shrink'>
                                 <Card
                                     className='justify-between'
                                     title={<>Websites that convert.</>}
@@ -212,30 +212,10 @@ export function Component() {
                                         </div>
                                     </div>
                                 </Card>
-                                {/*<Card*/}
-                                {/*    className='justify-between'*/}
-                                {/*    title={<>Websites that convert.</>}*/}
-                                {/*    description={*/}
-                                {/*        <>*/}
-                                {/*            We build premium marketing websites and landing pages designed for*/}
-                                {/*            conversion and fast iteration. Work includes strong visuals, clear*/}
-                                {/*            messaging, SEO foundations, analytics instrumentation, and lightweight*/}
-                                {/*            content workflows.*/}
-                                {/*        </>*/}
-                                {/*    }*/}
-                                {/*>*/}
-                                {/*    <div className='pt-12 relative flex flex-wrap justify-center'>*/}
-                                {/*        <img*/}
-                                {/*            alt=''*/}
-                                {/*            src='/website_conversion.svg'*/}
-                                {/*            className='object-cover object-top md:h-[175px]'*/}
-                                {/*        />*/}
-                                {/*    </div>*/}
-                                {/*</Card>*/}
                             </div>
                         </div>
                         <div className='relative md:col-span-6 flex flex-col md:flex-row gap-4'>
-                            <div className='relative md:col-span-2 rounded-3xl bg-black/3 flex flex-col min-h-[480px] shrink'>
+                            <div className='relative md:col-span-2 rounded-3xl bg-black/3 flex flex-col min-h-[480px] md:w-[395px] shrink'>
                                 <div className='relative'>
                                     <Card
                                         contentPaddingYProps={{className: '!pb-0'}}
@@ -260,7 +240,7 @@ export function Component() {
                                     </div>
                                 </div>
                             </div>
-                            <div className='relative md:col-span-4 rounded-3xl bg-accent2 overflow-hidden dark-theme shrink'>
+                            <div className='relative md:col-span-4 rounded-3xl bg-accent2 overflow-hidden dark-theme md:w-[805px] shrink-3'>
                                 <div className='relative'>
                                     <Card
                                         contentPaddingYProps={{className: '!pb-0'}}

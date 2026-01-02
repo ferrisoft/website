@@ -405,51 +405,49 @@ export const Component = React.forwardRef<HTMLDivElement>((_, ref) => {
         <div ref={ref}>
             <div
                 ref={scrollRef}
-                className='relative'
+                className='relative py-6'
             >
-                <Layout.RootPaddingY>
-                    <Layout.Section>
-                        <div className='w-full flex justify-center'>
-                            <div className='max-w-md lg:max-w-none w-full'>
-                                <div className='lg:items-center lg:text-center lg:mx-auto'>
-                                    <h1>{formSubmitted ? <>Thank you.</> : <>Let's work together.</>}</h1>
-                                    <h3>
-                                        {formSubmitted ? (
-                                            <>We will contact you soon.</>
-                                        ) : (
-                                            <>
-                                                From first contact to final delivery, we build your product with clarity
-                                                and care.
-                                            </>
+                <Layout.Section>
+                    <div className='w-full flex justify-center'>
+                        <div className='max-w-md lg:max-w-none w-full'>
+                            <div className='lg:items-center lg:text-center lg:mx-auto'>
+                                <h1>{formSubmitted ? <>Thank you.</> : <>Let's work together.</>}</h1>
+                                <h3>
+                                    {formSubmitted ? (
+                                        <>We will contact you soon.</>
+                                    ) : (
+                                        <>
+                                            From first contact to final delivery, we build your product with clarity and
+                                            care.
+                                        </>
+                                    )}
+                                </h3>
+                            </div>
+                            <div className='relative'>
+                                <div className='pt-16 flex justify-center flex-col lg:flex-row'>
+                                    <div
+                                        className={Class.names(
+                                            'shrink-0 transition-all duration-300 overflow-hidden',
+                                            formSubmitted ? 'h-0 lg:h-130 lg:w-0' : 'sm:w-120 h-150 sm:h-130',
                                         )}
-                                    </h3>
-                                </div>
-                                <div className='relative'>
-                                    <div className='pt-16 flex justify-center flex-col lg:flex-row'>
-                                        <div
-                                            className={Class.names(
-                                                'shrink-0 transition-all duration-300 overflow-hidden',
-                                                formSubmitted ? 'h-0 lg:h-130 lg:w-0' : 'sm:w-120 h-150 sm:h-130',
-                                            )}
-                                        >
-                                            <div className='flex flex-col gap-16 sm:gap-y-20 lg:flex-row lg:pr-16 pl-1 pr-1'>
-                                                <ContactForm
-                                                    onSubmit={() => {
-                                                        setFormSubmitted(true)
-                                                        if (scrollRef.current) {
-                                                            scrollRef.current.scrollIntoView({behavior: 'smooth'})
-                                                        }
-                                                    }}
-                                                />
-                                            </div>
+                                    >
+                                        <div className='flex flex-col gap-16 sm:gap-y-20 lg:flex-row lg:pr-16 pl-1 pr-1'>
+                                            <ContactForm
+                                                onSubmit={() => {
+                                                    setFormSubmitted(true)
+                                                    if (scrollRef.current) {
+                                                        scrollRef.current.scrollIntoView({behavior: 'smooth'})
+                                                    }
+                                                }}
+                                            />
                                         </div>
-                                        <Timeline formSubmitted={formSubmitted} />
                                     </div>
+                                    <Timeline formSubmitted={formSubmitted} />
                                 </div>
                             </div>
                         </div>
-                    </Layout.Section>
-                </Layout.RootPaddingY>
+                    </div>
+                </Layout.Section>
             </div>
         </div>
     )
