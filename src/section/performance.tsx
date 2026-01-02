@@ -515,13 +515,33 @@ function CircleAnimation() {
     )
 }
 
+export function Svg({src, className}: {src: string; className?: string}) {
+    const ref = React.useRef<HTMLDivElement>(null)
+
+    React.useEffect(() => {
+        fetch(src)
+            .then(res => res.text())
+            .then(svg => {
+                if (ref.current) {
+                    ref.current.innerHTML = svg
+                }
+            })
+    }, [src])
+
+    return (
+        <div
+            ref={ref}
+            className={className}
+        />
+    )
+}
+
 const featuresNew: Feature[] = [
     {
         icon: (
-            <img
-                alt=''
-                src='/measure.png'
-                className='object-cover object-top w-[155px] h-[155px]'
+            <Svg
+                src='/img/micrometer.svg'
+                className='object-cover object-top w-[140px] h-[140px]'
             />
         ),
         name: <>Measure first.</>,
@@ -536,10 +556,9 @@ const featuresNew: Feature[] = [
 
     {
         icon: (
-            <img
-                alt=''
-                src='/pipeline.png'
-                className='object-cover object-top w-[155px] h-[155px]'
+            <Svg
+                src='/img/pipes.svg'
+                className='object-cover object-top w-[140px] h-[140px]'
             />
         ),
         name: <>Fast data paths.</>,
@@ -554,10 +573,9 @@ const featuresNew: Feature[] = [
 
     {
         icon: (
-            <img
-                alt=''
-                src='/safe_deployments.png'
-                className='object-cover object-top w-[155px] h-[155px]'
+            <Svg
+                src='/img/alarm.svg'
+                className='object-cover object-top w-[140px] h-[140px]'
             />
         ),
         name: <>Keep it fast as it grows.</>,
@@ -627,8 +645,12 @@ export function FeaturesSection(props: {
                 <div
                     key={ix}
                     className='flex flex-col'
+                    style={{
+                        '--color-primary': 'var(--color-accent2)',
+                        '--color-secondary': 'color-mix(in srgb, var(--color-accent2) 20%, white)',
+                    }}
                 >
-                    {feature.icon ? <div className='w-full flex justify-center mb-4'>{feature.icon}</div> : null}
+                    {feature.icon ? <div className='w-full flex justify-center mb-6'>{feature.icon}</div> : null}
                     <h4 className='text-center'> {feature.name} </h4>
                     <dd className='flex flex-auto font-normal text-sm flex-col text-base/7 opacity-80'>
                         <p className='flex-auto'>{feature.description}</p>
@@ -731,10 +753,9 @@ export function SectionTemplate2(props: {
 const features2 = [
     {
         icon: (
-            <img
-                alt=''
-                src='/component_design.png'
-                className='object-cover object-top w-[155px] h-[155px]'
+            <Svg
+                src='/img/gear_and_ruler.svg'
+                className='object-cover object-top w-[140px] h-[140px]'
             />
         ),
         name: <>Clear boundaries.</>,
@@ -748,11 +769,12 @@ const features2 = [
     },
     {
         icon: (
-            <img
-                alt=''
-                src='/compass.png'
-                className='object-cover object-top w-[155px] h-[155px]'
-            />
+            <div className='p-[5px]'>
+                <Svg
+                    src='/img/barometer.svg'
+                    className='object-cover object-top w-[130px] h-[130px]'
+                />
+            </div>
         ),
         name: <>Production readiness.</>,
         description: (
@@ -765,10 +787,9 @@ const features2 = [
     },
     {
         icon: (
-            <img
-                alt=''
-                src='/delivery.png'
-                className='object-cover object-top w-[155px] h-[155px]'
+            <Svg
+                src='/img/conveyor_belt.svg'
+                className='object-cover object-top w-[140px] h-[140px]'
             />
         ),
         name: <>Safe change management.</>,

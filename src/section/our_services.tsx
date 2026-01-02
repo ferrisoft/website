@@ -137,7 +137,7 @@ export function Component() {
                                 <div className='pt-12 grow relative flex flex-wrap justify-center content-center'>
                                     <img
                                         alt=''
-                                        src='/high_perf_web_apps.png'
+                                        src='/img/high_perf_web_apps.svg'
                                         className='object-cover object-top h-[196px]'
                                     />
                                 </div>
@@ -158,7 +158,7 @@ export function Component() {
                                 <div className='pt-12 grow relative flex flex-wrap justify-center content-center'>
                                     <img
                                         alt=''
-                                        src='/high_perf_backends.png'
+                                        src='/img/high_perf_backends.svg'
                                         className='object-cover object-top h-[196px]'
                                     />
                                 </div>
@@ -252,7 +252,7 @@ export function Component() {
                                 <div className='absolute inset-0 flex flex-wrap justify-center content-center'>
                                     <img
                                         alt=''
-                                        src='/design.png'
+                                        src='/img/blueprint_design.svg'
                                         className='w-[162px] h-[162px] z-20'
                                     />
                                 </div>

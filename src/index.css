@@ -125,3 +125,7 @@ table td {
     transform: rotate(-90deg);
     transform-origin: left bottom;
 }
+
+path {
+    shape-rendering: geometricPrecision;
+}
