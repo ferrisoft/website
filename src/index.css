@@ -129,3 +129,7 @@ table td {
 path {
     shape-rendering: geometricPrecision;
 }
+
+html {
+    scroll-behavior: smooth;
+}

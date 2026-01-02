@@ -2,6 +2,7 @@ import * as Icons from '@heroicons/react/24/solid'
 import * as Layout from '@/layout'
 import * as React from 'react'
 import * as Dom from '@/dom'
+import * as NamedSection from '@/components/named_section'
 
 import HighPerfViz from '@/assets/high_perf_viz.svg?react'
 import HeartBeatIcon from '@/assets/icon/heart_beat.svg?react'
@@ -591,16 +592,18 @@ const featuresNew: Feature[] = [
 
 export function PerformanceSection() {
     return (
-        <FeaturesSection
-            title={
-                <>
-                    Performance. <br /> Engineered, not hoped for.
-                </>
-            }
-            subtitle={<>Speed is a feature. We make it measurable, budgeted, and protected over time.</>}
-            features={featuresNew}
-            header={<></>}
-        />
+        <NamedSection.Component id='performance'>
+            <FeaturesSection
+                title={
+                    <>
+                        Performance. <br /> Engineered, not hoped for.
+                    </>
+                }
+                subtitle={<>Speed is a feature. We make it measurable, budgeted, and protected over time.</>}
+                features={featuresNew}
+                header={<></>}
+            />
+        </NamedSection.Component>
     )
 }
 
@@ -807,23 +810,28 @@ const features2 = [
 
 export function ReliableSoftwareSection() {
     return (
-        <FeaturesSection
-            title={
-                <>
-                    Reliable software <br /> you can trust in production.
-                </>
-            }
-            subtitle={
-                <>Systems fail. Reliable systems fail predictably, recover quickly, and don’t surprise you at 2 AM.</>
-            }
-            features={features2}
-            header={
-                <div className='w-full relative flex justify-center overflow-hidden -mt-16 xs:mt-0 pb-12'>
-                    <div className='scale-85 translate-y-6 xs:scale-100 xs:translate-0 flex justify-center'>
-                        <CircleAnimation />
+        <NamedSection.Component id='reliable-software'>
+            <FeaturesSection
+                title={
+                    <>
+                        Reliable software <br /> you can trust in production.
+                    </>
+                }
+                subtitle={
+                    <>
+                        Systems fail. Reliable systems fail predictably, recover quickly, and don’t surprise you at 2
+                        AM.
+                    </>
+                }
+                features={features2}
+                header={
+                    <div className='w-full relative flex justify-center overflow-hidden -mt-16 xs:mt-0 pb-12'>
+                        <div className='scale-85 translate-y-6 xs:scale-100 xs:translate-0 flex justify-center'>
+                            <CircleAnimation />
+                        </div>
                     </div>
-                </div>
-            }
-        />
+                }
+            />
+        </NamedSection.Component>
     )
 }

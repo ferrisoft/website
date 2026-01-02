@@ -2,7 +2,7 @@ import * as Layout from '@/layout'
 import {SectionTemplate2} from '@/section/performance'
 import * as Class from '@/class'
 import * as React from 'react'
-import {ContentPaddingY} from '@/layout'
+import * as NamedSection from '@/components/named_section'
 
 function Benchmarks() {
     return (
@@ -103,202 +103,207 @@ export function Component() {
     const width = `${dotSize + (dotRowCount - 1) * (gap + dotSize)}px`
     const height = `${dotSize + (dotColCount - 1) * (gap + dotSize)}px`
     return (
-        <SectionTemplate2
-            title={<>Our services.</>}
-            subtitle={
-                <>
-                    We build and optimize Rust and web systems for real-world load, stability, and long-term
-                    maintainability.
-                </>
-            }
-        >
-            <Layout.Container>
-                <Layout.RootPaddingX>
-                    <div className='mt-10 grid gap-4 sm:mt-16 grid-cols-1 md:grid-cols-6 overflow-hidden text-black/65'>
-                        <div className='relative md:col-span-3 rounded-3xl bg-black/3'>
-                            <Card
-                                className='justify-between'
-                                title={<>High-performance web apps.</>}
-                                description={
-                                    <>
-                                        We build scalable apps that stay fast under load, using design systems,
-                                        predictable rendering, optimized state management and carefully tuned
-                                        interaction patterns. For demanding interfaces we deliver Rust (WASM) based
-                                        WebGPU solutions. Projects include trading platforms, data-heavy dashboards,
-                                        customer portals, and internal tools.
-                                    </>
-                                }
-                            >
-                                <div className='pt-12 relative flex flex-wrap justify-center content-center'>
-                                    <img
-                                        alt=''
-                                        src='/img/high_perf_web_apps.svg'
-                                        className='object-cover object-top'
-                                    />
-                                </div>
-                            </Card>
-                        </div>
-                        <div className='relative md:col-span-3 rounded-3xl bg-black/3'>
-                            <Card
-                                className='justify-between'
-                                title={<>High-throughput backends and APIs.</>}
-                                description={
-                                    <>
-                                        We build low-latency backends and high-load APIs with clear contracts, type
-                                        safety, and predictable architecture. We deliver real-time services,
-                                        event-driven workflows, data pipelines, caching, queues, and scalable runtime
-                                        environments.
-                                    </>
-                                }
-                            >
-                                <div className='pt-12 relative flex flex-wrap justify-center content-center'>
-                                    <img
-                                        alt=''
-                                        src='/img/high_perf_backends.svg'
-                                        className='object-cover object-top'
-                                    />
-                                </div>
-                            </Card>
-                        </div>
-                        <div className='relative md:col-span-6 flex flex-col md:flex-row gap-4'>
-                            <div className='relative dark-theme rounded-3xl bg-black/89 md:w-[805px] shrink-3'>
-                                <Card
-                                    title={<>Audit and performance fine tuning for existing apps.</>}
-                                    description={
-                                        <>
-                                            We optimize apps without the cost of a rewrite. We audit your system to
-                                            uncover memory issues, slow routes, blocking operations, inefficient
-                                            queries, and rendering delays, then fine-tune it for faster responses,
-                                            smoother interactions, higher reliability and lower infrastructure costs.{' '}
-                                            <br />
-                                            <br />
-                                            We use Rust for performance-critical code, achieving up to 100× speed gains
-                                            and 10× lower memory use in client production systems.
-                                        </>
-                                    }
-                                >
-                                    <div className='pt-12 grow relative text-white/70'>
-                                        <Benchmarks />
-                                    </div>
-                                </Card>
-                            </div>
-                            <div className='relative rounded-3xl bg-black/3 md:w-[395px] shrink'>
-                                <Card
-                                    className='justify-between'
-                                    title={<>Websites that convert.</>}
-                                    description={
-                                        <>
-                                            We build premium marketing websites and landing pages designed for
-                                            conversion and fast iteration. Work includes strong visuals, clear
-                                            messaging, SEO foundations, analytics instrumentation, and lightweight
-                                            content workflows.
-                                        </>
-                                    }
-                                >
-                                    <div className='relative pt-12'>
-                                        <div className='relative w-full flex flex-wrap justify-center'>
+        <NamedSection.Component id='services'>
+            <div>
+                <SectionTemplate2
+                    title={<>Our services.</>}
+                    subtitle={
+                        <>
+                            We build and optimize Rust and web systems for real-world load, stability, and long-term
+                            maintainability.
+                        </>
+                    }
+                >
+                    <Layout.Container>
+                        <Layout.RootPaddingX>
+                            <div className='mt-10 grid gap-4 sm:mt-16 grid-cols-1 md:grid-cols-6 overflow-hidden text-black/65'>
+                                <div className='relative md:col-span-3 rounded-3xl bg-black/3'>
+                                    <Card
+                                        className='justify-between'
+                                        title={<>High-performance web apps.</>}
+                                        description={
+                                            <>
+                                                We build scalable apps that stay fast under load, using design systems,
+                                                predictable rendering, optimized state management and carefully tuned
+                                                interaction patterns. For demanding interfaces we deliver Rust (WASM)
+                                                based WebGPU solutions. Projects include trading platforms, data-heavy
+                                                dashboards, customer portals, and internal tools.
+                                            </>
+                                        }
+                                    >
+                                        <div className='pt-12 relative flex flex-wrap justify-center content-center'>
                                             <img
-                                                src='/img/website_conversion_left.svg'
-                                                className='absolute top-0 left-0 h-[175px]'
-                                            />
-                                            <img
-                                                src='/img/website_conversion_right.svg'
-                                                className='absolute top-0 right-0 h-[175px]'
-                                            />
-                                            <img
-                                                src='/img/website_conversion_lines.svg'
-                                                className='w-full h-[175px]'
+                                                alt=''
+                                                src='/img/high_perf_web_apps.svg'
+                                                className='object-cover object-top'
                                             />
                                         </div>
-                                    </div>
-                                </Card>
-                            </div>
-                        </div>
-                        <div className='relative md:col-span-6 flex flex-col md:flex-row gap-4'>
-                            <div className='relative md:col-span-2 rounded-3xl bg-black/3 flex flex-col min-h-[480px] md:w-[395px] shrink'>
-                                <div className='relative'>
+                                    </Card>
+                                </div>
+                                <div className='relative md:col-span-3 rounded-3xl bg-black/3'>
                                     <Card
-                                        contentPaddingYProps={{className: '!pb-0'}}
-                                        title={<>CI/CD and observability.</>}
+                                        className='justify-between'
+                                        title={<>High-throughput backends and APIs.</>}
                                         description={
                                             <>
-                                                We build reliable delivery pipelines and production visibility. CI/CD,
-                                                health checks, zero-downtime deploys, metrics, traces, rollbacks, and
-                                                structured logs.
+                                                We build low-latency backends and high-load APIs with clear contracts,
+                                                type safety, and predictable architecture. We deliver real-time
+                                                services, event-driven workflows, data pipelines, caching, queues, and
+                                                scalable runtime environments.
                                             </>
                                         }
-                                    ></Card>
-                                </div>
-                                <div className='relative grow overflow-hidden flex flex-col'>
-                                    <div className='absolute w-full h-24 bg-gradient-to-b from-[#F7F7F7] to-transparent' />
-                                    <div className='h-0 mt-8 grow flex flex-wrap justify-center content-center'>
-                                        <img
-                                            alt=''
-                                            src='/ci_cd.svg'
-                                            className='w-[346px] h-[346px]'
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='relative md:col-span-4 rounded-3xl bg-accent2 overflow-hidden dark-theme md:w-[805px] shrink-3'>
-                                <div className='relative'>
-                                    <Card
-                                        contentPaddingYProps={{className: '!pb-0'}}
-                                        title={<>Product design and UX engineering.</>}
-                                        description={
-                                            <>
-                                                We design and build interfaces that feel instant and intuitive, from UX
-                                                flows to polished UI. Work includes design systems, component libraries,
-                                                accessibility foundations, and interaction patterns that keep complex
-                                                products consistent and easy to evolve.
-                                            </>
-                                        }
-                                    ></Card>
-                                </div>
-                                <div className='relative grow w-full'>
-                                    <div className='absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-accent2 to-transparent z-10' />
-                                    <div className='absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-accent2 z-10' />
-                                    <div className='absolute top-0 left-0 h-full w-24 bg-gradient-to-r from-accent2 to-transparent z-10' />
-                                    <div className='absolute top-0 right-0 h-full w-24 bg-gradient-to-r from-transparent to-accent2 z-10' />
-                                    <div className='absolute inset-0 flex flex-wrap justify-center content-center'>
-                                        <img
-                                            alt=''
-                                            src='/img/blueprint_design.svg'
-                                            className='w-[162px] h-[162px] z-20'
-                                        />
-                                    </div>
-                                    <div className='w-full h-full overflow-hidden flex flex-wrap justify-center content-center'>
-                                        <svg
-                                            className='relative text-white/30 shrink-0'
-                                            style={{width, height}}
-                                        >
-                                            <defs>
-                                                <pattern
-                                                    id='dots'
-                                                    width={gap + dotSize}
-                                                    height={gap + dotSize}
-                                                    patternUnits='userSpaceOnUse'
-                                                >
-                                                    <rect
-                                                        width={dotSize}
-                                                        height={dotSize}
-                                                        fill='currentColor'
-                                                    />
-                                                </pattern>
-                                            </defs>
-                                            <rect
-                                                width='100%'
-                                                height='100%'
-                                                fill='url(#dots)'
+                                    >
+                                        <div className='pt-12 relative flex flex-wrap justify-center content-center'>
+                                            <img
+                                                alt=''
+                                                src='/img/high_perf_backends.svg'
+                                                className='object-cover object-top'
                                             />
-                                        </svg>
+                                        </div>
+                                    </Card>
+                                </div>
+                                <div className='relative md:col-span-6 flex flex-col md:flex-row gap-4'>
+                                    <div className='relative dark-theme rounded-3xl bg-black/89 md:w-[805px] shrink-3'>
+                                        <Card
+                                            title={<>Audit and performance fine tuning for existing apps.</>}
+                                            description={
+                                                <>
+                                                    We optimize apps without the cost of a rewrite. We audit your system
+                                                    to uncover memory issues, slow routes, blocking operations,
+                                                    inefficient queries, and rendering delays, then fine-tune it for
+                                                    faster responses, smoother interactions, higher reliability and
+                                                    lower infrastructure costs. <br />
+                                                    <br />
+                                                    We use Rust for performance-critical code, achieving up to 100×
+                                                    speed gains and 10× lower memory use in client production systems.
+                                                </>
+                                            }
+                                        >
+                                            <div className='pt-12 grow relative text-white/70'>
+                                                <Benchmarks />
+                                            </div>
+                                        </Card>
+                                    </div>
+                                    <div className='relative rounded-3xl bg-black/3 md:w-[395px] shrink'>
+                                        <Card
+                                            className='justify-between'
+                                            title={<>Websites that convert.</>}
+                                            description={
+                                                <>
+                                                    We build premium marketing websites and landing pages designed for
+                                                    conversion and fast iteration. Work includes strong visuals, clear
+                                                    messaging, SEO foundations, analytics instrumentation, and
+                                                    lightweight content workflows.
+                                                </>
+                                            }
+                                        >
+                                            <div className='relative pt-12'>
+                                                <div className='relative w-full flex flex-wrap justify-center'>
+                                                    <img
+                                                        src='/img/website_conversion_left.svg'
+                                                        className='absolute top-0 left-0 h-[175px]'
+                                                    />
+                                                    <img
+                                                        src='/img/website_conversion_right.svg'
+                                                        className='absolute top-0 right-0 h-[175px]'
+                                                    />
+                                                    <img
+                                                        src='/img/website_conversion_lines.svg'
+                                                        className='w-full h-[175px]'
+                                                    />
+                                                </div>
+                                            </div>
+                                        </Card>
+                                    </div>
+                                </div>
+                                <div className='relative md:col-span-6 flex flex-col md:flex-row gap-4'>
+                                    <div className='relative md:col-span-2 rounded-3xl bg-black/3 flex flex-col min-h-[480px] md:w-[395px] shrink'>
+                                        <div className='relative'>
+                                            <Card
+                                                contentPaddingYProps={{className: '!pb-0'}}
+                                                title={<>CI/CD and observability.</>}
+                                                description={
+                                                    <>
+                                                        We build reliable delivery pipelines and production visibility.
+                                                        CI/CD, health checks, zero-downtime deploys, metrics, traces,
+                                                        rollbacks, and structured logs.
+                                                    </>
+                                                }
+                                            ></Card>
+                                        </div>
+                                        <div className='relative grow overflow-hidden flex flex-col'>
+                                            <div className='absolute w-full h-24 bg-gradient-to-b from-[#F7F7F7] to-transparent' />
+                                            <div className='h-0 mt-8 grow flex flex-wrap justify-center content-center'>
+                                                <img
+                                                    alt=''
+                                                    src='/ci_cd.svg'
+                                                    className='w-[346px] h-[346px]'
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='relative md:col-span-4 rounded-3xl bg-accent2 overflow-hidden dark-theme md:w-[805px] shrink-3'>
+                                        <div className='relative'>
+                                            <Card
+                                                contentPaddingYProps={{className: '!pb-0'}}
+                                                title={<>Product design and UX engineering.</>}
+                                                description={
+                                                    <>
+                                                        We design and build interfaces that feel instant and intuitive,
+                                                        from UX flows to polished UI. Work includes design systems,
+                                                        component libraries, accessibility foundations, and interaction
+                                                        patterns that keep complex products consistent and easy to
+                                                        evolve.
+                                                    </>
+                                                }
+                                            ></Card>
+                                        </div>
+                                        <div className='relative grow w-full'>
+                                            <div className='absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-accent2 to-transparent z-10' />
+                                            <div className='absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent to-accent2 z-10' />
+                                            <div className='absolute top-0 left-0 h-full w-24 bg-gradient-to-r from-accent2 to-transparent z-10' />
+                                            <div className='absolute top-0 right-0 h-full w-24 bg-gradient-to-r from-transparent to-accent2 z-10' />
+                                            <div className='absolute inset-0 flex flex-wrap justify-center content-center'>
+                                                <img
+                                                    alt=''
+                                                    src='/img/blueprint_design.svg'
+                                                    className='w-[162px] h-[162px] z-20'
+                                                />
+                                            </div>
+                                            <div className='w-full h-full overflow-hidden flex flex-wrap justify-center content-center'>
+                                                <svg
+                                                    className='relative text-white/30 shrink-0'
+                                                    style={{width, height}}
+                                                >
+                                                    <defs>
+                                                        <pattern
+                                                            id='dots'
+                                                            width={gap + dotSize}
+                                                            height={gap + dotSize}
+                                                            patternUnits='userSpaceOnUse'
+                                                        >
+                                                            <rect
+                                                                width={dotSize}
+                                                                height={dotSize}
+                                                                fill='currentColor'
+                                                            />
+                                                        </pattern>
+                                                    </defs>
+                                                    <rect
+                                                        width='100%'
+                                                        height='100%'
+                                                        fill='url(#dots)'
+                                                    />
+                                                </svg>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </Layout.RootPaddingX>
-            </Layout.Container>
-        </SectionTemplate2>
+                        </Layout.RootPaddingX>
+                    </Layout.Container>
+                </SectionTemplate2>
+            </div>
+        </NamedSection.Component>
     )
 }

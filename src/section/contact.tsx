@@ -405,8 +405,9 @@ export const Component = React.forwardRef<HTMLDivElement>((_, ref) => {
         <div ref={ref}>
             <div
                 ref={scrollRef}
-                className='relative py-6'
+                className='relative'
             >
+                <div className='pt-6' />
                 <Layout.Section>
                     <div className='w-full flex justify-center'>
                         <div className='max-w-md lg:max-w-none w-full'>

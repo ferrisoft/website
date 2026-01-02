@@ -1,5 +1,6 @@
 import {TeamMemberBadge} from '../components/team_member_badge'
 import {FeaturesTemplate} from './performance'
+import * as NamedSection from '@/components/named_section'
 
 const posts = [
     {
@@ -62,45 +63,47 @@ const posts = [
 
 export function Component() {
     return (
-        <FeaturesTemplate
-            title={<>Blog Highlights.</>}
-            subtitle={<>Learn about technology we've built.</>}
-            header={<></>}
-        >
-            {posts.map((post, ix) => (
-                <a
-                    href={post.href}
-                    target='_blank'
-                    className='relative group mb-8 md:mb-0'
-                >
-                    <div className='absolute -inset-8 md:-inset-6 rounded-3xl transition-all duration-500 group-hover:shadow-xl bg-black/4 md:bg-black/0' />
-                    <article
-                        key={ix}
-                        className='h-full flex flex-col items-start justify-between'
+        <NamedSection.Component id='blog-posts'>
+            <FeaturesTemplate
+                title={<>Blog Highlights.</>}
+                subtitle={<>Learn about technology we've built.</>}
+                header={<></>}
+            >
+                {posts.map((post, ix) => (
+                    <a
+                        href={post.href}
+                        target='_blank'
+                        className='relative group mb-8 md:mb-0'
                     >
-                        <div className='relative w-full flex items-center justify-center'>
-                            <img
-                                alt=''
-                                src={post.imageUrl}
-                                className='w-full object-cover aspect-3/2'
-                                style={{
-                                    maxWidth: '352px',
-                                }}
-                            />
-                        </div>
-                        <div className='flex max-w-xl grow flex-col justify-between mt-2'>
-                            <div className='group relative grow'>
-                                <h4>{post.title}</h4>
-                                <p className='mt-2'>{post.description}</p>
+                        <div className='absolute -inset-8 md:-inset-6 rounded-3xl transition-all duration-500 group-hover:shadow-xl bg-black/4 md:bg-black/0' />
+                        <article
+                            key={ix}
+                            className='h-full flex flex-col items-start justify-between'
+                        >
+                            <div className='relative w-full flex items-center justify-center'>
+                                <img
+                                    alt=''
+                                    src={post.imageUrl}
+                                    className='w-full object-cover aspect-3/2'
+                                    style={{
+                                        maxWidth: '352px',
+                                    }}
+                                />
                             </div>
-                            <TeamMemberBadge
-                                name={post.author.name}
-                                className='mt-6'
-                            />
-                        </div>
-                    </article>
-                </a>
-            ))}
-        </FeaturesTemplate>
+                            <div className='flex max-w-xl grow flex-col justify-between mt-2'>
+                                <div className='group relative grow'>
+                                    <h4>{post.title}</h4>
+                                    <p className='mt-2'>{post.description}</p>
+                                </div>
+                                <TeamMemberBadge
+                                    name={post.author.name}
+                                    className='mt-6'
+                                />
+                            </div>
+                        </article>
+                    </a>
+                ))}
+            </FeaturesTemplate>
+        </NamedSection.Component>
     )
 }

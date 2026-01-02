@@ -8,7 +8,10 @@ export function Component() {
     const ref = React.useRef<HTMLDivElement>(null)
     return (
         <>
-            <div ref={ref} />
+            <div
+                id='contact'
+                ref={ref}
+            />
             <div className='w-full flex justify-center sticky bottom-4 pt-8 z-100'>
                 <div
                     className='

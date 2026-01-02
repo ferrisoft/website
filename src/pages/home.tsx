@@ -16,7 +16,7 @@ import * as OurServices from '@/section/our_services'
 // === Header ===
 // ==============
 
-export function Header() {
+export function Header({contactRef}: {contactRef: React.RefObject<HTMLDivElement | null>}) {
     const bgRef = React.useRef<HTMLDivElement>(null)
 
     React.useEffect(() => {
@@ -40,20 +40,52 @@ export function Header() {
                 ref={bgRef}
                 data-us-project-src='gradient_config.json'
             />
-            <div className='absolute text-white left-0 bottom-8'>
+            <div className='absolute top-0 left-0 w-full h-screen bg-gradient-to-b from-accent2 to-transparent' />
+            <div className='absolute text-white left-0 bottom-12'>
                 <ClientsLogos.Component />
             </div>
-            <div className='absolute inset-0'>
+            <div className='absolute inset-0 z-10'>
                 <Layout.ContentPaddingX>
                     <Layout.ContentPaddingY>
-                        <CompanyLogo.Component
-                            className='h-10 w-auto'
-                            style={{
-                                '--badge-background': 'rgba(0, 0, 0, 0.8)',
-                                '--badge-letter': 'white',
-                                '--name-letter': 'white',
-                            }}
-                        />
+                        <div className='xs:p-4'>
+                            <div className='flex justify-between items-center text-white text-[16px] '>
+                                <CompanyLogo.Component
+                                    className='h-10 w-auto'
+                                    style={{
+                                        '--badge-background': 'rgba(0, 0, 0, 0.8)',
+                                        '--badge-letter': 'white',
+                                        '--name-letter': 'white',
+                                    }}
+                                />
+                                <div className='hidden lg:flex'>
+                                    <a
+                                        href='/#services'
+                                        className='cursor-pointer px-8'
+                                    >
+                                        Services
+                                    </a>
+                                    <a
+                                        href='/#performance'
+                                        className='cursor-pointer px-8'
+                                    >
+                                        Expertise
+                                    </a>
+                                    <a
+                                        href='/#blog-posts'
+                                        className='cursor-pointer px-8'
+                                    >
+                                        Insights
+                                    </a>
+                                </div>
+                                <a
+                                    href='/#contact'
+                                    className='px-3 py-2 rounded-md border border-white cursor-pointer'
+                                >
+                                    <p className='hidden xs:block'>Book a consultation</p>
+                                    <p className='xs:hidden'>Contact</p>
+                                </a>
+                            </div>
+                        </div>
                     </Layout.ContentPaddingY>
                 </Layout.ContentPaddingX>
             </div>
@@ -72,11 +104,11 @@ export function Header() {
                     className='w-full h-full !max-w-screen-3xl'
                     background={background}
                 >
-                    <div className='w-full h-full flex justify-center items-center'>
+                    <div className='w-full h-full flex items-center justify-center'>
                         <h1
-                            className='font-bold text-white z-30'
+                            className='font-semibold text-white z-30'
                             style={{
-                                marginBottom: '6%',
+                                marginBottom: '40px',
                                 fontSize,
                                 lineHeight: '1.3em',
                             }}
@@ -96,26 +128,22 @@ export function Header() {
 // ============
 
 export function Home() {
-    const paddingTop = `calc(128px + 128px * var(--content-size-norm)`
-    const spacer = <div style={{paddingTop}} />
+    const contactRef = React.useRef<HTMLDivElement>(null)
     return (
         <div
             className='relative'
             style={{minWidth: 'var(--global-min-width)'}}
         >
-            <Header />
+            <Header contactRef={contactRef} />
             <div>
-                {spacer}
+                {/* Making cta button travel up. */}
+                <div className='w-full h-[1px]' />
                 <OurServices.Component />
-                {spacer}
                 <PerformanceSection />
-                {spacer}
                 <ReliableSoftwareSection />
-                {spacer}
                 <RecentBlogPosts.Component />
-                {spacer}
                 <CtaButton.Component />
-                <Contact.Component />
+                <Contact.Component ref={contactRef} />
                 <Footer.Component />
             </div>
         </div>
