@@ -70,7 +70,7 @@ export function Component({
                     >
                         {({style, tokens, getLineProps, getTokenProps}) => (
                             <pre
-                                className='py-8'
+                                className='py-8 w-max min-w-full'
                                 style={style}
                             >
                                 {(() => {
